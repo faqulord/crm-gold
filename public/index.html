@@ -3,217 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FaquDeveloper Technologies | Enterprise CRM</title>
+    <title>FaquDeveloper Agency | Egyedi Rendszerfejlesztés</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         :root {
-            --bg-main: #020617; /* Mély éjfekete */
+            --bg-main: #020617;
             --bg-card: #0f172a;
-            --primary: #3b82f6; /* Tech kék */
+            --primary: #3b82f6;
+            --accent: #60a5fa;
             --text-main: #ffffff;
             --text-muted: #94a3b8;
         }
-        body { background-color: var(--bg-main); color: var(--text-main); font-family: 'Manrope', sans-serif; padding-top: 80px; }
+        body { background-color: var(--bg-main); color: var(--text-main); font-family: 'Manrope', sans-serif; padding-top: 80px; overflow-x: hidden; }
         
         /* NAVBAR */
-        .navbar { background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 15px 0; }
-        .navbar-brand { font-weight: 800; font-size: 1.4rem; letter-spacing: -0.5px; color: white !important; }
-        .nav-link { color: var(--text-muted) !important; font-weight: 500; margin: 0 10px; transition: 0.3s; }
-        .nav-link:hover, .nav-link.active { color: var(--primary) !important; }
-        .lang-switch { cursor: pointer; border: 1px solid rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 6px; font-size: 0.85rem; transition: 0.3s; }
-        .lang-switch:hover { border-color: var(--primary); color: var(--primary); }
+        .navbar { background: rgba(2, 6, 23, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 0; }
+        .navbar-brand { font-weight: 800; font-size: 1.5rem; color: white !important; letter-spacing: -0.5px; text-transform: uppercase; }
+        .nav-link { color: var(--text-muted) !important; font-weight: 600; font-size: 0.95rem; margin: 0 10px; transition: 0.3s; }
+        .nav-link:hover { color: white !important; }
+        .btn-call { border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 5px; padding: 8px 20px; font-weight: 600; transition: 0.3s; }
+        .btn-call:hover { background: white; color: black; }
 
-        /* HERO */
-        .hero { padding: 80px 0; text-align: center; background: radial-gradient(circle at center top, rgba(59, 130, 246, 0.15) 0%, transparent 60%); }
-        .display-title { font-size: 3.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; letter-spacing: -1px; }
-        .lead-text { font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto 40px auto; }
+        /* HERO SECTION - A MARKETING ÜZENET */
+        .hero { position: relative; padding: 100px 0; text-align: center; }
+        /* Háttér effekt */
+        .hero::before { content: ''; position: absolute; top: -50%; left: 50%; transform: translateX(-50%); width: 800px; height: 600px; background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%); z-index: -1; }
         
-        /* IPARÁGAK */
-        .industry-btn { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.05); color: white; padding: 20px; border-radius: 12px; width: 100%; text-align: left; transition: all 0.3s; height: 100%; display: flex; align-items: center; gap: 15px; }
-        .industry-btn:hover { border-color: var(--primary); transform: translateY(-5px); background: rgba(59, 130, 246, 0.05); }
-        .ind-icon { font-size: 1.8rem; color: var(--primary); }
-
-        /* PRICING CARDS */
-        .price-card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 40px; height: 100%; transition: 0.3s; position: relative; overflow: hidden; }
-        .price-card:hover { border-color: rgba(255,255,255,0.2); }
-        .price-card.featured { border: 2px solid var(--primary); background: linear-gradient(180deg, rgba(59,130,246,0.05) 0%, var(--bg-card) 100%); }
-        .badge-pro { position: absolute; top: 20px; right: 20px; background: var(--primary); color: white; font-size: 0.75rem; font-weight: 700; padding: 5px 10px; border-radius: 20px; }
+        .hero-badge { background: rgba(59, 130, 246, 0.1); color: var(--accent); border: 1px solid rgba(59, 130, 246, 0.3); padding: 8px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 25px; }
         
-        .price-amount { font-size: 3rem; font-weight: 800; color: white; }
-        .price-period { font-size: 1rem; color: var(--text-muted); }
-        .feature-list li { margin-bottom: 12px; color: #cbd5e1; display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
-        .bi-check-circle-fill { color: var(--primary); }
+        .display-title { font-size: 4rem; font-weight: 800; line-height: 1.1; margin-bottom: 25px; background: linear-gradient(to right, #fff, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .lead-text { font-size: 1.3rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 50px auto; font-weight: 300; }
 
-        /* CTA BUTTON */
-        .btn-glow { background: var(--primary); color: white; padding: 12px 35px; border-radius: 8px; font-weight: 700; border: none; box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); transition: 0.3s; }
-        .btn-glow:hover { background: #2563eb; transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(59, 130, 246, 0.6); }
+        /* GOMBOK */
+        .btn-primary-glow { background: var(--primary); color: white; padding: 18px 45px; border-radius: 8px; font-weight: 700; font-size: 1.1rem; border: none; box-shadow: 0 0 30px rgba(59, 130, 246, 0.4); transition: 0.3s; text-decoration: none; display: inline-block; }
+        .btn-primary-glow:hover { transform: translateY(-3px); box-shadow: 0 0 50px rgba(59, 130, 246, 0.6); color: white; }
+        
+        .btn-outline-glow { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: white; padding: 18px 45px; border-radius: 8px; font-weight: 700; font-size: 1.1rem; margin-left: 15px; text-decoration: none; display: inline-block; transition: 0.3s; }
+        .btn-outline-glow:hover { border-color: white; background: rgba(255,255,255,0.05); color: white; }
 
-        /* Footer */
-        footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 40px 0; margin-top: 80px; color: var(--text-muted); font-size: 0.9rem; }
+        /* STATISZTIKA SÁV */
+        .stats-bar { border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 30px 0; margin-top: 80px; background: rgba(255,255,255,0.01); }
+        .stat-item h3 { font-size: 2.5rem; font-weight: 800; margin: 0; color: white; }
+        .stat-item p { color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+
+        /* KÁRTYÁK */
+        .service-card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.05); padding: 40px; border-radius: 12px; height: 100%; transition: 0.3s; }
+        .service-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .card-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
+        .card-title { font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 15px; }
+        .card-text { color: var(--text-muted); line-height: 1.6; }
+
+        /* CTA SECTION */
+        .cta-section { background: linear-gradient(90deg, #1e3a8a 0%, #172554 100%); padding: 80px 0; border-radius: 20px; margin: 100px 0; border: 1px solid rgba(59, 130, 246, 0.3); text-align: center; }
+
+        footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 50px 0; margin-top: 50px; color: var(--text-muted); }
     </style>
 </head>
 <body>
 
     <nav class="navbar fixed-top navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="#">FaquDeveloper<span class="text-primary">.Tech</span></a>
+            <a class="navbar-brand" href="#">FaquDeveloper<span class="text-primary">.Global</span></a>
             <button class="navbar-toggler bg-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="#solutions" id="nav_sol">Megoldások</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#pricing" id="nav_price">Árazás</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact" id="nav_cont">Kapcsolat</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Szoftverfejlesztés</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">Megoldások</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#referencia">Referenciák</a></li>
                     <li class="nav-item ms-3">
-                        <div class="lang-switch" onclick="toggleLang()">HU | EN</div>
+                        <a href="tel:+36301234567" class="btn-call"><i class="bi bi-telephone-fill me-2"></i>SZAKÉRTŐ HÍVÁSA</a>
                     </li>
-                    <li class="nav-item ms-3">
-                        <a href="/demo" class="btn btn-outline-light btn-sm px-3" id="nav_login">Belépés</a>
-                    </li>
+                    <li class="nav-item ms-3 text-white fw-bold" style="cursor: pointer;" onclick="toggleLang()">HU | EN</li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <section class="hero container">
-        <span class="badge border border-primary text-primary px-3 py-2 rounded-pill mb-4" id="hero_badge">✨ ENTERPRISE V2.0</span>
-        <h1 class="display-title" id="hero_title">Digitális Transzformáció<br>A Vállalkozásodnak.</h1>
-        <p class="lead-text" id="hero_desc">
-            Szakma-specifikus vállalatirányítási rendszer (ERP). 
-            Automatizálja a folyamatait, növelje a bevételeit és biztosítsa az adatai védelmét egyetlen központi platformon.
+        <div class="hero-badge">🚀 MI (AI) KOMPATIBILIS FEJLESZTÉS</div>
+        <h1 class="display-title" id="main_title">A dobozos szoftverek<br>ideje lejárt.</h1>
+        <p class="lead-text" id="main_desc">
+            Miért fizetnél felesleges funkciókért? A FaquDeveloper egyedi, mesterséges intelligenciával támogatott vállalatirányítási rendszereket épít. Pontosan azt kapod, amire a cégednek szüksége van.
         </p>
-        <div class="d-flex justify-content-center gap-3">
-            <a href="#pricing" class="btn-glow" id="btn_primary">Csomagok Megtekintése</a>
-            <a href="/demo" class="btn btn-outline-light px-4 py-2 fw-bold" style="border-radius: 8px;" id="btn_secondary">Demo Rendszer</a>
+        <div>
+            <a href="mailto:info@faqudeveloper.com" class="btn-primary-glow" id="btn_cta_1">INGYENES KONZULTÁCIÓ</a>
+            <a href="/demo" class="btn-outline-glow" id="btn_cta_2">RENDSZER BEMUTATÁSA</a>
+        </div>
+
+        <div class="stats-bar row">
+            <div class="col-md-3 stat-item">
+                <h3>10+</h3>
+                <p>Év Tapasztalat</p>
+            </div>
+            <div class="col-md-3 stat-item">
+                <h3>50+</h3>
+                <p>Fejlesztett Rendszer</p>
+            </div>
+            <div class="col-md-3 stat-item">
+                <h3>100%</h3>
+                <p>Magyar Tulajdon</p>
+            </div>
+            <div class="col-md-3 stat-item">
+                <h3>24/7</h3>
+                <p>Support Szolgálat</p>
+            </div>
         </div>
     </section>
 
-    <section id="solutions" class="container py-5">
-        <h3 class="fw-bold mb-4 text-center" id="sec_sol_title">Iparági Megoldások</h3>
+    <section id="services" class="container py-5">
         <div class="row g-4">
-            <div class="col-md-3">
-                <div class="industry-btn">
-                    <i class="bi bi-wrench-adjustable ind-icon"></i>
-                    <div><strong id="ind_1">Autóipar</strong><br><small class="text-muted">Szerviz Menedzsment</small></div>
+            <div class="col-md-4">
+                <div class="service-card">
+                    <i class="bi bi-cpu card-icon"></i>
+                    <h3 class="card-title" id="srv_1_t">Egyedi Fejlesztés</h3>
+                    <p class="card-text" id="srv_1_d">Nem adaptálunk, hanem alkotunk. Az alapoktól építjük fel a rendszert a cége folyamataira szabva, kompromisszumok nélkül.</p>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="industry-btn">
-                    <i class="bi bi-heart-pulse ind-icon"></i>
-                    <div><strong id="ind_2">Egészségügy</strong><br><small class="text-muted">Praxis Kezelő</small></div>
+            <div class="col-md-4">
+                <div class="service-card">
+                    <i class="bi bi-robot card-icon"></i>
+                    <h3 class="card-title" id="srv_2_t">MI Integráció</h3>
+                    <p class="card-text" id="srv_2_d">A rendszereink nem csak tárolják az adatot, hanem "gondolkodnak". Automatizált elemzések, előrejelzések és asszisztencia.</p>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="industry-btn">
-                    <i class="bi bi-scissors ind-icon"></i>
-                    <div><strong id="ind_3">Szépségipar</strong><br><small class="text-muted">Szalon Rendszer</small></div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="industry-btn">
-                    <i class="bi bi-cup-hot ind-icon"></i>
-                    <div><strong id="ind_4">Vendéglátás</strong><br><small class="text-muted">HORECA Szoftver</small></div>
+            <div class="col-md-4">
+                <div class="service-card">
+                    <i class="bi bi-shield-lock card-icon"></i>
+                    <h3 class="card-title" id="srv_3_t">Banki Biztonság</h3>
+                    <p class="card-text" id="srv_3_d">Adatbázisaink izoláltak és titkosítottak. A GDPR megfelelés nálunk nem opció, hanem az alapvető standard része.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="pricing" class="container py-5">
-        <div class="row g-4 justify-content-center">
-            <div class="col-lg-4 col-md-6">
-                <div class="price-card">
-                    <h5 class="text-muted fw-bold mb-3">STANDARD LICENSE</h5>
-                    <div class="d-flex align-items-baseline mb-4">
-                        <span class="price-amount">$150</span>
-                        <span class="price-period ms-2" id="p1_sub">/ egyszeri</span>
-                    </div>
-                    <ul class="list-unstyled feature-list" id="list_1">
-                        </ul>
-                    <a href="mailto:sales@faqudeveloper.com" class="btn btn-outline-light w-100 mt-4" id="btn_p1">Licenc Igénylése</a>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="price-card featured">
-                    <span class="badge-pro" id="badge_pop">AJÁNLOTT</span>
-                    <h5 class="text-primary fw-bold mb-3">BUSINESS PROFESSIONAL</h5>
-                    <div class="d-flex align-items-baseline mb-4">
-                        <span class="price-amount">$300</span>
-                        <span class="price-period ms-2" id="p2_sub">+ $30 / hó SLA</span>
-                    </div>
-                    <p class="text-muted small mb-4" id="p2_desc">Teljes körű technológiai partnerség és üzemeltetés.</p>
-                    <ul class="list-unstyled feature-list" id="list_2">
-                        </ul>
-                    <a href="mailto:sales@faqudeveloper.com" class="btn-glow w-100 mt-4" id="btn_p2">Előfizetés Indítása</a>
-                </div>
-            </div>
+    <section class="container py-5">
+        <h2 class="text-center fw-bold mb-5 display-5 text-white">Minden iparágra van megoldásunk</h2>
+        <div class="row g-3">
+            <div class="col-md-3"><a href="/demo" class="btn btn-outline-light w-100 py-3 fw-bold">🚗 Autóipar / Szerviz</a></div>
+            <div class="col-md-3"><a href="/demo" class="btn btn-outline-light w-100 py-3 fw-bold">🦷 Egészségügy</a></div>
+            <div class="col-md-3"><a href="/demo" class="btn btn-outline-light w-100 py-3 fw-bold">🏭 Gyártás & Logisztika</a></div>
+            <div class="col-md-3"><a href="/demo" class="btn btn-outline-light w-100 py-3 fw-bold">🍕 Vendéglátás</a></div>
         </div>
     </section>
 
-    <section id="contact" class="container text-center py-5">
-        <h3 class="fw-bold mb-3" id="contact_title">Lépjen velünk kapcsolatba</h3>
-        <p class="text-muted mb-4" id="contact_desc">Szakértő kollégáink 24 órán belül válaszolnak.</p>
-        <a href="mailto:contact@faqudeveloper.com" class="text-primary text-decoration-none fs-5 fw-bold">contact@faqudeveloper.com</a>
+    <section class="container">
+        <div class="cta-section">
+            <h2 class="display-6 fw-bold text-white mb-4" id="cta_bot_t">Készen áll a szintlépésre?</h2>
+            <p class="text-white-50 mb-4" id="cta_bot_d">Foglaljon időpontot vezető fejlesztőnkhöz egy díjmentes állapotfelmérésre.</p>
+            <a href="tel:+36301234567" class="btn btn-light fw-bold py-3 px-5 rounded-pill"><i class="bi bi-telephone-fill me-2"></i>SZAKÉRTŐ HÍVÁSA</a>
+        </div>
     </section>
 
     <footer class="text-center">
         <div class="container">
-            <p class="mb-2">&copy; 2026 FaquDeveloper Technologies. All rights reserved.</p>
-            <div class="small">
-                <span class="mx-2">Privacy Policy</span> &bull; 
-                <span class="mx-2">Terms of Service</span> &bull; 
-                <span class="mx-2">SLA Agreement</span>
+            <div class="mb-4">
+                <span class="mx-3 text-white fw-bold">FaquDeveloper Agency</span>
+                <span class="mx-3">1052 Budapest, Tech Park u. 1.</span>
+                <span class="mx-3">info@faqudeveloper.com</span>
             </div>
+            <p class="small">&copy; 2026 Minden jog fenntartva. Adatvédelmi tájékoztató.</p>
         </div>
     </footer>
 
     <script>
         const langData = {
             hu: {
-                nav: ["Megoldások", "Árazás", "Kapcsolat", "Belépés"],
-                hero: {
-                    badge: "✨ ENTERPRISE V2.0",
-                    title: "Digitális Transzformáció<br>A Vállalkozásodnak.",
-                    desc: "Szakma-specifikus vállalatirányítási rendszer (ERP). Automatizálja a folyamatait, növelje a bevételeit és biztosítsa az adatai védelmét egyetlen központi platformon.",
-                    btn1: "Csomagok Megtekintése", btn2: "Demo Rendszer"
-                },
-                sol_title: "Iparági Megoldások",
-                inds: ["Autóipar", "Egészségügy", "Szépségipar", "Vendéglátás"],
-                pricing: {
-                    p1_sub: "/ egyszeri",
-                    p2_sub: "+ $30 / hó SLA",
-                    p2_desc: "Teljes körű technológiai partnerség és üzemeltetés.",
-                    pop: "AJÁNLOTT",
-                    l1: ["✅ Alap CRM modul", "✅ Korlátlan kliens adatbázis", "✅ Mobilra optimalizált nézet", "✅ Biztonságos felhő tárolás"],
-                    l2: ["✅ <strong>Iparágra szabott munkafolyamat</strong>", "✅ Saját Brand & Logó integráció", "✅ 0-24 Kiemelt mérnöki support", "✅ Havi funkcióbővítések"],
-                    btn1: "Licenc Igénylése", btn2: "Előfizetés Indítása"
-                },
-                contact: { t: "Lépjen velünk kapcsolatba", d: "Szakértő kollégáink 24 órán belül válaszolnak." }
+                main_title: "A dobozos szoftverek<br>ideje lejárt.",
+                main_desc: "Miért fizetnél felesleges funkciókért? A FaquDeveloper egyedi, mesterséges intelligenciával támogatott vállalatirányítási rendszereket épít. Pontosan azt kapod, amire a cégednek szüksége van.",
+                btn1: "INGYENES KONZULTÁCIÓ", btn2: "RENDSZER BEMUTATÁSA",
+                srv1t: "Egyedi Fejlesztés", srv1d: "Nem adaptálunk, hanem alkotunk. Az alapoktól építjük fel a rendszert a cége folyamataira szabva.",
+                srv2t: "MI Integráció", srv2d: "A rendszereink nem csak tárolják az adatot, hanem gondolkodnak. Automatizált elemzések és előrejelzések.",
+                srv3t: "Banki Biztonság", srv3d: "Adatbázisaink izoláltak és titkosítottak. GDPR megfelelés alapvető standard.",
+                cta_t: "Készen áll a szintlépésre?", cta_d: "Foglaljon időpontot vezető fejlesztőnkhöz egy díjmentes állapotfelmérésre."
             },
             en: {
-                nav: ["Solutions", "Pricing", "Contact", "Login"],
-                hero: {
-                    badge: "✨ ENTERPRISE V2.0",
-                    title: "Digital Transformation<br>For Your Business.",
-                    desc: "Industry-specific Enterprise Resource Planning (ERP). Automate your workflows, increase revenue, and secure your data on a central platform.",
-                    btn1: "View Packages", btn2: "Live Demo"
-                },
-                sol_title: "Industry Solutions",
-                inds: ["Automotive", "Healthcare", "Beauty & Spa", "Hospitality"],
-                pricing: {
-                    p1_sub: "/ one-time",
-                    p2_sub: "+ $30 / mo SLA",
-                    p2_desc: "Full technological partnership and operation.",
-                    pop: "RECOMMENDED",
-                    l1: ["✅ Core CRM Module", "✅ Unlimited Client Database", "✅ Mobile Optimized UI", "✅ Secure Cloud Storage"],
-                    l2: ["✅ <strong>Industry Specific Workflow</strong>", "✅ Custom Brand & Logo Integration", "✅ 24/7 Priority Engineer Support", "✅ Monthly Feature Updates"],
-                    btn1: "Request License", btn2: "Start Subscription"
-                },
-                contact: { t: "Get in Touch", d: "Our experts will respond within 24 hours." }
+                main_title: "The Era of Boxed Software<br>Is Over.",
+                main_desc: "Why pay for unnecessary features? FaquDeveloper builds custom, AI-supported ERP systems. You get exactly what your company needs.",
+                btn1: "FREE CONSULTATION", btn2: "LIVE DEMO",
+                srv1t: "Custom Development", srv1d: "We don't adapt, we create. We build the system from scratch tailored to your company's processes.",
+                srv2t: "AI Integration", srv2d: "Our systems don't just store data, they think. Automated analysis and predictions.",
+                srv3t: "Bank-Grade Security", srv3d: "Our databases are isolated and encrypted. GDPR compliance is a standard.",
+                cta_t: "Ready to Level Up?", cta_d: "Book an appointment with our lead developer for a free assessment."
             }
         };
 
@@ -221,50 +196,18 @@
 
         function toggleLang() {
             currentLang = currentLang === 'hu' ? 'en' : 'hu';
-            render();
-        }
-
-        function render() {
             const t = langData[currentLang];
+            document.getElementById('main_title').innerHTML = t.main_title;
+            document.getElementById('main_desc').innerText = t.main_desc;
+            document.getElementById('btn_cta_1').innerText = t.btn1;
+            document.getElementById('btn_cta_2').innerText = t.btn2;
             
-            // Navbar
-            document.getElementById('nav_sol').innerText = t.nav[0];
-            document.getElementById('nav_price').innerText = t.nav[1];
-            document.getElementById('nav_cont').innerText = t.nav[2];
-            document.getElementById('nav_login').innerText = t.nav[3];
-
-            // Hero
-            document.getElementById('hero_badge').innerText = t.hero.badge;
-            document.getElementById('hero_title').innerHTML = t.hero.title;
-            document.getElementById('hero_desc').innerText = t.hero.desc;
-            document.getElementById('btn_primary').innerText = t.hero.btn1;
-            document.getElementById('btn_secondary').innerText = t.hero.btn2;
-
-            // Solutions
-            document.getElementById('sec_sol_title').innerText = t.sol_title;
-            document.getElementById('ind_1').innerText = t.inds[0];
-            document.getElementById('ind_2').innerText = t.inds[1];
-            document.getElementById('ind_3').innerText = t.inds[2];
-            document.getElementById('ind_4').innerText = t.inds[3];
-
-            // Pricing
-            document.getElementById('p1_sub').innerText = t.pricing.p1_sub;
-            document.getElementById('p2_sub').innerText = t.pricing.p2_sub;
-            document.getElementById('p2_desc').innerText = t.pricing.p2_desc;
-            document.getElementById('badge_pop').innerText = t.pricing.pop;
-            document.getElementById('btn_p1').innerText = t.pricing.btn1;
-            document.getElementById('btn_p2').innerText = t.pricing.btn2;
-
-            document.getElementById('list_1').innerHTML = t.pricing.l1.map(i => `<li>${i}</li>`).join('');
-            document.getElementById('list_2').innerHTML = t.pricing.l2.map(i => `<li>${i}</li>`).join('');
-
-            // Contact
-            document.getElementById('contact_title').innerText = t.contact.t;
-            document.getElementById('contact_desc').innerText = t.contact.d;
+            document.getElementById('srv_1_t').innerText = t.srv1t; document.getElementById('srv_1_d').innerText = t.srv1d;
+            document.getElementById('srv_2_t').innerText = t.srv2t; document.getElementById('srv_2_d').innerText = t.srv2d;
+            document.getElementById('srv_3_t').innerText = t.srv3t; document.getElementById('srv_3_d').innerText = t.srv3d;
+            
+            document.getElementById('cta_bot_t').innerText = t.cta_t; document.getElementById('cta_bot_d').innerText = t.cta_d;
         }
-
-        // Init
-        render();
     </script>
 </body>
 </html>
