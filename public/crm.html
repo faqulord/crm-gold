@@ -2,279 +2,135 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Enterprise System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Enterprise CRM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        :root {
-            --bg: #000000;
-            --card: #111111;
-            --primary: #3b82f6;
-            --accent: #8b5cf6;
-            --text: #ffffff;
-            --gray: #888888;
-            --border: #222222;
-        }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 80px; }
-
-        /* --- LOGIN SCREEN (LUXURY) --- */
-        #login-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
-            background: black; display: flex; flex-direction: column; justify-content: center; padding: 30px;
-            background-image: radial-gradient(circle at top right, #1e1b4b, #000);
-            transition: 0.5s;
-        }
-        .login-badge { background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; align-self: flex-start; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.2); }
-        .login-title { font-size: 2.5rem; font-weight: 800; margin: 0 0 10px 0; line-height: 1.1; background: linear-gradient(to right, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .login-sub { color: var(--gray); margin-bottom: 40px; font-size: 1.1rem; }
+        :root { --bg: #000; --card: #111; --primary: #3b82f6; --text: #fff; --border: #222; }
+        body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 80px; overflow-x: hidden; }
         
-        .inp { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 15px; border-radius: 12px; color: white; margin-bottom: 15px; font-size: 1rem; outline: none; transition: 0.3s; }
-        .inp:focus { border-color: var(--primary); background: #222; }
+        /* LOGIN */
+        #login-screen { position: fixed; inset: 0; z-index: 9999; background: #000; display: flex; flex-direction: column; justify-content: center; padding: 30px; }
+        .inp { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 15px; border-radius: 12px; color: #fff; margin-bottom: 15px; outline: none; }
+        .btn-blue { width: 100%; background: var(--primary); color: #fff; border: none; padding: 16px; border-radius: 12px; font-weight: 700; }
+
+        /* HEADER & TABS */
+        .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .tab-content { display: none; animation: fadeIn 0.3s; padding: 0 20px; }
+        .tab-content.active { display: block; }
         
-        .btn-main { width: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; box-shadow: 0 10px 30px -10px var(--primary); }
+        /* STATS */
+        .stat-card { background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 20px; }
+        .val { font-size: 2.2rem; font-weight: 700; margin: 10px 0; }
+        .trend { font-size: 0.8rem; color: #10b981; }
 
-        /* --- APP HEADER --- */
-        .app-header {
-            padding: 20px 20px 0 20px; display: flex; justify-content: space-between; align-items: center;
-        }
-        .user-chip { display: flex; align-items: center; gap: 10px; background: var(--card); padding: 5px 15px 5px 5px; border-radius: 30px; border: 1px solid var(--border); }
-        .avatar { width: 32px; height: 32px; background: linear-gradient(135deg, #ddd, #fff); border-radius: 50%; color: black; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem; }
-        .company-name { font-weight: 600; font-size: 0.9rem; }
-
-        /* --- DASHBOARD --- */
-        #app-screen { display: none; animation: fadeIn 0.5s; }
+        /* LIST */
+        .item { background: #0a0a0a; padding: 15px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         
-        .section-title { padding: 0 20px; margin-top: 30px; font-size: 1.2rem; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
-        
-        /* Stats Cards (Scrollable) */
-        .stats-scroll { display: flex; overflow-x: auto; gap: 15px; padding: 20px; scrollbar-width: none; }
-        .card { min-width: 260px; background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid var(--border); position: relative; overflow: hidden; }
-        .card::after { content: ''; position: absolute; top: -50px; right: -50px; width: 100px; height: 100px; background: var(--primary); filter: blur(60px); opacity: 0.2; }
-        
-        .card-label { font-size: 0.8rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-        .card-value { font-size: 2rem; font-weight: 700; color: white; }
-        .card-trend { font-size: 0.8rem; color: #10b981; margin-top: 5px; display: flex; align-items: center; gap: 5px; }
-
-        /* Fake Chart */
-        .chart-box { margin: 0 20px; background: var(--card); border-radius: 16px; padding: 20px; border: 1px solid var(--border); height: 150px; display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; }
-        .bar { width: 100%; background: #333; border-radius: 4px; position: relative; transition: height 1s; }
-        .bar.active { background: var(--primary); box-shadow: 0 0 15px rgba(59,130,246,0.3); }
-
-        /* List */
-        .list-container { padding: 0 20px; }
-        .list-item { display: flex; justify-content: space-between; align-items: center; background: #0a0a0a; padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--border); }
-        .item-left { display: flex; gap: 15px; align-items: center; }
-        .icon-box { width: 40px; height: 40px; background: #1a1a1a; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--primary); }
-        .item-info h4 { margin: 0; font-size: 0.95rem; }
-        .item-info p { margin: 0; font-size: 0.8rem; color: var(--gray); }
-        .item-right { text-align: right; }
-        .price { font-weight: 700; display: block; }
-        .status { font-size: 0.7rem; padding: 3px 8px; background: rgba(16,185,129,0.1); color: #10b981; border-radius: 4px; }
-        .status.pending { background: rgba(245,158,11,0.1); color: #f59e0b; }
-
-        /* --- BOTTOM NAV (APP STYLE) --- */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
-            background: rgba(10,10,10,0.9); backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border);
-            display: flex; justify-content: space-around; align-items: center;
-            z-index: 1000; padding-bottom: 10px;
-        }
-        .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--gray); font-size: 0.7rem; background: none; border: none; }
-        .nav-btn i { font-size: 1.4rem; }
+        /* NAV */
+        .nav { position: fixed; bottom: 0; width: 100%; height: 75px; background: rgba(10,10,10,0.9); backdrop-filter: blur(10px); border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; }
+        .nav-btn { background: none; border: none; color: #666; font-size: 0.7rem; display: flex; flex-direction: column; align-items: center; gap: 5px; }
         .nav-btn.active { color: var(--primary); }
-        
-        /* Floating Action Button (FAB) */
-        .fab {
-            position: absolute; top: -25px; left: 50%; transform: translateX(-50%);
-            width: 55px; height: 55px; background: var(--primary); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; color: white;
-            font-size: 1.5rem; box-shadow: 0 0 20px rgba(59,130,246,0.5); border: 4px solid black;
-        }
+        .nav-btn i { font-size: 1.4rem; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
-        <div class="login-badge" id="login_badge">RENDSZER</div>
-        <h1 class="login-title" id="login_company">FaquDev</h1>
-        <p class="login-sub" id="login_sub">Kérjük jelentkezzen be a rendszerbe.</p>
-        
-        <input type="text" class="inp" placeholder="Felhasználónév" value="admin">
-        <input type="password" class="inp" placeholder="Jelszó" value="*****">
-        <button class="btn-main" onclick="enterApp()">BELÉPÉS</button>
-        
-        <p style="text-align: center; color: #444; font-size: 0.8rem; margin-top: 30px;">
-            Secured by FaquDeveloper Encryption
-        </p>
+        <h1 id="l_comp">Betöltés...</h1>
+        <input type="password" id="pass" class="inp" placeholder="Jelszó">
+        <button class="btn-blue" onclick="login()">BELÉPÉS</button>
     </div>
 
-    <div id="app-screen">
-        
-        <div class="app-header">
-            <div class="user-chip">
-                <div class="avatar">A</div>
-                <div class="company-name" id="header_company">...</div>
-            </div>
-            <i class="bi bi-bell" style="font-size: 1.2rem;"></i>
+    <div id="app" style="display:none;">
+        <div class="header">
+            <h3 id="h_comp">Cégnév</h3>
+            <i class="bi bi-bell"></i>
         </div>
 
-        <div class="section-title">
-            <span>Áttekintés</span>
-            <span style="font-size: 0.8rem; color: var(--primary);">Részletek</span>
-        </div>
-        
-        <div class="stats-scroll">
-            <div class="card">
-                <div class="card-label">Havi Bevétel</div>
-                <div class="card-value" id="stat_rev">0 Ft</div>
-                <div class="card-trend"><i class="bi bi-graph-up"></i> +12.4% növekedés</div>
+        <div id="tab-home" class="tab-content active">
+            <div class="stat-card">
+                <small>HAVI BEVÉTEL</small>
+                <div class="val" id="total_rev">0 Ft</div>
+                <div class="trend" id="rev_trend">Nincs adat</div>
             </div>
-            <div class="card">
-                <div class="card-label" id="lbl_stat_2">Aktív Ügyek</div>
-                <div class="card-value" id="stat_count">0</div>
-                <div class="card-trend" style="color: #60a5fa">Jelenleg folyamatban</div>
-            </div>
+            <h4>Legutóbbi tételek</h4>
+            <div id="list"></div>
         </div>
 
-        <div class="section-title">
-            <span>Elemzés</span>
-        </div>
-        <div class="chart-box">
-            <div class="bar" style="height: 40%"></div>
-            <div class="bar" style="height: 60%"></div>
-            <div class="bar" style="height: 30%"></div>
-            <div class="bar active" style="height: 85%"></div>
-            <div class="bar" style="height: 50%"></div>
-            <div class="bar" style="height: 70%"></div>
+        <div id="tab-search" class="tab-content">
+            <h4>Keresés</h4>
+            <input type="text" class="inp" placeholder="Keresés az ügyfelek között...">
         </div>
 
-        <div class="section-title">
-            <span id="list_title">Legutóbbiak</span>
-        </div>
-        <div class="list-container" id="list_container">
-            </div>
-
-        <div class="bottom-nav">
-            <button class="nav-btn active">
-                <i class="bi bi-house-door-fill"></i>
-                <span>Főoldal</span>
-            </button>
-            <button class="nav-btn">
-                <i class="bi bi-search"></i>
-                <span>Keresés</span>
-            </button>
-            
-            <div style="position: relative; width: 50px;">
-                <div class="fab" onclick="location.reload()"><i class="bi bi-plus-lg"></i></div>
-            </div>
-            
-            <button class="nav-btn">
-                <i class="bi bi-chat-dots"></i>
-                <span>Üzenetek</span>
-            </button>
-            <button class="nav-btn">
-                <i class="bi bi-person"></i>
-                <span>Profil</span>
-            </button>
+        <div id="tab-profile" class="tab-content">
+            <h4>Beállítások</h4>
+            <div class="stat-card" onclick="location.reload()">Kijelentkezés</div>
         </div>
 
+        <div class="nav">
+            <button class="nav-btn active" onclick="switchTab('home', this)"><i class="bi bi-house-door"></i><span>Főoldal</span></button>
+            <button class="nav-btn" onclick="switchTab('search', this)"><i class="bi bi-search"></i><span>Keresés</span></button>
+            <button class="nav-btn" onclick="switchTab('profile', this)"><i class="bi bi-person"></i><span>Profil</span></button>
+        </div>
     </div>
 
     <script>
         let config = {};
-
-        // 1. INIT
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const res = await fetch('/api/config');
-                config = await res.json();
-                
-                // Beállítások
-                document.getElementById('login_company').innerText = config.companyName;
-                document.getElementById('header_company').innerText = config.companyName.substring(0, 15);
-                
-                setupIndustry(config.industry || 'general');
-                
-            } catch(e) {}
-        });
-
-        function setupIndustry(ind) {
-            const dict = {
-                restaurant: { badge: "ÉTTEREM", sub: "Üdvözöljük az éttermi rendszerben", kpi2: "NYITOTT RENDELÉS", list: "Rendelések" },
-                mechanic: { badge: "SZERVIZ", sub: "Műhelyirányítási rendszer", kpi2: "AUTÓK BENT", list: "Munkalapok" },
-                doctor: { badge: "ORVOSI", sub: "Praxis menedzsment", kpi2: "MAI KEZELÉSEK", list: "Páciensek" },
-                general: { badge: "ENTERPRISE", sub: "Vállalatirányítási rendszer", kpi2: "AKTÍV ÜGYFELEK", list: "Ügyfelek" }
-            };
-            const t = dict[ind] || dict.general;
-            
-            document.getElementById('login_badge').innerText = t.badge;
-            document.getElementById('login_sub').innerText = t.sub;
-            document.getElementById('lbl_stat_2').innerText = t.kpi2;
-            document.getElementById('list_title').innerText = t.list;
+        async function init() {
+            const res = await fetch('/api/config');
+            config = await res.json();
+            document.getElementById('l_comp').innerText = config.companyName;
+            document.getElementById('h_comp').innerText = config.companyName;
         }
 
-        // 2. LOGIN ANIMATION
-        function enterApp() {
-            const btn = document.querySelector('.btn-main');
-            btn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Betöltés...';
-            
-            setTimeout(() => {
-                document.getElementById('login-screen').style.opacity = 0;
-                setTimeout(() => {
-                    document.getElementById('login-screen').style.display = 'none';
-                    document.getElementById('app-screen').style.display = 'block';
-                    loadData();
-                }, 500);
-            }, 800);
+        async function login() {
+            const password = document.getElementById('pass').value;
+            const res = await fetch('/api/login', {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ password })
+            });
+            if (res.ok) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('app').style.display = 'block';
+                loadData();
+            } else { alert('Hibás jelszó!'); }
         }
 
-        // 3. LOAD DATA
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
         async function loadData() {
             const res = await fetch('/api/clients');
-            const clients = await res.json();
-            const container = document.getElementById('list_container');
-            container.innerHTML = '';
-            
+            const data = await res.json();
+            const list = document.getElementById('list');
+            list.innerHTML = '';
             let total = 0;
-            let count = 0;
 
-            clients.forEach(c => {
-                total += (c.amount || 0);
-                if(c.status === 'active') count++;
+            if (data.length === 0) {
+                document.getElementById('rev_trend').innerText = "Várakozás az első adatokra...";
+                return;
+            }
 
-                const statusClass = c.status === 'active' ? 'pending' : '';
-                const statusText = c.status === 'active' ? 'FOLYAMATBAN' : 'KÉSZ';
-                
-                // Random ikon generálás
-                const icons = ['bi-box-seam', 'bi-person', 'bi-car-front', 'bi-cup-hot'];
-                const rndIcon = icons[Math.floor(Math.random() * icons.length)];
-
-                const html = `
-                <div class="list-item">
-                    <div class="item-left">
-                        <div class="icon-box"><i class="bi ${rndIcon}"></i></div>
-                        <div class="item-info">
-                            <h4>${c.name}</h4>
-                            <p>${c.details}</p>
-                        </div>
-                    </div>
-                    <div class="item-right">
-                        <span class="price">${c.amount}</span>
-                        <span class="status ${statusClass}">${statusText}</span>
-                    </div>
-                </div>`;
-                
-                container.innerHTML += html;
+            data.forEach(item => {
+                total += item.amount;
+                list.innerHTML += `
+                    <div class="item">
+                        <div><b>${item.name}</b><br><small>${item.details}</small></div>
+                        <div>${item.amount} ${config.currency}</div>
+                    </div>`;
             });
-
-            document.getElementById('stat_rev').innerText = total.toLocaleString();
-            document.getElementById('stat_count').innerText = count;
+            document.getElementById('total_rev').innerText = total + " " + config.currency;
+            document.getElementById('rev_trend').innerText = "Adatok frissítve";
         }
+        init();
     </script>
 </body>
 </html>
