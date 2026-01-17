@@ -13,7 +13,7 @@
             --card: #111;
             --border: #333;
             --text: #e5e5e5;
-            --primary: #fff; /* Fehér a főszín a letisztultsághoz */
+            --primary: #fff;
         }
         body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; font-size: 0.95rem; line-height: 1.6; }
         
@@ -23,17 +23,24 @@
         .btn-contact { border: 1px solid #555; color: white; padding: 6px 15px; border-radius: 4px; font-size: 0.85rem; text-decoration: none; transition: 0.2s; }
         .btn-contact:hover { border-color: white; background: white; color: black; }
 
-        /* Hero - Tömör és Tárgyilagos */
+        /* Hero */
         .hero { padding: 80px 0 60px 0; text-align: center; border-bottom: 1px solid var(--border); }
         .hero h1 { font-size: 2.5rem; font-weight: 700; color: white; margin-bottom: 15px; }
         .hero p { color: #888; max-width: 600px; margin: 0 auto 30px auto; }
+
+        /* GOMBOK (Hero Section) */
+        .btn-hero-primary { background: white; color: black; padding: 10px 25px; border-radius: 4px; font-weight: 700; text-decoration: none; transition: 0.2s; border: 1px solid white; }
+        .btn-hero-primary:hover { background: #ccc; border-color: #ccc; }
+        
+        .btn-hero-secondary { background: transparent; color: white; padding: 10px 25px; border-radius: 4px; font-weight: 700; text-decoration: none; transition: 0.2s; border: 1px solid #555; }
+        .btn-hero-secondary:hover { border-color: white; background: rgba(255,255,255,0.05); }
 
         /* Szolgáltatás leírás */
         .process-box { padding: 20px; border: 1px solid var(--border); border-radius: 8px; height: 100%; background: var(--card); }
         .step-title { font-weight: 700; color: white; margin-bottom: 10px; display: block; }
         .step-desc { color: #888; font-size: 0.9rem; margin: 0; }
 
-        /* Árazás - Letisztult táblázat */
+        /* Árazás */
         .pricing-section { padding: 60px 0; }
         .price-card { border: 1px solid var(--border); border-radius: 8px; padding: 30px; background: var(--card); height: 100%; }
         .price-card.active { border-color: #666; background: #161616; }
@@ -70,7 +77,11 @@
             Cégre szabott adminisztrációs felület kis- és középvállalkozásoknak. 
             Váltsa le az Excel táblákat egy biztonságos, felhő alapú szoftverre.
         </p>
-        <a href="mailto:skyhigh983@proton.me" class="btn-contact px-4 py-2">Ajánlatkérés</a>
+        
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <a href="mailto:skyhigh983@proton.me" class="btn-hero-primary">Ajánlatkérés</a>
+            <a href="/demo" class="btn-hero-secondary">Demo Kipróbálása</a>
+        </div>
     </section>
 
     <section class="container py-5">
@@ -159,7 +170,8 @@
                 p2t: "ÜZEMELTETÉS & SUPPORT", p2d: "Havi szolgáltatási díj",
                 f2: ["Felhő szerver bérlése (Cloud Hosting)", "Napi biztonsági mentés (Backup)", "Rendszerkarbantartás és frissítés", "24/7 E-mail ügyfélszolgálat"],
                 btn: "Megrendelés",
-                vat: "Az árak nettó árak."
+                vat: "Az árak nettó árak.",
+                demo_btn: "Demo Kipróbálása", contact_btn: "Ajánlatkérés"
             },
             en: {
                 h_title: "Custom Enterprise Resource Planning",
@@ -173,7 +185,8 @@
                 p2t: "OPERATION & SUPPORT", p2d: "Monthly service fee",
                 f2: ["Cloud Server Hosting", "Daily Security Backups", "System Maintenance & Updates", "24/7 Email Support"],
                 btn: "Order Now",
-                vat: "Prices are net."
+                vat: "Prices are net.",
+                demo_btn: "Try Demo", contact_btn: "Get a Quote"
             }
         };
 
@@ -199,6 +212,10 @@
             
             document.getElementById('btn_ord').innerText = t.btn;
             document.getElementById('vat_info').innerText = t.vat;
+            
+            // Gombok frissítése
+            document.querySelector('.btn-hero-secondary').innerText = t.demo_btn;
+            document.querySelector('.btn-hero-primary').innerText = t.contact_btn;
         }
     </script>
 </body>
