@@ -48,7 +48,7 @@
             <div class="nav-link active" onclick="switchTab('home', this)"><i class="bi bi-grid"></i> Dashboard</div>
             <div class="nav-link" onclick="switchTab('inv', this)"><i class="bi bi-box-seam"></i> Raktár</div>
             <div class="nav-link" onclick="switchTab('exp', this)"><i class="bi bi-receipt"></i> Kiadások</div>
-            <div class="nav-link" onclick="switchTab('team', this)"><i class="bi bi-chat-dots"></i> Csapat</div>
+            <div class="nav-link" onclick="switchTab('team', this)"><i class="bi bi-people"></i> Csapat</div>
             <div style="margin-top:auto" class="nav-link" onclick="location.reload()"><i class="bi bi-power"></i> Kilépés</div>
         </aside>
 
@@ -72,16 +72,26 @@
             </div>
 
             <div id="tab-exp" class="tab-content">
-                <div style="display:flex; justify-content:space-between; align-items:center;"><h3>Kiadások</h3><button class="btn-blue" style="width:auto;" onclick="openModal('expenses')">+</button></div>
+                <div style="display:flex; justify-content:space-between; align-items:center;"><h3>Havi Kiadások</h3><button class="btn-blue" style="width:auto;" onclick="openModal('expenses')">+</button></div>
                 <table><thead><tr><th>Megnevezés</th><th>Összeg</th><th>Dátum</th></tr></thead><tbody id="exp-body"></tbody></table>
             </div>
 
             <div id="tab-team" class="tab-content">
                 <div class="grid" style="grid-template-columns: 1fr 2fr;">
-                    <div id="staff-list"></div>
                     <div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <h3>Alkalmazottak</h3>
+                            <button class="btn-blue" style="width:auto; padding:5px 12px;" onclick="openModal('employees')">+</button>
+                        </div>
+                        <div id="staff-list" style="margin-top:15px;"></div>
+                    </div>
+                    <div>
+                        <h3>Belső Chat</h3>
                         <div id="chat-box" style="height:350px; background:#0a0a0a; border-radius:15px; padding:20px; overflow-y:auto; border:1px solid var(--border);"></div>
-                        <div style="display:flex; gap:10px; margin-top:15px;"><input type="text" id="chat-in" class="inp" style="margin:0;" placeholder="Üzenet..."><button class="btn-blue" style="width:60px;" onclick="sendChat()"><i class="bi bi-send"></i></button></div>
+                        <div style="display:flex; gap:10px; margin-top:15px;">
+                            <input type="text" id="chat-in" class="inp" style="margin:0;" placeholder="Üzenet...">
+                            <button class="btn-blue" style="width:60px;" onclick="sendChat()"><i class="bi bi-send"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -95,7 +105,16 @@
         </div>
     </div>
 
-    <div class="modal" id="modal"><div style="background:#111; padding:30px; border-radius:24px; width:100%; max-width:400px; border:1px solid #333;"><h3 id="m_title">Rögzítés</h3><div id="m_fields"></div><div style="display:flex; gap:12px; margin-top:20px;"><button class="btn-blue" style="background:#222;" onclick="closeModal()">Mégse</button><button class="btn-blue" id="m_save">Mentés</button></div></div></div>
+    <div class="modal" id="modal">
+        <div style="background:#111; padding:30px; border-radius:24px; width:100%; max-width:400px; border:1px solid #333;">
+            <h3 id="m_title">Új rögzítése</h3>
+            <div id="m_fields"></div>
+            <div style="display:flex; gap:12px; margin-top:20px;">
+                <button class="btn-blue" style="background:#222;" onclick="closeModal()">Mégse</button>
+                <button class="btn-blue" id="m_save">Mentés</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         const { jsPDF } = window.jspdf;
@@ -107,7 +126,6 @@
             document.getElementById('l_comp').innerText = config.companyName;
             document.getElementById('h_comp').innerText = config.companyName.substring(0,15);
             
-            // MESTERKULCS SZÖVEGEK
             const dict = {
                 restaurant: { rev: "HAVI FORGALOM", list: "Rendelések", n: "Asztal", d: "Rendelés" },
                 mechanic: { rev: "SZERVIZ BEVÉTEL", list: "Munkalapok", n: "Rendszám", d: "Hiba leírás" },
@@ -148,28 +166,32 @@
             const get = t => fetch('/api/'+t).then(r => r.json());
             const [clients, inv, exps, msgs, staff] = await Promise.all([get('clients'), get('inventory'), get('expenses'), get('messages'), get('employees')]);
             const rev = clients.reduce((s,i)=>s+i.amount, 0); const exp = exps.reduce((s,i)=>s+i.amount, 0);
+            
             document.getElementById('tot_rev').innerText = rev.toLocaleString() + ' ' + config.currency;
-            document.getElementById('tot_exp').innerText = exp.toLocaleString() + ' ' + config.currency;
+            document.getElementById('tot_exp').innerText = exp.innerText = exp.toLocaleString() + ' ' + config.currency;
             document.getElementById('tot_prof').innerText = (rev-exp).toLocaleString() + ' ' + config.currency;
+            
             document.getElementById('list-body').innerHTML = clients.map(i => `<tr><td><b>${i.name}</b></td><td>${i.details}</td><td>${i.amount}</td><td><i class="bi bi-file-earmark-pdf" onclick="downloadPDF('${i.name}','${i.details}',${i.amount})" style="color:var(--primary); cursor:pointer;"></i></td></tr>`).join('');
             document.getElementById('inv-body').innerHTML = inv.map(i => `<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.price}</td><td>${i.qty*i.price}</td></tr>`).join('');
             document.getElementById('exp-body').innerHTML = exps.map(i => `<tr><td>${i.name}</td><td>${i.amount}</td><td>${new Date(i.date).toLocaleDateString()}</td></tr>`).join('');
             document.getElementById('chat-box').innerHTML = msgs.map(m => `<div style="margin-bottom:10px; padding:10px; background:#151515; border-radius:10px;"><small style="color:#666">${m.sender}</small><br>${m.text}</div>`).join('');
-            document.getElementById('staff-list').innerHTML = staff.map(i => `<div class="card" style="margin-bottom:10px;">${i.name}<br><small>${i.role}</small></div>`).join('');
+            document.getElementById('staff-list').innerHTML = staff.map(i => `<div class="card" style="margin-bottom:10px; padding:15px;"><b>${i.name}</b><br><small style="color:#666">${i.role}</small></div>`).join('');
         }
 
         function openModal(type) {
             const fields = {
                 clients: [{id:'n',p:'Név'}, {id:'d',p:'Leírás'}, {id:'a',p:'Összeg',t:'number'}],
                 inventory: [{id:'n',p:'Termék'}, {id:'q',p:'Készlet',t:'number'}, {id:'p',p:'Ár',t:'number'}],
-                expenses: [{id:'n',p:'Megnevezés'}, {id:'a',p:'Összeg',t:'number'}]
+                expenses: [{id:'n',p:'Megnevezés'}, {id:'a',p:'Összeg',t:'number'}],
+                employees: [{id:'n',p:'Alkalmazott neve'}, {id:'r',p:'Beosztás'}]
             };
             document.getElementById('m_fields').innerHTML = fields[type].map(f => `<input type="${f.t||'text'}" id="${f.id}" class="inp" placeholder="${f.p}">`).join('');
-            document.getElementById('m_save').onclick = () => save(type); document.getElementById('modal').style.display = 'flex';
+            document.getElementById('m_save').onclick = () => save(type);
+            document.getElementById('modal').style.display = 'flex';
         }
 
         async function save(type) {
-            const d = { name: val('n'), amount: Number(val('a')||0), details: val('d')||'', qty: Number(val('q')||0), price: Number(val('p')||0) };
+            const d = { name: val('n'), amount: Number(val('a')||0), details: val('d')||'', qty: Number(val('q')||0), price: Number(val('p')||0), role: val('r')||'' };
             await fetch('/api/'+type, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(d)});
             closeModal(); refresh();
         }
