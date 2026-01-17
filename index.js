@@ -7,26 +7,21 @@ const app = express();
 app.use(express.json());
 app.use(express.static('public'));
 
-mongoose.connect(process.env.MONGO_URI);
+// 1. ADATBÁZIS CSATLAKOZÁS
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('✅ Adatbázis Kapcsolat Aktív'))
+    .catch(err => console.error('❌ Hiba:', err));
 
-// ADATMODELLEK
-const Client = mongoose.model('Client', new mongoose.Schema({
-    name: String, details: String, amount: Number, status: String, date: { type: Date, default: Date.now }
-}));
+// 2. ADATMODELLEK (SÉMÁK)
+const Client = mongoose.model('Client', new mongoose.Schema({ name: String, details: String, amount: Number, status: String, date: { type: Date, default: Date.now } }));
+const Inventory = mongoose.model('Inventory', new mongoose.Schema({ name: String, qty: Number, unit: String, price: Number }));
+const Partner = mongoose.model('Partner', new mongoose.Schema({ name: String, contact: String, type: String }));
+const Employee = mongoose.model('Employee', new mongoose.Schema({ name: String, role: String, salary: Number, pin: String }));
+const Message = mongoose.model('Message', new mongoose.Schema({ sender: String, text: String, date: { type: Date, default: Date.now } }));
 
-const Inventory = mongoose.model('Inventory', new mongoose.Schema({
-    name: String, qty: Number, unit: String, price: Number
-}));
+const models = { clients: Client, inventory: Inventory, partners: Partner, employees: Employee, messages: Message };
 
-const Partner = mongoose.model('Partner', new mongoose.Schema({
-    name: String, contact: String, type: String // Beszállító vagy Vevő
-}));
-
-const Employee = mongoose.model('Employee', new mongoose.Schema({
-    name: String, role: String, salary: Number
-}));
-
-// API-K
+// 3. API-K
 app.get('/api/config', (req, res) => {
     res.json({
         companyName: process.env.COMPANY_NAME || "Rendszer",
@@ -36,28 +31,33 @@ app.get('/api/config', (req, res) => {
 });
 
 app.post('/api/login', (req, res) => {
-    if (req.body.password === (process.env.ADMIN_PASSWORD || "admin")) return res.json({ success: true });
+    const { password } = req.body;
+    const adminPass = process.env.ADMIN_PASSWORD || "admin";
+    if (password === adminPass) return res.json({ success: true, role: 'admin' });
     res.status(401).json({ success: false });
 });
 
-// Dinamikus API minden típushoz
-const models = { clients: Client, inventory: Inventory, partners: Partner, employees: Employee };
-
+// Univerzális Adatkezelő API
 app.get('/api/:type', async (req, res) => {
-    const data = await models[req.params.type].find().sort({date: -1});
-    res.json(data);
+    try {
+        const data = await models[req.params.type].find().sort({date: -1}).limit(50);
+        res.json(data);
+    } catch (e) { res.status(500).send(e); }
 });
 
 app.post('/api/:type', async (req, res) => {
-    const newItem = new models[req.params.type](req.body);
-    await newItem.save();
-    res.json(newItem);
+    try {
+        const newItem = new models[req.params.type](req.body);
+        await newItem.save();
+        res.json(newItem);
+    } catch (e) { res.status(500).send(e); }
 });
 
+// 4. ÚTVONALAK
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', process.env.HIDE_LANDING === 'true' ? 'crm.html' : 'index.html'));
+    const page = process.env.HIDE_LANDING === 'true' ? 'crm.html' : 'index.html';
+    res.sendFile(path.join(__dirname, 'public', page));
 });
 
-app.get('/demo', (req, res) => res.sendFile(path.join(__dirname, 'public', 'crm.html')));
-
-app.listen(process.env.PORT || 3000);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🚀 Enterprise System Running on Port ${PORT}`));
