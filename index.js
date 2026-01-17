@@ -7,10 +7,8 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ADATBÁZIS
 mongoose.connect(process.env.MONGO_URI);
 
-// MODELLEK
 const schema = { name: String, details: String, amount: Number, qty: Number, price: Number, salary: Number, contact: String, role: String, date: { type: Date, default: Date.now } };
 const models = { 
     clients: mongoose.model('Client', new mongoose.Schema(schema)),
@@ -20,10 +18,9 @@ const models = {
     expenses: mongoose.model('Expense', new mongoose.Schema(schema))
 };
 
-// VÁLTOZÓK FIXÁLÁSA (Nincs több szóköz hiba)
 app.get('/api/config', (req, res) => {
     res.json({
-        companyName: (process.env.COMPANY_NAME || "Vállalkozás").trim(),
+        companyName: (process.env.COMPANY_NAME || "ENTERPRISE").trim().toUpperCase(),
         industry: (process.env.INDUSTRY || "general").trim().toLowerCase(),
         currency: (process.env.CURRENCY || "Ft").trim()
     });
