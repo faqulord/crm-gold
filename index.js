@@ -22,18 +22,14 @@ if (mongoUri) {
             isDemoMode = true;
         });
 } else {
-    console.log('⚠️ No MongoDB URI. Running in DEMO MODE.');
     isDemoMode = true;
 }
 
-// Demo Adatbázis (A memóriában, hogy működjön a bemutató)
+// Demo Adatbázis (Ha nincs éles adatbázis)
 let demoData = [
-    { _id: '1', name: 'Asztal 4', details: '2x Pizza, 1x Cola', amount: 8500, status: 'active', date: new Date() },
-    { _id: '2', name: 'Pult / Elvitel', details: 'Gyros Tál', amount: 3200, status: 'done', date: new Date() },
-    { _id: '3', name: 'Asztal 2', details: 'Bableves', amount: 2100, status: 'active', date: new Date() }
+    { _id: '1', name: 'Minta Ügyfél', details: 'Első bejegyzés', amount: 5000, status: 'active', date: new Date() }
 ];
 
-// Mongoose Modell (Ha van igazi adatbázis)
 const ClientSchema = new mongoose.Schema({
     name: String,
     details: String,
@@ -43,24 +39,32 @@ const ClientSchema = new mongoose.Schema({
 });
 const Client = mongoose.model('Client', ClientSchema);
 
-// 2. KONFIGURÁCIÓS API (Ez a "Kapcsolótábla")
-// A frontend ezt kérdezi le, hogy tudja, Étterem vagy Szerviz legyen
+// 2. KONFIGURÁCIÓS API (A Railway-ről olvassa az adatokat)
 app.get('/api/config', (req, res) => {
     res.json({
-        companyName: process.env.COMPANY_NAME || "Demo Étterem & Büfé",
-        industry: process.env.INDUSTRY || "restaurant", // Alapértelmezett: restaurant
+        companyName: process.env.COMPANY_NAME || "Demo Rendszer",
+        industry: process.env.INDUSTRY || "general",
         currency: process.env.CURRENCY || "Ft",
         features: {
-            employees: process.env.ENABLE_EMPLOYEES === 'true',
-            inventory: process.env.ENABLE_INVENTORY === 'true',
-            booking: process.env.ENABLE_BOOKING === 'true'
+            inventory: process.env.ENABLE_INVENTORY === 'true'
         }
     });
 });
 
-// 3. API VÉGPONTOK (Adatkezelés)
+// 3. JELSZÓ ELLENŐRZÉSE (A belépésnél)
+app.post('/api/login', (req, res) => {
+    const { password } = req.body;
+    // A Railway-en beállított ADMIN_PASSWORD-el veti össze
+    const securePassword = process.env.ADMIN_PASSWORD || "admin"; 
 
-// Adatok lekérése
+    if (password === securePassword) {
+        res.json({ success: true });
+    } else {
+        res.status(401).json({ success: false, message: "Hibás jelszó!" });
+    }
+});
+
+// 4. ADATKEZELÉS API
 app.get('/api/clients', async (req, res) => {
     if (!isDemoMode && mongoose.connection.readyState === 1) {
         const clients = await Client.find().sort({date: -1});
@@ -70,9 +74,8 @@ app.get('/api/clients', async (req, res) => {
     }
 });
 
-// Új adat mentése
 app.post('/api/clients', async (req, res) => {
-    if (!isDemoMode && mongoose.connection.readyState === 1) {
+    if (!isDemoMode) {
         const newClient = new Client(req.body);
         await newClient.save();
         res.json(newClient);
@@ -83,36 +86,15 @@ app.post('/api/clients', async (req, res) => {
     }
 });
 
-// Adat frissítése (pl. Státusz: Kész)
-app.put('/api/clients/:id', async (req, res) => {
-    if (!isDemoMode && mongoose.connection.readyState === 1) {
-        const updated = await Client.findByIdAndUpdate(req.params.id, req.body, {new: true});
-        res.json(updated);
-    } else {
-        const idx = demoData.findIndex(x => x._id === req.params.id);
-        if(idx > -1) {
-            demoData[idx] = { ...demoData[idx], ...req.body };
-            res.json(demoData[idx]);
-        } else {
-            res.json({error: "Not found"});
-        }
-    }
-});
-
-// Törlés
-app.delete('/api/clients/:id', async (req, res) => {
-    if (!isDemoMode && mongoose.connection.readyState === 1) {
-        await Client.findByIdAndDelete(req.params.id);
-        res.json({success: true});
-    } else {
-        demoData = demoData.filter(x => x._id !== req.params.id);
-        res.json({success: true});
-    }
-});
-
-// ÚTVONALAK
+// 5. ÚTVONALAK KEZELÉSE
+// Ez dönti el, hogy mit lásson a látogató a főoldalon!
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    // Ha be van állítva a HIDE_LANDING változó 'true'-ra, akkor egyből a login jön be
+    if (process.env.HIDE_LANDING === 'true') {
+        res.sendFile(path.join(__dirname, 'public', 'crm.html'));
+    } else {
+        res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    }
 });
 
 app.get('/demo', (req, res) => {
@@ -120,4 +102,4 @@ app.get('/demo', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Motor indítva a ${PORT} porton`));
+app.listen(PORT, () => console.log(`🚀 Rendszer fut a ${PORT} porton`));
