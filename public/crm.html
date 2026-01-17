@@ -2,147 +2,114 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Universal CRM | faqudeveloper</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --primary-bg: #ffffff;
-            --sidebar-bg: #000000;
-            --accent-color: #007bff;
-            --text-main: #1a1a1a;
-            --border-color: #eeeeee;
+        :root { --focsi: #000; } /* Ezt a JS állítja majd */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { display: flex; background: #f8f9fa; min-height: 100vh; color: #1a1a1a; }
+
+        /* Sidebar - Fekete alap */
+        .sidebar { width: 260px; background: #000; color: #fff; height: 100vh; position: fixed; transition: 0.3s; z-index: 1000; }
+        .sidebar-header { padding: 30px 20px; border-bottom: 1px solid #222; text-align: center; font-weight: bold; font-size: 1.2rem; }
+        .sidebar-menu ul { list-style: none; padding-top: 20px; }
+        .sidebar-menu li { padding: 15px 25px; cursor: pointer; color: #888; display: flex; align-items: center; gap: 12px; transition: 0.2s; }
+        .sidebar-menu li.active, .sidebar-menu li:hover { color: #fff; background: #111; border-left: 4px solid var(--focsi); }
+
+        /* Tartalom - Fehér/Szürke alap */
+        .main { flex: 1; margin-left: 260px; display: flex; flex-direction: column; }
+        .top-bar { background: #fff; height: 65px; border-bottom: 1px solid #eee; display: flex; align-items: center; padding: 0 25px; justify-content: space-between; }
+        .container { padding: 30px; }
+        .card { background: #fff; padding: 25px; border-radius: 12px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+
+        /* Mobil nézet */
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.active { transform: translateX(0); }
+            .main { margin-left: 0; }
+            .burger { display: block !important; }
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #f4f4f4; display: flex; min-height: 100vh; overflow-x: hidden; }
 
-        /* SIDEBAR */
-        .sidebar { width: 260px; height: 100vh; background: var(--sidebar-bg); color: white; position: fixed; left: 0; top: 0; z-index: 2000; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } }
-        .sidebar-header { padding: 35px 20px; text-align: center; border-bottom: 1px solid #222; }
-        .logo-text { font-weight: 800; font-size: 1.2rem; text-transform: uppercase; }
-        .sidebar-menu ul { list-style: none; padding: 15px 0; }
-        .sidebar-menu li { padding: 15px 25px; display: flex; align-items: center; gap: 15px; color: #888; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
-        .sidebar-menu li.active { color: white; background: #111; border-left: 4px solid var(--accent-color); }
-
-        /* MAIN CONTENT */
-        .main-content { flex: 1; margin-left: 260px; transition: 0.3s; display: flex; flex-direction: column; }
-        @media (max-width: 768px) { .main-content { margin-left: 0; } }
-        .header { height: 65px; background: white; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; padding: 0 20px; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
-        .menu-toggle { width: 40px; height: 40px; display: none; align-items: center; font-size: 1.3rem; cursor: pointer; }
-        @media (max-width: 768px) { .menu-toggle { display: flex; } }
-
-        .content-section { padding: 25px; }
-        .card { background: white; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 20px; }
-        .footer-sig { text-align: center; padding: 20px; margin-top: auto; border-top: 1px solid var(--border-color); color: var(--accent-color); font-weight: bold; font-size: 0.8rem; }
-        .overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1500; }
-        .overlay.active { display: block; }
+        .dev-sign { position: absolute; bottom: 20px; width: 100%; text-align: center; color: var(--focsi); font-weight: bold; font-size: 0.8rem; }
+        .btn { background: var(--focsi); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div id="overlay" class="overlay"></div>
-
     <aside id="sidebar" class="sidebar">
-        <div class="sidebar-header">
-            <div id="company-name" class="logo-text">BETÖLTÉS...</div>
-        </div>
-        <nav class="sidebar-menu">
-            <ul id="dynamic-menu">
-                </ul>
-        </nav>
-        <div class="footer-sig">faqudeveloper</div>
+        <div class="sidebar-header" id="ui-brand-name">BETÖLTÉS...</div>
+        <nav class="sidebar-menu"><ul id="ui-menu"></ul></nav>
+        <div class="dev-sign">faqudeveloper</div>
     </aside>
 
-    <main class="main-content">
-        <header class="header">
-            <div class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
-            <div id="section-title" style="font-weight: bold;">FŐOLDAL</div>
-            <div><i class="fa-solid fa-circle-user"></i></div>
+    <main class="main">
+        <header class="top-bar">
+            <div id="burger" class="burger" style="display:none; cursor:pointer;"><i class="fa-solid fa-bars"></i></div>
+            <div id="ui-page-title" style="font-weight: bold;">Főoldal</div>
+            <div style="font-size: 0.9rem; color: #666;">Adminisztráció</div>
         </header>
 
-        <section class="content-section">
-            <h1 id="main-h1">Üdvözöljük!</h1>
-            <div id="main-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px;">
-                </div>
-        </section>
+        <div class="container">
+            <h2 id="ui-welcome">Üdvözöljük!</h2>
+            <div class="card" id="ui-card-content">
+                Betöltés alatt...
+            </div>
+            <div style="margin-top: 20px;">
+                <button class="btn" id="ui-action-btn">+ Új rögzítése</button>
+            </div>
+        </div>
     </main>
 
     <script>
-        // --- VARIABLE KAPCSOLÓ: EZT ÍRD ÁT! ---
-        // Értéke lehet: 'etterem' vagy 'autoszerelo'
-        const VALASZTOTT_IPARAG = 'autoszerelo'; 
+        // --- EZ A 4 VÁLTOZÓ AZ EGÉSZ RENDSZERED LELKE ---
+        const CONFIG = {
+            brandName: "Pali Autószerviz", // Ügyfél neve
+            industry: "SZERVIZ",          // SZERVIZ / SZALON / RAKTAR
+            color: "#ff5500",             // Arculati szín
+            mode: "light"                 // Csak a kontraszt miatt
+        };
 
-        // Iparág specifikus adatok
-        const industryConfigs = {
-            'etterem': {
-                name: "Gasztró CRM",
-                welcome: "Étterem Kezelő",
-                menu: [
-                    { name: "Irányítópult", icon: "fa-chart-line" },
-                    { name: "Étlap (CMS)", icon: "fa-utensils" },
-                    { name: "Rendelések", icon: "fa-bell" },
-                    { name: "Személyzet", icon: "fa-user-tie" }
-                ],
-                cards: [
-                    { label: "Mai bevétel", value: "142.000 Ft" },
-                    { label: "Asztalfoglalás", value: "12 db" }
-                ]
+        // Iparág logika: Itt dől el, mit lát a vevő
+        const industries = {
+            "SZERVIZ": {
+                menu: ["Munkalapok", "Autók", "Alkatrészek", "Ügyfelek"],
+                welcome: "Aktív szerviz feladatok",
+                content: "Jelenleg 3 autó vár szerelésre, 2 alkatrész rendelés alatt."
             },
-            'autoszerelo': {
-                name: "Szerviz Master",
-                welcome: "Autószerviz Kezelő",
-                menu: [
-                    { name: "Irányítópult", icon: "fa-gauge" },
-                    { name: "Munkalapok", icon: "fa-file-invoice-dollar" },
-                    { name: "Alkatrészek", icon: "fa-gears" },
-                    { name: "Ügyfél autók", icon: "fa-car" }
-                ],
-                cards: [
-                    { label: "Folyamatban", value: "6 autó" },
-                    { label: "Mai bevétel", value: "210.000 Ft" }
-                ]
+            "SZALON": {
+                menu: ["Időpontok", "Szolgáltatások", "Vendégek", "Naptár"],
+                welcome: "Mai beosztás",
+                content: "Ma 5 vendég érkezik, az első 10:30-kor."
+            },
+            "RAKTAR": {
+                menu: ["Készlet", "Beszállítók", "Rendelések", "Statisztika"],
+                welcome: "Raktárkészlet állapota",
+                content: "Kritikus szint alatt: 4 termék. Mai eladások: 12 db."
             }
         };
 
-        // Rendszer felépítése a választott iparág alapján
-        function initSystem() {
-            const config = industryConfigs[VALASZTOTT_IPARAG];
+        // Rendszer felépítése (Automation)
+        function setup() {
+            const data = industries[CONFIG.industry];
             
-            // Logó és Címek
-            document.getElementById('company-name').innerText = config.name;
-            document.getElementById('main-h1').innerText = config.welcome;
+            // Szín és név beállítása
+            document.documentElement.style.setProperty('--focsi', CONFIG.color);
+            document.getElementById('ui-brand-name').innerText = CONFIG.brandName;
+            document.getElementById('ui-welcome').innerText = data.welcome;
+            document.getElementById('ui-card-content').innerText = data.content;
 
-            // Menü generálás
-            const menuUl = document.getElementById('dynamic-menu');
-            menuUl.innerHTML = '';
-            config.menu.forEach((item, index) => {
-                const li = document.createElement('li');
-                if(index === 0) li.className = 'active';
-                li.innerHTML = `<i class="fa-solid ${item.icon}"></i> <span>${item.name}</span>`;
-                menuUl.appendChild(li);
-            });
-
-            // Kártyák generálása
-            const cardContainer = document.getElementById('main-cards');
-            cardContainer.innerHTML = '';
-            config.cards.forEach(card => {
-                const div = document.createElement('div');
-                div.className = 'card';
-                div.innerHTML = `<h3>${card.label}</h3><p style="font-size: 1.5rem; font-weight: bold;">${card.value}</p>`;
-                cardContainer.appendChild(div);
-            });
+            // Menü generálása
+            const menuHtml = data.menu.map((m, i) => 
+                `<li class="${i === 0 ? 'active' : ''}"><span>${m}</span></li>`
+            ).join('');
+            document.getElementById('ui-menu').innerHTML = menuHtml;
         }
 
-        // Mobil Menü kezelés
-        function toggleMenu() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('overlay').classList.toggle('active');
-        }
-        document.getElementById('overlay').onclick = toggleMenu;
+        // Mobil menü kapcsoló
+        document.getElementById('burger').onclick = () => document.getElementById('sidebar').classList.toggle('active');
 
-        // Indítás
-        initSystem();
+        setup();
     </script>
 </body>
 </html>
