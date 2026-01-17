@@ -3,130 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FaquDeveloper | Enterprise Solutions</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>FaquDeveloper | Prémium Szoftverfejlesztés</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         :root {
-            --bg-core: #0f172a;
+            --bg-body: #050505;
+            --surface: #101010;
+            --surface-hover: #1a1a1a;
             --primary: #3b82f6;
-            --text-white: #ffffff;
-            --card-bg: #1e293b;
+            --text-main: #ffffff;
+            --text-sub: #a1a1aa;
+            --border: rgba(255, 255, 255, 0.1);
         }
-        body { background-color: var(--bg-core); color: var(--text-white); font-family: 'Manrope', sans-serif; overflow-x: hidden; }
+        body { background-color: var(--bg-body); color: var(--text-main); font-family: 'Manrope', sans-serif; overflow-x: hidden; padding-top: 70px; }
         
-        /* KOMPAKT NAVBAR */
-        .navbar { background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0; }
-        .navbar-brand { font-weight: 800; text-transform: uppercase; letter-spacing: 1px; font-size: 1.2rem; }
-        .btn-nav { border: 1px solid rgba(255,255,255,0.3); color: white; padding: 5px 15px; border-radius: 4px; font-size: 0.85rem; font-weight: 700; text-decoration: none; transition: 0.3s; }
-        .btn-nav:hover { background: white; color: #0f172a; }
+        /* 1. NAVBAR - Minimalista */
+        .navbar { background: rgba(5, 5, 5, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 15px 0; }
+        .navbar-brand { font-weight: 800; letter-spacing: 1px; color: white !important; font-size: 1.1rem; }
+        .btn-contact { background: white; color: black; padding: 8px 20px; border-radius: 4px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: 0.3s; }
+        .btn-contact:hover { background: #e5e5e5; }
 
-        /* HERO - KÉTOSZLOPOS (Nincs görgetés) */
-        .hero-section { min-height: 90vh; display: flex; align-items: center; padding: 80px 0 40px 0; }
+        /* 2. HERO - A Lényeg */
+        .hero { padding: 80px 0 60px 0; text-align: center; }
+        .hero-label { border: 1px solid var(--border); padding: 5px 15px; border-radius: 50px; font-size: 0.75rem; color: var(--text-sub); display: inline-block; margin-bottom: 25px; }
+        .hero-title { font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; letter-spacing: -1px; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-sub); max-width: 600px; margin: 0 auto 40px auto; }
+
+        /* 3. A GRID (Középtől lefelé) - EZT JAVÍTOTTUK */
+        .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 60px; }
         
-        .hero-badge { background: rgba(59, 130, 246, 0.2); color: #60a5fa; padding: 5px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; display: inline-block; margin-bottom: 20px; border: 1px solid rgba(59, 130, 246, 0.4); }
-        .hero-title { font-size: 3.2rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
-        .hero-desc { font-size: 1.1rem; color: #cbd5e1; margin-bottom: 30px; line-height: 1.6; }
-
-        /* GOMBOK */
-        .btn-cta { background: var(--primary); color: white; padding: 12px 30px; border-radius: 6px; font-weight: 700; text-decoration: none; display: inline-block; border: none; transition: 0.3s; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
-        .btn-cta:hover { transform: translateY(-2px); background: #2563eb; color: white; }
-        .btn-demo { border: 1px solid rgba(255,255,255,0.2); color: white; padding: 12px 30px; border-radius: 6px; font-weight: 700; text-decoration: none; display: inline-block; margin-left: 10px; transition: 0.3s; }
-        .btn-demo:hover { border-color: white; background: rgba(255,255,255,0.05); color: white; }
-
-        /* JOBB OLDALI KÁRTYÁK (ÉLES KONTRASZT) */
-        .solution-card { background: var(--card-bg); border-left: 5px solid var(--primary); padding: 20px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: 0.3s; position: relative; overflow: hidden; }
-        .solution-card:hover { transform: translateX(-5px); background: #27354f; }
+        .bento-card { 
+            background: var(--surface); 
+            border: 1px solid var(--border); 
+            border-radius: 16px; 
+            padding: 30px; 
+            transition: all 0.3s ease; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between;
+            min-height: 250px;
+        }
         
-        .card-icon { position: absolute; right: 20px; top: 20px; font-size: 2rem; opacity: 0.2; }
-        .card-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 5px; color: white; display: flex; align-items: center; }
-        .problem { color: #f87171; font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 2px; }
-        .solution { color: #4ade80; font-size: 0.9rem; font-weight: 700; }
+        /* Hover effekt - Finom emelkedés */
+        .bento-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); background: var(--surface-hover); }
+        
+        .card-icon { font-size: 1.5rem; color: var(--text-main); margin-bottom: 15px; background: rgba(255,255,255,0.05); width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 10px; }
+        .card-head { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: white; }
+        .card-desc { font-size: 0.9rem; color: var(--text-sub); line-height: 1.5; }
 
-        /* FOOTER (Kicsi) */
-        footer { border-top: 1px solid rgba(255,255,255,0.1); padding: 20px 0; font-size: 0.8rem; color: #64748b; text-align: center; }
-        .beta-tag { font-size: 0.7rem; background: #334155; color: white; padding: 2px 6px; border-radius: 3px; margin-left: 5px; }
+        /* Kiemelt kártya (széles) */
+        .card-wide { grid-column: span 2; background: linear-gradient(145deg, #101010 0%, #0a0a0a 100%); }
+        .card-highlight { border: 1px solid var(--primary); background: rgba(59, 130, 246, 0.05); }
+
+        /* Mobilon legyen 1 oszlop */
+        @media (max-width: 992px) { .bento-grid { grid-template-columns: 1fr; } .card-wide { grid-column: span 1; } }
+
+        /* CTA Sáv */
+        .cta-box { border-top: 1px solid var(--border); padding-top: 50px; text-align: center; }
+        .email-link { color: var(--primary); font-size: 1.5rem; font-weight: 800; text-decoration: none; }
+
+        /* Footer */
+        footer { margin-top: 80px; padding: 40px 0; border-top: 1px solid var(--border); font-size: 0.8rem; color: #525252; text-align: center; }
     </style>
 </head>
 <body>
 
     <nav class="navbar fixed-top">
-        <div class="container d-flex justify-content-between align-items-center">
-            <a class="navbar-brand text-white" href="#">FaquDeveloper<span class="text-primary">.Global</span></a>
-            <div>
-                <a href="mailto:skyhigh983@proton.me" class="btn-nav me-2">AJÁNLATKÉRÉS</a>
-                <span class="fw-bold fs-6 cursor-pointer" onclick="toggleLang()" style="cursor:pointer">HU | EN</span>
+        <div class="container">
+            <a class="navbar-brand" href="#">FaquDeveloper<span style="color:#525252">.Global</span></a>
+            <div class="d-flex align-items-center gap-3">
+                <span class="small text-secondary cursor-pointer" onclick="toggleLang()">HU | EN</span>
+                <a href="mailto:skyhigh983@proton.me" class="btn-contact">Kapcsolat</a>
             </div>
         </div>
     </nav>
 
-    <div class="container hero-section">
-        <div class="row align-items-center w-100">
-            <div class="col-lg-6 mb-5 mb-lg-0">
-                <div class="hero-badge">🚀 AI VÁLLALATIRÁNYÍTÁS</div>
-                <h1 class="hero-title" id="txt_title">A dobozos szoftverek<br><span class="text-primary">ideje lejárt.</span></h1>
-                <p class="hero-desc" id="txt_desc">
-                    Miért fizetnél felesleges funkciókért? Mi pontosan azt a rendszert építjük meg, amire a cégednek szüksége van. 
-                    Nincs kompromisszum. Csak hatékonyság.
-                </p>
+    <div class="container">
+        <section class="hero">
+            <div class="hero-label">ENTERPRISE ARCHITECTURE v2.0</div>
+            <h1 class="hero-title" id="txt_title">Szoftver,<br>amire építhetsz.</h1>
+            <p class="hero-subtitle" id="txt_desc">
+                A dobozos megoldások korlátok közé szorítanak. Mi a vállalkozásod folyamataira öntjük a kódot. Gyors, skálázható és biztonságos.
+            </p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="mailto:skyhigh983@proton.me" class="btn btn-light px-4 py-2 fw-bold rounded-1">Konzultáció</a>
+                <a href="/demo" class="btn btn-outline-secondary px-4 py-2 fw-bold rounded-1 text-white">Demo</a>
+            </div>
+        </section>
+
+        <div class="bento-grid">
+            
+            <div class="bento-card">
                 <div>
-                    <a href="mailto:skyhigh983@proton.me" class="btn-cta" id="btn_cta">INGYENES KONZULTÁCIÓ</a>
-                    <a href="/demo" class="btn-demo">DEMO</a>
-                </div>
-                
-                <div class="mt-4 pt-4 border-top border-secondary border-opacity-25 d-flex gap-4 text-muted small">
-                    <span><i class="bi bi-shield-check text-success me-1"></i> GDPR Biztos</span>
-                    <span><i class="bi bi-clock-history text-primary me-1"></i> 0-24 Support</span>
-                    <span><i class="bi bi-flag-fill text-danger me-1"></i> Magyar Cég</span>
+                    <div class="card-icon"><i class="bi bi-wrench-adjustable"></i></div>
+                    <div class="card-head" id="c1_t">Autószerviz Rendszer</div>
+                    <div class="card-desc" id="c1_d">Felejtsd el az elveszett munkalapokat. Rendszám alapú keresés és automata SMS értesítés a tulajdonosnak.</div>
                 </div>
             </div>
 
-            <div class="col-lg-5 offset-lg-1">
-                <div class="solution-card" style="border-color: #f59e0b;">
-                    <i class="bi bi-cup-hot-fill card-icon text-warning"></i>
-                    <h4 class="card-title text-warning">VENDÉGLÁTÁS</h4>
-                    <span class="problem"><i class="bi bi-x"></i> Káosz a rendeléseknél?</span>
-                    <span class="solution"><i class="bi bi-check2"></i> Digitális asztalkezelés & leltár.</span>
-                </div>
-
-                <div class="solution-card" style="border-color: #ef4444;">
-                    <i class="bi bi-wrench-adjustable card-icon text-danger"></i>
-                    <h4 class="card-title text-danger">AUTÓSZERVIZ</h4>
-                    <span class="problem"><i class="bi bi-x"></i> Elveszett munkalapok?</span>
-                    <span class="solution"><i class="bi bi-check2"></i> Rendszám alapú kereső & SMS értesítés.</span>
-                </div>
-
-                <div class="solution-card" style="border-color: #3b82f6;">
-                    <i class="bi bi-heart-pulse-fill card-icon text-primary"></i>
-                    <h4 class="card-title text-primary">MAGÁNRENDELŐ</h4>
-                    <span class="problem"><i class="bi bi-x"></i> Nem jön el a beteg?</span>
-                    <span class="solution"><i class="bi bi-check2"></i> Automata időpont emlékeztetők.</span>
+            <div class="bento-card card-wide">
+                <div class="d-flex flex-column h-100 justify-content-center">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="card-icon me-3 mb-0"><i class="bi bi-cup-hot"></i></div>
+                        <div class="card-head mb-0" id="c2_t">Vendéglátóipar & HORECA</div>
+                    </div>
+                    <div class="card-desc" id="c2_d">
+                        A pincér felveszi a rendelést a tableten, a konyha azonnal látja. <br>
+                        A rendszer automatikusan vonja a készletet. <br>
+                        <span class="text-white fw-bold mt-2 d-block">Eredmény: 0% adminisztrációs hiba, 20% bevételnövekedés.</span>
+                    </div>
                 </div>
             </div>
+
+            <div class="bento-card">
+                <div>
+                    <div class="card-icon"><i class="bi bi-heart-pulse"></i></div>
+                    <div class="card-head" id="c3_t">Egészségügy</div>
+                    <div class="card-desc" id="c3_d">Páciens nyilvántartás és időpontkezelés. GDPR-biztos, titkosított adattárolás.</div>
+                </div>
+            </div>
+
+            <div class="bento-card card-highlight">
+                <div>
+                    <div class="card-icon" style="color: #3b82f6;"><i class="bi bi-shield-lock-fill"></i></div>
+                    <div class="card-head text-primary">Banki Szintű Biztonság</div>
+                    <div class="card-desc">Nem Excel táblákban tároljuk az adatot. Dedikált, titkosított adatbázis minden ügyfélnek.</div>
+                </div>
+            </div>
+
+            <div class="bento-card">
+                <div>
+                    <div class="card-icon"><i class="bi bi-headset"></i></div>
+                    <div class="card-head">Mérnöki Support</div>
+                    <div class="card-desc">Nem egy chatbot válaszol. A fejlesztőkkel beszélsz közvetlenül.</div>
+                </div>
+            </div>
+
         </div>
+
+        <div class="cta-box">
+            <p class="text-secondary mb-2" id="cta_text">Kérdése van? Írjon közvetlenül:</p>
+            <a href="mailto:skyhigh983@proton.me" class="email-link">skyhigh983@proton.me</a>
+        </div>
+
     </div>
 
     <footer>
         <div class="container">
-            <p class="mb-1 fw-bold">FaquDeveloper Agency <span class="beta-tag">OPEN BETA v1.0</span></p>
-            <p class="mb-2"><a href="mailto:skyhigh983@proton.me" class="text-decoration-none text-primary">skyhigh983@proton.me</a></p>
-            <small>A szoftver használatából eredő károkért a felelősséget a törvényi keretek között kizárjuk.</small>
+            <div class="mb-3">
+                FaquDeveloper Agency &bull; Budapest &bull; Since 2025
+            </div>
+            <div class="opacity-50">
+                Jogi Nyilatkozat: "Open Beta v1.0". <br>
+                A szoftver használata saját felelősségre történik. GDPR Compliant.
+            </div>
         </div>
     </footer>
 
     <script>
         const langData = {
             hu: {
-                title: "A dobozos szoftverek<br><span class='text-primary'>ideje lejárt.</span>",
-                desc: "Miért fizetnél felesleges funkciókért? Mi pontosan azt a rendszert építjük meg, amire a cégednek szüksége van. Nincs kompromisszum.",
-                cta: "INGYENES KONZULTÁCIÓ"
+                title: "Szoftver,<br>amire építhetsz.",
+                desc: "A dobozos megoldások korlátok közé szorítanak. Mi a vállalkozásod folyamataira öntjük a kódot. Gyors, skálázható és biztonságos.",
+                c1t: "Autószerviz Rendszer", c1d: "Felejtsd el az elveszett munkalapokat. Rendszám alapú keresés és automata SMS értesítés.",
+                c2t: "Vendéglátóipar & HORECA", c2d: "A pincér felveszi a rendelést, a konyha látja. Automata készletvonás. Eredmény: 0% hiba.",
+                c3t: "Egészségügy", c3d: "Páciens nyilvántartás és időpontkezelés. GDPR-biztos, titkosított adattárolás.",
+                cta: "Kérdése van? Írjon közvetlenül:"
             },
             en: {
-                title: "The Era of Boxed Software<br><span class='text-primary'>Is Over.</span>",
-                desc: "Why pay for unnecessary features? We build exactly the system your company needs. No compromises. Just efficiency.",
-                cta: "FREE CONSULTATION"
+                title: "Software<br>You Can Build On.",
+                desc: "Boxed solutions limit you. We mold the code to your business processes. Fast, scalable, and secure.",
+                c1t: "Auto Service System", c1d: "Forget lost work orders. License plate lookup and automated SMS notifications.",
+                c2t: "Hospitality & HORECA", c2d: "Waiter takes order, kitchen sees it instantly. Auto inventory tracking. Result: 0% error.",
+                c3t: "Healthcare", c3d: "Patient records and appointment management. GDPR-compliant encrypted storage.",
+                cta: "Questions? Email us directly:"
             }
         };
 
@@ -135,8 +188,11 @@
             currentLang = currentLang === 'hu' ? 'en' : 'hu';
             const t = langData[currentLang];
             document.getElementById('txt_title').innerHTML = t.title;
-            document.getElementById('txt_desc').innerText = t.desc;
-            document.getElementById('btn_cta').innerText = t.cta;
+            document.getElementById('txt_desc').innerHTML = t.desc;
+            document.getElementById('c1_t').innerText = t.c1t; document.getElementById('c1_d').innerText = t.c1d;
+            document.getElementById('c2_t').innerText = t.c2t; document.getElementById('c2_d').innerText = t.c2d;
+            document.getElementById('c3_t').innerText = t.c3t; document.getElementById('c3_d').innerText = t.c3d;
+            document.getElementById('cta_text').innerText = t.cta;
         }
     </script>
 </body>
