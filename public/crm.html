@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Pro ERP Panel</title>
+    <title>Enterprise ERP v4</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
@@ -12,7 +12,8 @@
         
         #login-screen { position: fixed; inset: 0; z-index: 9999; background: #000; display: flex; flex-direction: column; justify-content: center; padding: 30px; }
         .inp { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 15px; border-radius: 12px; color: #fff; margin-bottom: 12px; outline: none; box-sizing: border-box; }
-        .btn-blue { width: 100%; background: var(--primary); color: #fff; border: none; padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+        .btn-blue { width: 100%; background: var(--primary); color: #fff; border: none; padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .btn-blue:active { opacity: 0.7; transform: scale(0.98); }
 
         .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
         .tab-content { display: none; animation: fadeIn 0.3s; padding: 20px; }
@@ -22,87 +23,80 @@
         .stat-card { background: var(--card); padding: 15px; border-radius: 15px; border: 1px solid var(--border); }
         .val { font-size: 1.4rem; font-weight: 700; margin: 5px 0; color: var(--primary); }
 
-        /* Táblázat stílus */
-        .table-wrap { background: var(--card); border-radius: 15px; border: 1px solid var(--border); overflow: hidden; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        th { background: #1a1a1a; text-align: left; padding: 12px; color: #666; }
+        .table-wrap { background: var(--card); border-radius: 15px; border: 1px solid var(--border); overflow-x: auto; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 400px; }
+        th { background: #1a1a1a; text-align: left; padding: 12px; color: #666; font-weight: 400; }
         td { padding: 12px; border-bottom: 1px solid var(--border); }
         
-        .nav { position: fixed; bottom: 0; width: 100%; height: 75px; background: #000; border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; }
-        .nav-btn { background: none; border: none; color: #555; font-size: 0.65rem; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .nav { position: fixed; bottom: 0; width: 100%; height: 75px; background: #000; border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
+        .nav-btn { background: none; border: none; color: #555; font-size: 0.6rem; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .nav-btn.active { color: var(--primary); }
         .nav-btn i { font-size: 1.3rem; }
 
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        #chat-box { height: 300px; overflow-y: auto; background: #0a0a0a; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border); }
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
-        <h2 id="l_comp">ERP Login</h2>
-        <input type="password" id="pass" class="inp" placeholder="Rendszer jelszó">
+        <h2 id="l_comp">Betöltés...</h2>
+        <input type="password" id="pass" class="inp" placeholder="Admin jelszó">
         <button class="btn-blue" onclick="login()">BELÉPÉS</button>
     </div>
 
     <div id="app" style="display:none;">
         <div class="header">
-            <h4 id="h_comp">Betöltés...</h4>
-            <div id="current_month" style="font-size: 0.8rem; color: #666;"></div>
+            <h4 id="h_comp">Cégnév</h4>
+            <div id="user_tag" style="font-size: 0.7rem; background: #222; padding: 4px 10px; border-radius: 10px;">ADMIN</div>
         </div>
 
         <div id="tab-home" class="tab-content active">
             <div class="stat-grid">
                 <div class="stat-card"><small>HAVI FORGALOM</small><div class="val" id="total_rev">0</div></div>
-                <div class="stat-card"><small>NYITOTT ÜGYEK</small><div class="val" id="active_count">0</div></div>
+                <div class="stat-card" onclick="openModal('clients')" style="cursor:pointer; background: #1a1a1a;"><small>ÚJ RÖGZÍTÉSE</small><div class="val" style="color:#fff">+</div></div>
             </div>
-            <h5>Havi zárás / Kimutatás</h5>
-            <div class="table-wrap">
-                <table id="main-table">
-                    <thead><tr><th>Név</th><th>Tétel</th><th>Összeg</th></tr></thead>
-                    <tbody id="list-body"></tbody>
-                </table>
-            </div>
+            <h5>Havi kimutatás</h5>
+            <div class="table-wrap"><table id="main-table"><thead><tr><th>Név</th><th>Tétel</th><th>Összeg</th></tr></thead><tbody id="list-body"></tbody></table></div>
         </div>
 
         <div id="tab-inv" class="tab-content">
-            <div style="display:flex; justify-content:space-between;"><h5>Raktárkészlet</h5><button class="btn-blue" style="width:auto; padding:5px 15px;" onclick="openModal('inventory')">+</button></div>
-            <div class="table-wrap">
-                <table><thead><tr><th>Termék</th><th>Készlet</th><th>Érték</th></tr></thead>
-                <tbody id="inv-body"></tbody></table>
+            <div style="display:flex; justify-content:space-between; align-items:center;"><h5>Raktár</h5><button class="btn-blue" style="width:auto; padding:8px 15px;" onclick="openModal('inventory')">+ Új Termék</button></div>
+            <div class="table-wrap"><table><thead><tr><th>Termék</th><th>Készlet</th><th>Érték</th></tr></thead><tbody id="inv-body"></tbody></table></div>
+        </div>
+
+        <div id="tab-chat" class="tab-content">
+            <h5>Belső Kommunikáció</h5>
+            <div id="chat-box"></div>
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="chat-input" class="inp" style="margin:0;" placeholder="Üzenet írása...">
+                <button class="btn-blue" style="width:70px;" onclick="sendMessage()"><i class="bi bi-send"></i></button>
             </div>
         </div>
 
-        <div id="tab-parts" class="tab-content">
-            <div style="display:flex; justify-content:space-between;"><h5>Partnerek</h5><button class="btn-blue" style="width:auto; padding:5px 15px;" onclick="openModal('partners')">+</button></div>
-            <div class="table-wrap">
-                <table><thead><tr><th>Partner</th><th>Elérhetőség</th><th>Típus</th></tr></thead>
-                <tbody id="parts-body"></tbody></table>
-            </div>
-        </div>
-
-        <div id="tab-emp" class="tab-content">
-            <div style="display:flex; justify-content:space-between;"><h5>Alkalmazottak</h5><button class="btn-blue" style="width:auto; padding:5px 15px;" onclick="openModal('employees')">+</button></div>
-            <div class="table-wrap">
-                <table><thead><tr><th>Név</th><th>Munkakör</th><th>Bér</th></tr></thead>
-                <tbody id="emp-body"></tbody></table>
-            </div>
+        <div id="tab-team" class="tab-content">
+            <h5>Alkalmazottak</h5>
+            <div class="table-wrap"><table><thead><tr><th>Név</th><th>Beosztás</th><th>Bér</th></tr></thead><tbody id="emp-body"></tbody></table></div>
+            <h5 style="margin-top:20px;">Partnerek</h5>
+            <div class="table-wrap"><table><thead><tr><th>Név</th><th>Kapcsolat</th><th>Típus</th></tr></thead><tbody id="parts-body"></tbody></table></div>
         </div>
 
         <div class="nav">
-            <button class="nav-btn active" onclick="switchTab('home', this)"><i class="bi bi-graph-up"></i><span>Zárás</span></button>
-            <button class="nav-btn" onclick="switchTab('inv', this)"><i class="bi bi-box-seam"></i><span>Raktár</span></button>
-            <button class="nav-btn" onclick="switchTab('parts', this)"><i class="bi bi-person-lines-fill"></i><span>Partnerek</span></button>
-            <button class="nav-btn" onclick="switchTab('emp', this)"><i class="bi bi-people"></i><span>Személyzet</span></button>
-            <button class="nav-btn" onclick="location.reload()"><i class="bi bi-power"></i><span>Kilépés</span></button>
+            <button class="nav-btn active" onclick="switchTab('home', this)"><i class="bi bi-speedometer2"></i><span>Zárás</span></button>
+            <button class="nav-btn" onclick="switchTab('inv', this); loadAll();"><i class="bi bi-box-seam"></i><span>Raktár</span></button>
+            <button class="nav-btn" onclick="switchTab('chat', this); loadMessages();"><i class="bi bi-chat-dots"></i><span>Chat</span></button>
+            <button class="nav-btn" onclick="switchTab('team', this); loadAll();"><i class="bi bi-people"></i><span>Csapat</span></button>
+            <button class="nav-btn" onclick="location.reload()"><i class="bi bi-power"></i><span>Ki</span></button>
         </div>
     </div>
 
     <div class="modal" id="modal">
-        <div style="background:#111; padding:25px; border-radius:20px; width:100%; border:1px solid #333;">
+        <div style="background:#111; padding:25px; border-radius:20px; width:100%; max-width:400px; border:1px solid #333;">
             <h3 id="modal-title">Új rögzítése</h3>
             <div id="modal-fields"></div>
-            <div style="display:flex; gap:10px; margin-top:10px;">
+            <div style="display:flex; gap:10px; margin-top:15px;">
                 <button class="btn-blue" style="background:#222;" onclick="closeModal()">Mégse</button>
                 <button class="btn-blue" id="save-btn">Mentés</button>
             </div>
@@ -111,8 +105,7 @@
 
     <script>
         let config = {};
-        const monthNames = ["Január", "Február", "Március", "Április", "Május", "Június", "Július", "Augusztus", "Szeptember", "Október", "November", "December"];
-        document.getElementById('current_month').innerText = monthNames[new Date().getMonth()] + "i zárás";
+        let currentUser = "Admin";
 
         async function init() {
             const res = await fetch('/api/config');
@@ -126,8 +119,11 @@
                 method: 'POST', headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ password: document.getElementById('pass').value })
             });
-            if (res.ok) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('app').style.display = 'block'; loadAll(); }
-            else { alert('Hibás jelszó!'); }
+            if (res.ok) { 
+                document.getElementById('login-screen').style.display = 'none'; 
+                document.getElementById('app').style.display = 'block'; 
+                loadAll();
+            } else { alert('Hibás jelszó!'); }
         }
 
         function switchTab(tabId, btn) {
@@ -139,9 +135,8 @@
 
         function openModal(type) {
             const fields = {
-                inventory: [{id:'n',p:'Termék neve'}, {id:'q',p:'Mennyiség',t:'number'}, {id:'u',p:'Egység (db, kg)'}, {id:'p',p:'Egységár',t:'number'}],
-                partners: [{id:'n',p:'Partner neve'}, {id:'c',p:'Kapcsolat (email/tel)'}, {id:'t',p:'Típus (Beszállító/Vevő)'}],
-                employees: [{id:'n',p:'Név'}, {id:'r',p:'Munkakör'}, {id:'s',p:'Havi bér',t:'number'}]
+                clients: [{id:'n',p:'Név/Asztal'}, {id:'d',p:'Részletek'}, {id:'a',p:'Összeg',t:'number'}],
+                inventory: [{id:'n',p:'Termék'}, {id:'q',p:'db/kg',t:'number'}, {id:'u',p:'Egység'}, {id:'p',p:'Ár',t:'number'}],
             };
             let html = '';
             fields[type].forEach(f => html += `<input type="${f.t||'text'}" id="${f.id}" class="inp" placeholder="${f.p}">`);
@@ -152,36 +147,50 @@
 
         async function saveNew(type) {
             const data = {};
+            if(type==='clients') { data.name=val('n'); data.details=val('d'); data.amount=val('a'); data.status='active'; }
             if(type==='inventory') { data.name=val('n'); data.qty=val('q'); data.unit=val('u'); data.price=val('p'); }
-            if(type==='partners') { data.name=val('n'); data.contact=val('c'); data.type=val('t'); }
-            if(type==='employees') { data.name=val('n'); data.role=val('r'); data.salary=val('s'); }
             
             await fetch('/api/'+type, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)});
             closeModal(); loadAll();
         }
 
-        const val = id => document.getElementById(id).value;
-        function closeModal() { document.getElementById('modal').style.display = 'none'; }
-
-        async function loadAll() {
-            const fetchAndFill = async (type, tableId, rowGen) => {
-                const res = await fetch('/api/'+type);
-                const data = await res.json();
-                const body = document.getElementById(tableId);
-                body.innerHTML = '';
-                data.forEach(item => body.innerHTML += rowGen(item));
-                return data;
-            };
-
-            const clients = await fetchAndFill('clients', 'list-body', i => `<tr><td>${i.name}</td><td>${i.details}</td><td>${i.amount}</td></tr>`);
-            document.getElementById('total_rev').innerText = clients.reduce((s,i)=>s+i.amount,0).toLocaleString() + ' ' + config.currency;
-            document.getElementById('active_count').innerText = clients.filter(i=>i.status==='active').length;
-
-            await fetchAndFill('inventory', 'inv-body', i => `<tr><td>${i.name}</td><td>${i.qty} ${i.unit}</td><td>${(i.qty*i.price).toLocaleString()}</td></tr>`);
-            await fetchAndFill('partners', 'parts-body', i => `<tr><td>${i.name}</td><td>${i.contact}</td><td>${i.type}</td></tr>`);
-            await fetchAndFill('employees', 'emp-body', i => `<tr><td>${i.name}</td><td>${i.role}</td><td>${i.salary.toLocaleString()}</td></tr>`);
+        async function sendMessage() {
+            const text = document.getElementById('chat-input').value;
+            if(!text) return;
+            await fetch('/api/messages', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({sender:currentUser, text})});
+            document.getElementById('chat-input').value = '';
+            loadMessages();
         }
 
+        async function loadMessages() {
+            const res = await fetch('/api/messages');
+            const msgs = await res.json();
+            document.getElementById('chat-box').innerHTML = msgs.map(m => `
+                <div style="margin-bottom:10px; padding:10px; background:#1a1a1a; border-radius:10px; border-left:3px solid var(--primary)">
+                    <small style="color:#666">${m.sender} • ${new Date(m.date).toLocaleTimeString()}</small><br>${m.text}
+                </div>
+            `).join('');
+        }
+
+        const val = id => document.getElementById(id).value;
+        const closeModal = () => document.getElementById('modal').style.display = 'none';
+
+        async function loadAll() {
+            const get = async (t) => { const r = await fetch('/api/'+t); return await r.json(); };
+            
+            const clients = await get('clients');
+            document.getElementById('list-body').innerHTML = clients.map(i => `<tr><td>${i.name}</td><td>${i.details}</td><td>${i.amount}</td></tr>`).join('');
+            document.getElementById('total_rev').innerText = clients.reduce((s,i)=>s+Number(i.amount),0).toLocaleString() + ' ' + config.currency;
+
+            const inv = await get('inventory');
+            document.getElementById('inv-body').innerHTML = inv.map(i => `<tr><td>${i.name}</td><td>${i.qty} ${i.unit}</td><td>${(i.qty*i.price).toLocaleString()}</td></tr>`).join('');
+            
+            const emp = await get('employees');
+            document.getElementById('emp-body').innerHTML = emp.map(i => `<tr><td>${i.name}</td><td>${i.role}</td><td>${i.salary.toLocaleString()}</td></tr>`).join('');
+            
+            const parts = await get('partners');
+            document.getElementById('parts-body').innerHTML = parts.map(i => `<tr><td>${i.name}</td><td>${i.contact}</td><td>${i.type}</td></tr>`).join('');
+        }
         init();
     </script>
 </body>
