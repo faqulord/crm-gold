@@ -3,38 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Enterprise ERP v4</title>
+    <title>Enterprise ERP Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        :root { --bg: #000; --card: #121212; --primary: #3b82f6; --text: #fff; --border: #222; }
+        :root { --bg: #000; --card: #111; --primary: #3b82f6; --text: #fff; --border: #222; }
         body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 90px; }
         
-        #login-screen { position: fixed; inset: 0; z-index: 9999; background: #000; display: flex; flex-direction: column; justify-content: center; padding: 30px; }
-        .inp { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 15px; border-radius: 12px; color: #fff; margin-bottom: 12px; outline: none; box-sizing: border-box; }
-        .btn-blue { width: 100%; background: var(--primary); color: #fff; border: none; padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
-        .btn-blue:active { opacity: 0.7; transform: scale(0.98); }
-
+        /* UI ELEMEK */
         .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
         .tab-content { display: none; animation: fadeIn 0.3s; padding: 20px; }
         .tab-content.active { display: block; }
-        
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: var(--card); padding: 15px; border-radius: 15px; border: 1px solid var(--border); }
-        .val { font-size: 1.4rem; font-weight: 700; margin: 5px 0; color: var(--primary); }
+        .inp { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 15px; border-radius: 12px; color: #fff; margin-bottom: 10px; outline: none; box-sizing: border-box; }
+        .btn-blue { width: 100%; background: var(--primary); color: #fff; border: none; padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer; }
 
-        .table-wrap { background: var(--card); border-radius: 15px; border: 1px solid var(--border); overflow-x: auto; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 400px; }
-        th { background: #1a1a1a; text-align: left; padding: 12px; color: #666; font-weight: 400; }
-        td { padding: 12px; border-bottom: 1px solid var(--border); }
-        
-        .nav { position: fixed; bottom: 0; width: 100%; height: 75px; background: #000; border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
-        .nav-btn { background: none; border: none; color: #555; font-size: 0.6rem; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .stat-card { background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 20px; }
+        .val { font-size: 2rem; font-weight: 700; color: var(--primary); }
+
+        /* LIVE FEED & CHAT */
+        .feed-item { padding: 12px; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+        .feed-time { color: #555; font-size: 0.7rem; float: right; }
+        #chat-box, #feed-box { height: 250px; overflow-y: auto; background: #0a0a0a; border-radius: 15px; padding: 15px; border: 1px solid var(--border); margin-bottom: 15px; }
+
+        /* TABLE */
+        .table-wrap { background: var(--card); border-radius: 15px; border: 1px solid var(--border); overflow: hidden; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        td, th { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+
+        .nav { position: fixed; bottom: 0; width: 100%; height: 80px; background: #000; border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
+        .nav-btn { background: none; border: none; color: #555; font-size: 0.65rem; display: flex; flex-direction: column; align-items: center; gap: 5px; }
         .nav-btn.active { color: var(--primary); }
-        .nav-btn i { font-size: 1.3rem; }
+        .nav-btn i { font-size: 1.4rem; }
 
+        #login-screen { position: fixed; inset: 0; z-index: 9999; background: #000; display: flex; flex-direction: column; justify-content: center; padding: 30px; }
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; }
-        #chat-box { height: 300px; overflow-y: auto; background: #0a0a0a; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border); }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
@@ -49,63 +51,65 @@
 
     <div id="app" style="display:none;">
         <div class="header">
-            <h4 id="h_comp">Cégnév</h4>
-            <div id="user_tag" style="font-size: 0.7rem; background: #222; padding: 4px 10px; border-radius: 10px;">ADMIN</div>
+            <h4 id="h_comp">Vállalkozás</h4>
+            <div style="font-size: 0.7rem; color: #10b981;"><i class="bi bi-circle-fill"></i> Rendszer Online</div>
         </div>
 
         <div id="tab-home" class="tab-content active">
-            <div class="stat-grid">
-                <div class="stat-card"><small>HAVI FORGALOM</small><div class="val" id="total_rev">0</div></div>
-                <div class="stat-card" onclick="openModal('clients')" style="cursor:pointer; background: #1a1a1a;"><small>ÚJ RÖGZÍTÉSE</small><div class="val" style="color:#fff">+</div></div>
+            <div class="stat-card">
+                <small>ÖSSZES FORGALOM</small>
+                <div class="val" id="total_rev">0 Ft</div>
             </div>
-            <h5>Havi kimutatás</h5>
-            <div class="table-wrap"><table id="main-table"><thead><tr><th>Név</th><th>Tétel</th><th>Összeg</th></tr></thead><tbody id="list-body"></tbody></table></div>
+            <h5>Élő Aktivitási Napló</h5>
+            <div id="feed-box"></div>
+            <button class="btn-blue" onclick="openModal('clients')">+ Új Rendelés / Ügyfél</button>
         </div>
 
         <div id="tab-inv" class="tab-content">
-            <div style="display:flex; justify-content:space-between; align-items:center;"><h5>Raktár</h5><button class="btn-blue" style="width:auto; padding:8px 15px;" onclick="openModal('inventory')">+ Új Termék</button></div>
-            <div class="table-wrap"><table><thead><tr><th>Termék</th><th>Készlet</th><th>Érték</th></tr></thead><tbody id="inv-body"></tbody></table></div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h5>Raktár</h5>
+                <button class="btn-blue" style="width:auto; padding:5px 15px;" onclick="openModal('inventory')">+</button>
+            </div>
+            <div class="table-wrap"><table><thead><tr><th>Név</th><th>Készlet</th><th>Ár</th></tr></thead><tbody id="inv-list"></tbody></table></div>
         </div>
 
         <div id="tab-chat" class="tab-content">
-            <h5>Belső Kommunikáció</h5>
+            <h5>Belső Chat</h5>
             <div id="chat-box"></div>
             <div style="display:flex; gap:10px;">
-                <input type="text" id="chat-input" class="inp" style="margin:0;" placeholder="Üzenet írása...">
-                <button class="btn-blue" style="width:70px;" onclick="sendMessage()"><i class="bi bi-send"></i></button>
+                <input type="text" id="chat-in" class="inp" style="margin:0;" placeholder="Üzenet...">
+                <button class="btn-blue" style="width:60px;" onclick="sendMsg()"><i class="bi bi-send"></i></button>
             </div>
         </div>
 
-        <div id="tab-team" class="tab-content">
-            <h5>Alkalmazottak</h5>
-            <div class="table-wrap"><table><thead><tr><th>Név</th><th>Beosztás</th><th>Bér</th></tr></thead><tbody id="emp-body"></tbody></table></div>
-            <h5 style="margin-top:20px;">Partnerek</h5>
-            <div class="table-wrap"><table><thead><tr><th>Név</th><th>Kapcsolat</th><th>Típus</th></tr></thead><tbody id="parts-body"></tbody></table></div>
+        <div id="tab-staff" class="tab-content">
+            <h5>Személyzeti Kontroll</h5>
+            <div class="table-wrap"><table><thead><tr><th>Név</th><th>Beosztás</th><th>Státusz</th></tr></thead><tbody id="staff-list"></tbody></table></div>
         </div>
 
         <div class="nav">
-            <button class="nav-btn active" onclick="switchTab('home', this)"><i class="bi bi-speedometer2"></i><span>Zárás</span></button>
-            <button class="nav-btn" onclick="switchTab('inv', this); loadAll();"><i class="bi bi-box-seam"></i><span>Raktár</span></button>
-            <button class="nav-btn" onclick="switchTab('chat', this); loadMessages();"><i class="bi bi-chat-dots"></i><span>Chat</span></button>
-            <button class="nav-btn" onclick="switchTab('team', this); loadAll();"><i class="bi bi-people"></i><span>Csapat</span></button>
+            <button class="nav-btn active" onclick="switchTab('home', this)"><i class="bi bi-activity"></i><span>Napló</span></button>
+            <button class="nav-btn" onclick="switchTab('inv', this)"><i class="bi bi-box-seam"></i><span>Raktár</span></button>
+            <button class="nav-btn" onclick="switchTab('chat', this)"><i class="bi bi-chat-dots"></i><span>Chat</span></button>
+            <button class="nav-btn" onclick="switchTab('staff', this)"><i class="bi bi-people"></i><span>Csapat</span></button>
             <button class="nav-btn" onclick="location.reload()"><i class="bi bi-power"></i><span>Ki</span></button>
         </div>
     </div>
 
     <div class="modal" id="modal">
-        <div style="background:#111; padding:25px; border-radius:20px; width:100%; max-width:400px; border:1px solid #333;">
-            <h3 id="modal-title">Új rögzítése</h3>
-            <div id="modal-fields"></div>
+        <div style="background:#111; padding:25px; border-radius:20px; width:100%; border:1px solid #333;">
+            <h3 id="m-title">Rögzítés</h3>
+            <div id="m-fields"></div>
             <div style="display:flex; gap:10px; margin-top:15px;">
                 <button class="btn-blue" style="background:#222;" onclick="closeModal()">Mégse</button>
-                <button class="btn-blue" id="save-btn">Mentés</button>
+                <button class="btn-blue" id="m-save">Mentés</button>
             </div>
         </div>
     </div>
 
     <script>
         let config = {};
-        let currentUser = "Admin";
+        const val = id => document.getElementById(id).value;
 
         async function init() {
             const res = await fetch('/api/config');
@@ -117,80 +121,72 @@
         async function login() {
             const res = await fetch('/api/login', {
                 method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ password: document.getElementById('pass').value })
+                body: JSON.stringify({ password: val('pass') })
             });
             if (res.ok) { 
                 document.getElementById('login-screen').style.display = 'none'; 
                 document.getElementById('app').style.display = 'block'; 
-                loadAll();
+                refreshAll();
             } else { alert('Hibás jelszó!'); }
         }
 
-        function switchTab(tabId, btn) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
-            btn.classList.add('active');
+        function switchTab(t, b) {
+            document.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(x => x.classList.remove('active'));
+            document.getElementById('tab-'+t).classList.add('active');
+            b.classList.add('active');
+            refreshAll();
         }
 
+        // ADATKEZELÉS
         function openModal(type) {
-            const fields = {
-                clients: [{id:'n',p:'Név/Asztal'}, {id:'d',p:'Részletek'}, {id:'a',p:'Összeg',t:'number'}],
-                inventory: [{id:'n',p:'Termék'}, {id:'q',p:'db/kg',t:'number'}, {id:'u',p:'Egység'}, {id:'p',p:'Ár',t:'number'}],
-            };
-            let html = '';
-            fields[type].forEach(f => html += `<input type="${f.t||'text'}" id="${f.id}" class="inp" placeholder="${f.p}">`);
-            document.getElementById('modal-fields').innerHTML = html;
-            document.getElementById('save-btn').onclick = () => saveNew(type);
+            const f = type === 'clients' ? 
+                [{id:'n',p:'Név'}, {id:'d',p:'Tétel'}, {id:'a',p:'Összeg',t:'number'}] :
+                [{id:'n',p:'Termék'}, {id:'q',p:'Mennyiség',t:'number'}, {id:'p',p:'Ár',t:'number'}];
+            
+            document.getElementById('m-fields').innerHTML = f.map(x => `<input type="${x.t||'text'}" id="${x.id}" class="inp" placeholder="${x.p}">`).join('');
+            document.getElementById('m-save').onclick = () => save(type);
             document.getElementById('modal').style.display = 'flex';
         }
 
-        async function saveNew(type) {
-            const data = {};
-            if(type==='clients') { data.name=val('n'); data.details=val('d'); data.amount=val('a'); data.status='active'; }
-            if(type==='inventory') { data.name=val('n'); data.qty=val('q'); data.unit=val('u'); data.price=val('p'); }
+        async function save(type) {
+            const data = type === 'clients' ? 
+                { name: val('n'), details: val('d'), amount: Number(val('a')), status: 'active' } :
+                { name: val('n'), qty: Number(val('q')), price: Number(val('p')), unit: 'db' };
             
-            await fetch('/api/'+type, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)});
-            closeModal(); loadAll();
+            await fetch('/api/'+type, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)});
+            closeModal();
+            refreshAll();
         }
 
-        async function sendMessage() {
-            const text = document.getElementById('chat-input').value;
+        async function sendMsg() {
+            const text = val('chat-in');
             if(!text) return;
-            await fetch('/api/messages', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({sender:currentUser, text})});
-            document.getElementById('chat-input').value = '';
-            loadMessages();
+            await fetch('/api/messages', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ sender: "Admin", text })});
+            document.getElementById('chat-in').value = '';
+            refreshAll();
         }
 
-        async function loadMessages() {
-            const res = await fetch('/api/messages');
-            const msgs = await res.json();
-            document.getElementById('chat-box').innerHTML = msgs.map(m => `
-                <div style="margin-bottom:10px; padding:10px; background:#1a1a1a; border-radius:10px; border-left:3px solid var(--primary)">
-                    <small style="color:#666">${m.sender} • ${new Date(m.date).toLocaleTimeString()}</small><br>${m.text}
-                </div>
+        async function refreshAll() {
+            const get = t => fetch('/api/'+t).then(r => r.json());
+            
+            const [clients, inv, msgs, logs, staff] = await Promise.all([get('clients'), get('inventory'), get('messages'), get('activity'), get('employees')]);
+
+            document.getElementById('total_rev').innerText = clients.reduce((s,i)=>s+i.amount,0).toLocaleString() + ' ' + config.currency;
+            
+            document.getElementById('feed-box').innerHTML = logs.map(l => `
+                <div class="feed-item"><span class="feed-time">${new Date(l.date).toLocaleTimeString()}</span><b>${l.user}</b>: ${l.action}</div>
             `).join('');
+
+            document.getElementById('chat-box').innerHTML = msgs.map(m => `
+                <div style="margin-bottom:8px;"><small style="color:var(--primary)">${m.sender} • ${new Date(m.date).toLocaleTimeString()}</small><br>${m.text}</div>
+            `).join('');
+
+            document.getElementById('inv-list').innerHTML = inv.map(i => `<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.price}</td></tr>`).join('');
+            document.getElementById('staff-list').innerHTML = staff.map(s => `<tr><td>${s.name}</td><td>${s.role}</td><td><span style="color:#10b981">● Aktív</span></td></tr>`).join('');
         }
 
-        const val = id => document.getElementById(id).value;
-        const closeModal = () => document.getElementById('modal').style.display = 'none';
-
-        async function loadAll() {
-            const get = async (t) => { const r = await fetch('/api/'+t); return await r.json(); };
-            
-            const clients = await get('clients');
-            document.getElementById('list-body').innerHTML = clients.map(i => `<tr><td>${i.name}</td><td>${i.details}</td><td>${i.amount}</td></tr>`).join('');
-            document.getElementById('total_rev').innerText = clients.reduce((s,i)=>s+Number(i.amount),0).toLocaleString() + ' ' + config.currency;
-
-            const inv = await get('inventory');
-            document.getElementById('inv-body').innerHTML = inv.map(i => `<tr><td>${i.name}</td><td>${i.qty} ${i.unit}</td><td>${(i.qty*i.price).toLocaleString()}</td></tr>`).join('');
-            
-            const emp = await get('employees');
-            document.getElementById('emp-body').innerHTML = emp.map(i => `<tr><td>${i.name}</td><td>${i.role}</td><td>${i.salary.toLocaleString()}</td></tr>`).join('');
-            
-            const parts = await get('partners');
-            document.getElementById('parts-body').innerHTML = parts.map(i => `<tr><td>${i.name}</td><td>${i.contact}</td><td>${i.type}</td></tr>`).join('');
-        }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
         init();
     </script>
 </body>
