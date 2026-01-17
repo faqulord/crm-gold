@@ -10,34 +10,45 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-// 1. ADATBÁZIS KAPCSOLAT
-// Ha nincs beállítva Mongo URI, akkor memóriában fut (Demo mód) vagy hibát dob
+// 1. ADATBÁZIS KAPCSOLAT (Vagy Demo Mód)
 const mongoUri = process.env.MONGO_URI;
+let isDemoMode = false;
+
 if (mongoUri) {
     mongoose.connect(mongoUri)
         .then(() => console.log('✅ MongoDB Connected'))
-        .catch(err => console.error('❌ MongoDB Error:', err));
+        .catch(err => {
+            console.error('❌ MongoDB Error (Switching to Demo Mode):', err);
+            isDemoMode = true;
+        });
 } else {
-    console.log('⚠️ No MongoDB URI provided. Running in limited mode.');
+    console.log('⚠️ No MongoDB URI. Running in DEMO MODE.');
+    isDemoMode = true;
 }
 
-// 2. ADAT MODELL (A "Mindentudó" séma)
-// Ez tárol mindent: Pizzát, Olajcserét, Fogtömést.
+// Demo Adatbázis (A memóriában, hogy működjön a bemutató)
+let demoData = [
+    { _id: '1', name: 'Asztal 4', details: '2x Pizza, 1x Cola', amount: 8500, status: 'active', date: new Date() },
+    { _id: '2', name: 'Pult / Elvitel', details: 'Gyros Tál', amount: 3200, status: 'done', date: new Date() },
+    { _id: '3', name: 'Asztal 2', details: 'Bableves', amount: 2100, status: 'active', date: new Date() }
+];
+
+// Mongoose Modell (Ha van igazi adatbázis)
 const ClientSchema = new mongoose.Schema({
-    name: String,      // Pl: "Asztal 4" vagy "Kovács János"
-    details: String,   // Pl: "2x Pizza" vagy "Olajcsere"
-    amount: Number,    // Pl: 5000 (Ft)
-    status: { type: String, default: 'active' }, // 'active' vagy 'done'
+    name: String,
+    details: String,
+    amount: Number,
+    status: { type: String, default: 'active' },
     date: { type: Date, default: Date.now }
 });
 const Client = mongoose.model('Client', ClientSchema);
 
-// 3. KONFIGURÁCIÓS VÉGPONT (A "Kapcsolótábla")
-// A Frontend ezt kérdezi le, hogy tudja, minek kell kinéznie
+// 2. KONFIGURÁCIÓS API (Ez a "Kapcsolótábla")
+// A frontend ezt kérdezi le, hogy tudja, Étterem vagy Szerviz legyen
 app.get('/api/config', (req, res) => {
     res.json({
         companyName: process.env.COMPANY_NAME || "Demo Étterem & Büfé",
-        industry: process.env.INDUSTRY || "restaurant", // Alapértelmezett: Étterem
+        industry: process.env.INDUSTRY || "restaurant", // Alapértelmezett: restaurant
         currency: process.env.CURRENCY || "Ft",
         features: {
             employees: process.env.ENABLE_EMPLOYEES === 'true',
@@ -47,68 +58,66 @@ app.get('/api/config', (req, res) => {
     });
 });
 
-// 4. API VÉGPONTOK (Adatkezelés)
+// 3. API VÉGPONTOK (Adatkezelés)
 
 // Adatok lekérése
 app.get('/api/clients', async (req, res) => {
-    try {
-        if(mongoose.connection.readyState === 1) {
-            const clients = await Client.find().sort({date: -1});
-            res.json(clients);
-        } else {
-            // DEMO ADATOK (Ha nincs adatbázis bekötve)
-            res.json([
-                { _id: '1', name: 'Asztal 5', details: '3x Húsimádó Pizza, 3x Cola', amount: 12500, status: 'active', date: new Date() },
-                { _id: '2', name: 'Pult', details: 'Elvitelre: Gyros Tál', amount: 3200, status: 'done', date: new Date() },
-                { _id: '3', name: 'Asztal 2', details: 'Bableves, Palacsinta', amount: 4800, status: 'active', date: new Date() }
-            ]);
-        }
-    } catch (err) { res.status(500).json({error: err.message}); }
+    if (!isDemoMode && mongoose.connection.readyState === 1) {
+        const clients = await Client.find().sort({date: -1});
+        res.json(clients);
+    } else {
+        res.json(demoData);
+    }
 });
 
-// Új adat felvétele
+// Új adat mentése
 app.post('/api/clients', async (req, res) => {
-    try {
-        if(mongoose.connection.readyState === 1) {
-            const newClient = new Client(req.body);
-            await newClient.save();
-            res.json(newClient);
-        } else {
-            // Demo módban csak visszaküldjük
-            res.json(req.body);
-        }
-    } catch (err) { res.status(500).json({error: err.message}); }
+    if (!isDemoMode && mongoose.connection.readyState === 1) {
+        const newClient = new Client(req.body);
+        await newClient.save();
+        res.json(newClient);
+    } else {
+        const newItem = { ...req.body, _id: Date.now().toString(), date: new Date() };
+        demoData.unshift(newItem);
+        res.json(newItem);
+    }
 });
 
-// Státusz frissítése (Kész/Aktív)
+// Adat frissítése (pl. Státusz: Kész)
 app.put('/api/clients/:id', async (req, res) => {
-    try {
-        if(mongoose.connection.readyState === 1) {
-            const updated = await Client.findByIdAndUpdate(req.params.id, req.body, {new: true});
-            res.json(updated);
-        } else { res.json({status: 'updated'}); }
-    } catch (err) { res.status(500).json({error: err.message}); }
+    if (!isDemoMode && mongoose.connection.readyState === 1) {
+        const updated = await Client.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        res.json(updated);
+    } else {
+        const idx = demoData.findIndex(x => x._id === req.params.id);
+        if(idx > -1) {
+            demoData[idx] = { ...demoData[idx], ...req.body };
+            res.json(demoData[idx]);
+        } else {
+            res.json({error: "Not found"});
+        }
+    }
 });
 
 // Törlés
 app.delete('/api/clients/:id', async (req, res) => {
-    try {
-        if(mongoose.connection.readyState === 1) {
-            await Client.findByIdAndDelete(req.params.id);
-            res.json({success: true});
-        } else { res.json({success: true}); }
-    } catch (err) { res.status(500).json({error: err.message}); }
+    if (!isDemoMode && mongoose.connection.readyState === 1) {
+        await Client.findByIdAndDelete(req.params.id);
+        res.json({success: true});
+    } else {
+        demoData = demoData.filter(x => x._id !== req.params.id);
+        res.json({success: true});
+    }
 });
 
-// Főoldal kiszolgálása
+// ÚTVONALAK
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// CRM felület kiszolgálása
 app.get('/demo', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'crm.html'));
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Motor indítva a ${PORT} porton`));

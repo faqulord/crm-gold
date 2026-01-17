@@ -3,92 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRM Dashboard | FaquDeveloper</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>CRM Rendszer | FaquDeveloper</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg-dark: #050505;
-            --surface: #101010;
-            --border: #262626;
-            --primary: #3b82f6;
+            --bg: #0a0a0a;
+            --surface: #111;
+            --border: #333;
             --text: #e5e5e5;
-            --success: #10b981;
+            --primary: #fff;
+            --accent: #2563eb; /* Kék a gombokhoz */
+            --success: #16a34a;
         }
-        body { background-color: var(--bg-dark); color: var(--text); font-family: 'Manrope', sans-serif; font-size: 0.9rem; overflow-x: hidden; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; font-size: 0.9rem; overflow-x: hidden; }
         
         /* SIDEBAR (Bal oldali menü) */
-        .sidebar { height: 100vh; width: 250px; position: fixed; top: 0; left: 0; background: var(--surface); border-right: 1px solid var(--border); padding: 20px; z-index: 1000; }
-        .sidebar-brand { font-size: 1.2rem; font-weight: 800; color: white; margin-bottom: 40px; display: block; text-decoration: none; letter-spacing: 1px; }
-        .nav-link { color: #a3a3a3; padding: 12px 15px; border-radius: 8px; margin-bottom: 5px; display: flex; align-items: center; transition: 0.2s; text-decoration: none; }
-        .nav-link:hover, .nav-link.active { background: rgba(59, 130, 246, 0.1); color: var(--primary); }
-        .nav-link i { margin-right: 10px; font-size: 1.1rem; }
+        .sidebar { height: 100vh; width: 240px; position: fixed; top: 0; left: 0; background: var(--surface); border-right: 1px solid var(--border); padding: 20px; z-index: 1000; }
+        .brand { font-size: 1.1rem; font-weight: 800; color: white; margin-bottom: 30px; display: block; text-decoration: none; letter-spacing: 0.5px; }
+        
+        .nav-link { color: #888; padding: 10px 15px; border-radius: 6px; margin-bottom: 5px; display: flex; align-items: center; transition: 0.2s; text-decoration: none; font-weight: 500; }
+        .nav-link:hover, .nav-link.active { background: #1f1f1f; color: white; }
+        .nav-link i { margin-right: 12px; font-size: 1.1rem; }
         
         /* MAIN CONTENT */
-        .main-content { margin-left: 250px; padding: 30px; }
+        .main { margin-left: 240px; padding: 30px; }
         
         /* STAT CARDS */
-        .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; align-items: center; justify-content: space-between; }
-        .stat-val { font-size: 1.8rem; font-weight: 800; color: white; margin: 0; }
-        .stat-label { color: #a3a3a3; font-size: 0.8rem; text-transform: uppercase; }
-        .stat-icon { font-size: 2rem; color: var(--primary); opacity: 0.8; }
-
+        .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .stat-val { font-size: 1.5rem; font-weight: 700; color: white; margin: 0; }
+        .stat-label { color: #666; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        
         /* TABLE */
-        .table-container { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 30px; }
-        .table { color: var(--text); margin-top: 15px; }
-        .table th { background: transparent; color: #737373; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; border-bottom: 1px solid var(--border); border-top: none; }
-        .table td { border-bottom: 1px solid var(--border); vertical-align: middle; }
-        .status-badge { padding: 4px 10px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
-        .status-active { background: rgba(59, 130, 246, 0.1); color: var(--primary); }
-        .status-done { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .table-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-top: 30px; }
+        .table { color: var(--text); margin-top: 10px; --bs-table-bg: transparent; }
+        .table th { border-bottom: 1px solid var(--border); color: #666; font-size: 0.75rem; text-transform: uppercase; font-weight: 600; padding-bottom: 10px; }
+        .table td { border-bottom: 1px solid var(--border); padding: 15px 5px; vertical-align: middle; }
+        
+        .badge-status { padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        .badge-active { background: rgba(37, 99, 235, 0.1); color: #3b82f6; }
+        .badge-done { background: rgba(22, 163, 74, 0.1); color: #22c55e; }
 
-        /* FORM MODAL */
+        /* MODAL (Űrlap) */
         .modal-content { background: var(--surface); border: 1px solid var(--border); color: white; }
         .modal-header, .modal-footer { border-color: var(--border); }
-        .form-control { background: #050505; border: 1px solid var(--border); color: white; }
-        .form-control:focus { background: #050505; color: white; border-color: var(--primary); box-shadow: none; }
+        .form-control { background: #0a0a0a; border: 1px solid var(--border); color: white; }
+        .form-control:focus { background: #0a0a0a; border-color: white; color: white; box-shadow: none; }
 
-        /* LEGAL FOOTER */
-        .legal-footer { margin-top: 50px; border-top: 1px solid var(--border); padding-top: 20px; font-size: 0.75rem; color: #525252; text-align: center; }
+        /* FOOTER (Jogi védelem) */
+        .legal-footer { margin-top: 50px; border-top: 1px solid var(--border); padding-top: 20px; text-align: center; color: #444; font-size: 0.75rem; }
 
-        /* MOBILE RESPONSIVE */
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .sidebar { width: 100%; height: auto; position: relative; padding: 10px; }
-            .main-content { margin-left: 0; padding: 15px; }
-            .sidebar-brand { margin-bottom: 10px; }
+            .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); padding: 15px; }
+            .main { margin-left: 0; padding: 15px; }
         }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <a href="/" class="sidebar-brand">FaquDeveloper<span style="color:var(--primary)">.CRM</span></a>
+        <a href="/" class="brand">FaquDeveloper<span style="color:#666">.Sys</span></a>
         <nav class="nav flex-column">
-            <a href="#" class="nav-link active"><i class="bi bi-grid-fill"></i> <span id="menu_dash">Áttekintés</span></a>
-            <a href="#" class="nav-link" id="menu_main"><i class="bi bi-people-fill"></i> <span id="lbl_clients_menu">Ügyfelek</span></a>
-            <a href="#" class="nav-link" id="menu_inv" style="display:none;"><i class="bi bi-box-seam"></i> Raktár</a>
-            <a href="#" class="nav-link" id="menu_emp" style="display:none;"><i class="bi bi-person-badge"></i> Alkalmazottak</a>
-            <a href="#" class="nav-link"><i class="bi bi-gear-fill"></i> Beállítások</a>
-            <hr style="border-color:var(--border)">
-            <a href="/" class="nav-link text-danger"><i class="bi bi-box-arrow-left"></i> Kilépés</a>
+            <a href="#" class="nav-link active"><i class="bi bi-speedometer2"></i> <span id="m_dash">Áttekintés</span></a>
+            <a href="#" class="nav-link"><i class="bi bi-people"></i> <span id="m_clients">Ügyfelek</span></a>
+            <a href="#" class="nav-link" id="m_inv" style="display:none"><i class="bi bi-box-seam"></i> <span id="txt_inv">Raktár</span></a>
+            <a href="#" class="nav-link" id="m_emp" style="display:none"><i class="bi bi-person-badge"></i> <span id="txt_emp">Alkalmazottak</span></a>
+            <a href="#" class="nav-link" id="m_cal" style="display:none"><i class="bi bi-calendar-week"></i> <span id="txt_cal">Naptár</span></a>
+            <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px;">
+                <a href="/" class="nav-link text-danger"><i class="bi bi-power"></i> Kilépés</a>
+            </div>
         </nav>
-        
-        <div class="mt-auto pt-4 text-center">
+        <div class="mt-4 text-center">
              <button class="btn btn-sm btn-outline-secondary w-100" onclick="toggleLang()">HU | EN</button>
         </div>
     </div>
 
-    <div class="main-content">
+    <div class="main">
         
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h4 class="fw-bold text-white mb-1" id="dash_title">Vezérlőpult</h4>
+                <h4 class="fw-bold text-white mb-0" id="page_title">Vezérlőpult</h4>
                 <small class="text-secondary" id="company_name">Betöltés...</small>
             </div>
-            <button class="btn btn-primary fw-bold" data-bs-toggle="modal" data-bs-target="#addModal">
-                <i class="bi bi-plus-lg me-1"></i> <span id="btn_add">Új Tétel</span>
+            <button class="btn btn-light fw-bold btn-sm px-3" data-bs-toggle="modal" data-bs-target="#addModal">
+                <i class="bi bi-plus-lg me-1"></i> <span id="btn_new">Új Tétel</span>
             </button>
         </div>
 
@@ -96,43 +96,43 @@
             <div class="col-md-4">
                 <div class="stat-card">
                     <div>
-                        <div class="stat-val" id="stat_revenue">0 Ft</div>
+                        <div class="stat-val" id="val_rev">0 Ft</div>
                         <div class="stat-label" id="lbl_rev">Havi Forgalom (Becsült)</div>
                     </div>
-                    <i class="bi bi-wallet2 stat-icon"></i>
+                    <i class="bi bi-wallet2 fs-3 text-secondary"></i>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="stat-card">
                     <div>
-                        <div class="stat-val" id="stat_count">0</div>
-                        <div class="stat-label" id="lbl_count">Nyitott Rendelések</div>
+                        <div class="stat-val" id="val_count">0</div>
+                        <div class="stat-label" id="lbl_count">Nyitott Ügyek</div>
                     </div>
-                    <i class="bi bi-clipboard-data stat-icon"></i>
+                    <i class="bi bi-layers fs-3 text-secondary"></i>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="stat-card">
                     <div>
-                        <div class="stat-val text-success">100%</div>
-                        <div class="stat-label">Rendszer Állapot</div>
+                        <div class="stat-val text-success">OK</div>
+                        <div class="stat-label">Szerver Állapot</div>
                     </div>
-                    <i class="bi bi-check-circle stat-icon text-success"></i>
+                    <i class="bi bi-hdd-network fs-3 text-secondary"></i>
                 </div>
             </div>
         </div>
 
-        <div class="table-container">
-            <h5 class="fw-bold text-white mb-3" id="table_title">Aktuális Tételek</h5>
+        <div class="table-box">
+            <h5 class="fw-bold text-white mb-3 fs-6" id="list_title">Aktív Tételek</h5>
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table">
                     <thead>
                         <tr>
                             <th id="th_name">Név / Azonosító</th>
-                            <th id="th_details">Részletek</th>
-                            <th id="th_amount">Összeg</th>
+                            <th id="th_det">Részletek</th>
+                            <th id="th_amt">Összeg</th>
                             <th>Státusz</th>
-                            <th>Művelet</th>
+                            <th class="text-end">Művelet</th>
                         </tr>
                     </thead>
                     <tbody id="table_body">
@@ -142,12 +142,8 @@
         </div>
 
         <div class="legal-footer">
-            <i class="bi bi-info-circle me-1"></i>
-            <span id="legal_txt">
-                FIGYELEM: Ez a rendszer belső nyilvántartásra szolgál. 
-                Az itt megjelenített pénzügyi adatok tájékoztató jellegűek ("Internal Statistics"), 
-                és nem helyettesítik a hivatalos NAV pénztárgépet vagy a könyvelést.
-            </span>
+            <p class="mb-1"><i class="bi bi-info-circle me-1"></i> FIGYELEM: Belső nyilvántartási rendszer.</p>
+            Az itt megjelenített pénzügyi adatok ("Internal Statistics") tájékoztató jellegűek, és nem helyettesítik a NAV által hitelesített bizonylatokat.
         </div>
     </div>
 
@@ -155,24 +151,24 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal_title">Új Tétel Felvétele</h5>
+                    <h5 class="modal-title fs-6 fw-bold" id="modal_t">Új Rögzítése</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form id="addForm">
                         <div class="mb-3">
-                            <label class="form-label text-secondary" id="lbl_inp_name">Név</label>
+                            <label class="form-label text-secondary small" id="l_name">Név</label>
                             <input type="text" class="form-control" id="inpName" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label text-secondary" id="lbl_inp_details">Részletek</label>
+                            <label class="form-label text-secondary small" id="l_det">Részletek</label>
                             <input type="text" class="form-control" id="inpDetails" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label text-secondary" id="lbl_inp_amount">Összeg</label>
+                            <label class="form-label text-secondary small" id="l_amt">Összeg</label>
                             <input type="number" class="form-control" id="inpAmount" required>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 fw-bold">Mentés</button>
+                        <button type="submit" class="btn btn-light w-100 fw-bold btn-sm py-2">Mentés</button>
                     </form>
                 </div>
             </div>
@@ -181,77 +177,80 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // --- 1. CONFIG & NYELV ---
+        // --- KONFIGURÁCIÓ & NYELV ---
         let config = {};
         let clients = [];
         let currentLang = 'hu';
 
+        // Szótár az iparágakhoz (A "Kaméleon" agya)
         const dict = {
             restaurant: {
-                hu: { clients: "Rendelések", add: "Új Rendelés", name: "Asztal / Név", details: "Étel / Ital", count: "Nyitott Rendelések" },
-                en: { clients: "Orders", add: "New Order", name: "Table / Name", details: "Food / Drink", count: "Open Orders" }
+                hu: { m_clients: "Rendelések", btn: "Új Rendelés", th_name: "Asztalszám", th_det: "Étel / Ital", count: "Nyitott Rendelések" },
+                en: { m_clients: "Orders", btn: "New Order", th_name: "Table No.", th_det: "Food / Drink", count: "Open Orders" }
             },
             mechanic: {
-                hu: { clients: "Munkalapok", add: "Új Munkalap", name: "Tulajdonos", details: "Rendszám / Hiba", count: "Bentlévő Autók" },
-                en: { clients: "Work Orders", add: "New Job", name: "Owner", details: "License Plate", count: "Cars in Shop" }
+                hu: { m_clients: "Munkalapok", btn: "Új Munkalap", th_name: "Rendszám", th_det: "Hiba leírása", count: "Bentlévő Autók" },
+                en: { m_clients: "Jobs", btn: "New Job", th_name: "License Plate", th_det: "Issue", count: "Cars in Shop" }
             },
             doctor: {
-                hu: { clients: "Páciensek", add: "Új Időpont", name: "Páciens Neve", details: "Kezelés típusa", count: "Mai Időpontok" },
-                en: { clients: "Patients", add: "New Appointment", name: "Patient Name", details: "Treatment", count: "Today's Appts" }
+                hu: { m_clients: "Páciensek", btn: "Új Időpont", th_name: "Páciens Neve", th_det: "Kezelés", count: "Mai Páciensek" },
+                en: { m_clients: "Patients", btn: "New Appt", th_name: "Patient Name", th_det: "Treatment", count: "Today's Patients" }
             },
             general: {
-                hu: { clients: "Ügyfelek", add: "Új Ügyfél", name: "Név", details: "Leírás", count: "Aktív Ügyfelek" },
-                en: { clients: "Clients", add: "New Client", name: "Name", details: "Description", count: "Active Clients" }
+                hu: { m_clients: "Ügyfelek", btn: "Új Ügyfél", th_name: "Név", th_det: "Leírás", count: "Aktív Ügyfelek" },
+                en: { m_clients: "Clients", btn: "New Client", th_name: "Name", th_det: "Description", count: "Active Clients" }
             }
         };
 
-        const staticText = {
-            hu: { dash: "Vezérlőpult", rev: "Havi Forgalom (Becsült)", list: "Aktuális Tételek", amt: "Összeg", st: "Státusz", act: "Művelet", save: "Mentés" },
-            en: { dash: "Dashboard", rev: "Monthly Revenue (Est.)", list: "Current Items", amt: "Amount", st: "Status", act: "Action", save: "Save" }
+        const staticTxt = {
+            hu: { dash: "Vezérlőpult", rev: "Havi Forgalom (Becsült)", list: "Aktuális Tételek", amt: "Összeg", inv: "Raktár", emp: "Alkalmazottak", cal: "Naptár" },
+            en: { dash: "Dashboard", rev: "Monthly Revenue (Est.)", list: "Current Items", amt: "Amount", inv: "Inventory", emp: "Employees", cal: "Calendar" }
         };
 
-        // --- 2. INDÍTÁS ---
+        // --- MŰKÖDÉS ---
         async function init() {
-            // Konfiguráció betöltése a szerverről
+            // Lekérjük a szervertől, hogy mik vagyunk (Étterem? Szerviz?)
             const res = await fetch('/api/config');
             config = await res.json();
             
-            // UI Beállítása a config alapján
             document.getElementById('company_name').innerText = config.companyName;
-            
-            // Feature Flagok (Kapcsolók)
-            if(config.features.inventory) document.getElementById('menu_inv').style.display = 'flex';
-            if(config.features.employees) document.getElementById('menu_emp').style.display = 'flex';
+
+            // Kapcsolók (Feature Flags)
+            if(config.features.inventory) document.getElementById('m_inv').style.display = 'flex';
+            if(config.features.employees) document.getElementById('m_emp').style.display = 'flex';
+            if(config.features.booking) document.getElementById('m_cal').style.display = 'flex';
 
             updateUI();
             loadData();
         }
 
-        // --- 3. UI FRISSÍTÉS (Nyelv + Iparág) ---
         function updateUI() {
             const ind = config.industry || 'general';
-            const texts = dict[ind][currentLang];
-            const statics = staticText[currentLang];
+            const t = dict[ind][currentLang];
+            const s = staticTxt[currentLang];
 
-            // Menü és Címkék cseréje
-            document.getElementById('lbl_clients_menu').innerText = texts.clients;
-            document.getElementById('btn_add').innerText = texts.add;
-            document.getElementById('modal_title').innerText = texts.add;
+            // Címkék cseréje
+            document.getElementById('m_clients').innerText = t.m_clients;
+            document.getElementById('btn_new').innerText = t.btn;
+            document.getElementById('modal_t').innerText = t.btn;
+            document.getElementById('lbl_count').innerText = t.count;
+            document.getElementById('th_name').innerText = t.th_name;
+            document.getElementById('th_det').innerText = t.th_det;
             
-            document.getElementById('lbl_count').innerText = texts.count;
-            
-            document.getElementById('th_name').innerText = texts.name;
-            document.getElementById('lbl_inp_name').innerText = texts.name;
-            
-            document.getElementById('th_details').innerText = texts.details;
-            document.getElementById('lbl_inp_details').innerText = texts.details;
+            document.getElementById('l_name').innerText = t.th_name;
+            document.getElementById('l_det').innerText = t.th_det;
 
-            // Statikus szövegek
-            document.getElementById('dash_title').innerText = statics.dash;
-            document.getElementById('menu_dash').innerText = statics.dash;
-            document.getElementById('lbl_rev').innerText = statics.rev;
-            document.getElementById('table_title').innerText = statics.list;
-            document.getElementById('th_amount').innerText = statics.amt;
+            // Statikusok
+            document.getElementById('m_dash').innerText = s.dash;
+            document.getElementById('page_title').innerText = s.dash;
+            document.getElementById('lbl_rev').innerText = s.rev;
+            document.getElementById('list_title').innerText = s.list;
+            document.getElementById('th_amt').innerText = s.amt;
+            document.getElementById('l_amt').innerText = s.amt;
+            
+            document.getElementById('txt_inv').innerText = s.inv;
+            document.getElementById('txt_emp').innerText = s.emp;
+            document.getElementById('txt_cal').innerText = s.cal;
         }
 
         function toggleLang() {
@@ -259,7 +258,6 @@
             updateUI();
         }
 
-        // --- 4. ADATKEZELÉS ---
         async function loadData() {
             const res = await fetch('/api/clients');
             clients = await res.json();
@@ -273,20 +271,20 @@
             
             clients.forEach(c => {
                 const badge = c.status === 'active' 
-                    ? `<span class="status-badge status-active">Aktív</span>` 
-                    : `<span class="status-badge status-done">Kész</span>`;
+                    ? `<span class="badge-status badge-active">Folyamatban</span>` 
+                    : `<span class="badge-status badge-done">Kész</span>`;
                 
                 const btn = c.status === 'active'
-                    ? `<button class="btn btn-sm btn-outline-success" onclick="setStatus('${c._id}', 'done')"><i class="bi bi-check2"></i></button>`
-                    : `<button class="btn btn-sm btn-outline-danger" onclick="deleteItem('${c._id}')"><i class="bi bi-trash"></i></button>`;
+                    ? `<button class="btn btn-sm btn-outline-success border-0" onclick="setStatus('${c._id}', 'done')"><i class="bi bi-check-lg"></i></button>`
+                    : `<button class="btn btn-sm btn-outline-danger border-0" onclick="deleteItem('${c._id}')"><i class="bi bi-trash"></i></button>`;
 
                 const row = `
                     <tr>
                         <td class="fw-bold text-white">${c.name}</td>
-                        <td class="text-secondary">${c.details}</td>
-                        <td class="fw-bold">${c.amount} ${config.currency}</td>
+                        <td class="text-secondary small">${c.details}</td>
+                        <td class="fw-bold text-white small">${c.amount} ${config.currency}</td>
                         <td>${badge}</td>
-                        <td>${btn}</td>
+                        <td class="text-end">${btn}</td>
                     </tr>
                 `;
                 tbody.innerHTML += row;
@@ -297,11 +295,11 @@
             const total = clients.reduce((sum, c) => sum + (c.amount || 0), 0);
             const active = clients.filter(c => c.status === 'active').length;
             
-            document.getElementById('stat_revenue').innerText = total.toLocaleString() + " " + config.currency;
-            document.getElementById('stat_count').innerText = active;
+            document.getElementById('val_rev').innerText = total.toLocaleString() + " " + config.currency;
+            document.getElementById('val_count').innerText = active;
         }
 
-        // --- 5. MŰVELETEK ---
+        // --- ESEMÉNYEK ---
         document.getElementById('addForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const data = {
@@ -317,7 +315,6 @@
                 body: JSON.stringify(data)
             });
             
-            // Modal bezárása és frissítés
             const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
             modal.hide();
             document.getElementById('addForm').reset();
@@ -340,7 +337,6 @@
             }
         }
 
-        // Indulás!
         init();
     </script>
 </body>
