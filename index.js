@@ -7,24 +7,23 @@ const app = express();
 app.use(express.json());
 app.use(express.static('public'));
 
-// DB KAPCSOLAT
+// 1. ADATBÁZIS CSATLAKOZÁS
 mongoose.connect(process.env.MONGO_URI).then(() => console.log('✅ Enterprise Engine Online'));
 
-// MODELLEK
+// 2. ÖSSZES ÜZLETI MODELL
 const Client = mongoose.model('Client', new mongoose.Schema({ name: String, details: String, amount: Number, date: { type: Date, default: Date.now } }));
 const Inventory = mongoose.model('Inventory', new mongoose.Schema({ name: String, qty: Number, unit: String, price: Number }));
-const Employee = mongoose.model('Employee', new mongoose.Schema({ name: String, role: String, lastActive: { type: Date, default: Date.now } }));
+const Employee = mongoose.model('Employee', new mongoose.Schema({ name: String, role: String, salary: Number }));
+const Expense = mongoose.model('Expense', new mongoose.Schema({ name: String, amount: Number, date: { type: Date, default: Date.now } }));
 const Message = mongoose.model('Message', new mongoose.Schema({ sender: String, text: String, date: { type: Date, default: Date.now } }));
-
-// AKTIVITÁSI NAPLÓ (A Főnök kedvence)
 const Activity = mongoose.model('Activity', new mongoose.Schema({ user: String, action: String, date: { type: Date, default: Date.now } }));
 
-const models = { clients: Client, inventory: Inventory, employees: Employee, messages: Message, activity: Activity };
+const models = { clients: Client, inventory: Inventory, employees: Employee, expenses: Expense, messages: Message, activity: Activity };
 
-// API-K
+// 3. API-K (Mesterkulcs adatok átadása)
 app.get('/api/config', (req, res) => {
     res.json({
-        companyName: process.env.COMPANY_NAME || "Enterprise CRM",
+        companyName: process.env.COMPANY_NAME || "Demo CRM",
         industry: process.env.INDUSTRY || "general",
         currency: process.env.CURRENCY || "Ft"
     });
@@ -35,30 +34,25 @@ app.post('/api/login', (req, res) => {
     res.status(401).json({ success: false });
 });
 
-// Dinamikus lekérdezés
 app.get('/api/:type', async (req, res) => {
-    const data = await models[req.params.type].find().sort({date: -1}).limit(50);
+    const data = await models[req.params.type].find().sort({date: -1}).limit(100);
     res.json(data);
 });
 
-// Mentés + Automatikus naplózás
 app.post('/api/:type', async (req, res) => {
     const newItem = new models[req.params.type](req.body);
     await newItem.save();
-
-    // Ha nem üzenetről vagy naplóról van szó, mentsük el az aktivitást is
-    if(req.params.type !== 'messages' && req.params.type !== 'activity') {
-        const log = new Activity({ 
-            user: "Admin", 
-            action: `Új ${req.params.type} rögzítve: ${req.body.name || req.body.text || ""}` 
-        });
-        await log.save();
+    // Automatikus naplózás
+    if(!['messages', 'activity'].includes(req.params.type)) {
+        await new Activity({ user: "Admin", action: `Új ${req.params.type} rögzítve: ${req.body.name || ""}` }).save();
     }
     res.json(newItem);
 });
 
+// 4. SMART ROUTING (Landing vs Login)
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', process.env.HIDE_LANDING === 'true' ? 'crm.html' : 'index.html'));
+    const page = process.env.HIDE_LANDING === 'true' ? 'crm.html' : 'index.html';
+    res.sendFile(path.join(__dirname, 'public', page));
 });
 
 app.get('/demo', (req, res) => res.sendFile(path.join(__dirname, 'public', 'crm.html')));
