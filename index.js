@@ -5,10 +5,12 @@ const path = require('path');
 
 const app = express();
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// 1. ADATBÁZIS
-mongoose.connect(process.env.MONGO_URI).then(() => console.log('✅ Rendszer Online'));
+// 1. ADATBÁZIS CSATLAKOZÁS
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('✅ Rendszer Motor Aktív'))
+    .catch(err => console.error('❌ MongoDB Hiba:', err));
 
 // 2. MODELLEK
 const Client = mongoose.model('Client', new mongoose.Schema({ name: String, details: String, amount: Number, date: { type: Date, default: Date.now } }));
@@ -19,46 +21,59 @@ const Expense = mongoose.model('Expense', new mongoose.Schema({ name: String, am
 
 const models = { clients: Client, inventory: Inventory, partners: Partner, employees: Employee, expenses: Expense };
 
-// 3. RENDSZERADATOK
+// 3. KONFIGURÁCIÓ API
 app.get('/api/config', (req, res) => {
     res.json({
-        companyName: process.env.COMPANY_NAME || "Enterprise CRM",
+        companyName: process.env.COMPANY_NAME || "Vállalkozás",
         industry: process.env.INDUSTRY || "general",
         currency: process.env.CURRENCY || "Ft"
     });
 });
 
 app.post('/api/login', (req, res) => {
-    if (req.body.password === (process.env.ADMIN_PASSWORD || "admin")) return res.json({ success: true, role: 'admin' });
+    if (req.body.password === (process.env.ADMIN_PASSWORD || "admin")) {
+        return res.json({ success: true, role: 'admin' });
+    }
     res.status(401).json({ success: false });
 });
 
-// 4. UNIVERZÁLIS API (Lekérés, Mentés, Módosítás, Törlés)
+// 4. ADATKEZELŐ API-K
 app.get('/api/:type', async (req, res) => {
-    const data = await models[req.params.type].find().sort({date: -1});
-    res.json(data);
+    try {
+        const data = await models[req.params.type].find().sort({date: -1});
+        res.json(data);
+    } catch (e) { res.status(500).json([]); }
 });
 
 app.post('/api/:type', async (req, res) => {
-    const newItem = new models[req.params.type](req.body);
-    await newItem.save();
-    res.json(newItem);
-});
-
-app.put('/api/:type/:id', async (req, res) => {
-    const updated = await models[req.params.type].findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(updated);
+    try {
+        const newItem = new models[req.params.type](req.body);
+        await newItem.save();
+        res.json(newItem);
+    } catch (e) { res.status(500).json({error: "Hiba"}); }
 });
 
 app.delete('/api/:type/:id', async (req, res) => {
-    await models[req.params.type].findByIdAndDelete(req.params.id);
-    res.json({ success: true });
+    try {
+        await models[req.params.type].findByIdAndDelete(req.params.id);
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({error: "Hiba"}); }
 });
 
-// 5. IRÁNYÍTÁS
+// 5. ÚTVONALAK (A DEMO FIXÁLÁSA)
 app.get('/', (req, res) => {
     const hide = String(process.env.HIDE_LANDING).trim().toLowerCase() === 'true';
-    res.sendFile(path.join(__dirname, 'public', hide ? 'crm.html' : 'index.html'));
+    if (hide) {
+        res.sendFile(path.join(__dirname, 'public', 'crm.html'));
+    } else {
+        res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    }
 });
 
-app.listen(process.env.PORT || 3000);
+// Ez a sor felel a demó gombért!
+app.get('/demo', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'crm.html'));
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🚀 Szerver fut a ${PORT} porton`));
