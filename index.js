@@ -1,95 +1,53 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
-const bodyParser = require('body-parser');
 const path = require('path');
 
 const app = express();
-app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(express.static('public'));
 
-// 1. ADATBÁZIS KAPCSOLAT (Vagy Demo Mód)
+// ADATBÁZIS
 const mongoUri = process.env.MONGO_URI;
-let isDemoMode = false;
+let isDemo = !mongoUri;
 
 if (mongoUri) {
-    mongoose.connect(mongoUri)
-        .then(() => console.log('✅ MongoDB Connected'))
-        .catch(err => {
-            console.error('❌ MongoDB Error (Switching to Demo Mode):', err);
-            isDemoMode = true;
-        });
-} else {
-    isDemoMode = true;
+    mongoose.connect(mongoUri).then(() => console.log('✅ Adatbázis kész'));
 }
 
-// Demo Adatbázis (Ha nincs éles adatbázis)
-let demoData = [
-    { _id: '1', name: 'Minta Ügyfél', details: 'Első bejegyzés', amount: 5000, status: 'active', date: new Date() }
-];
+const Client = mongoose.model('Client', new mongoose.Schema({
+    name: String, details: String, amount: Number, status: String, date: { type: Date, default: Date.now }
+}));
 
-const ClientSchema = new mongoose.Schema({
-    name: String,
-    details: String,
-    amount: Number,
-    status: { type: String, default: 'active' },
-    date: { type: Date, default: Date.now }
-});
-const Client = mongoose.model('Client', ClientSchema);
-
-// 2. KONFIGURÁCIÓS API (A Railway-ről olvassa az adatokat)
+// CONFIG & LOGIN
 app.get('/api/config', (req, res) => {
     res.json({
         companyName: process.env.COMPANY_NAME || "Demo Rendszer",
         industry: process.env.INDUSTRY || "general",
-        currency: process.env.CURRENCY || "Ft",
-        features: {
-            inventory: process.env.ENABLE_INVENTORY === 'true'
-        }
+        currency: process.env.CURRENCY || "Ft"
     });
 });
 
-// 3. JELSZÓ ELLENŐRZÉSE (A belépésnél)
 app.post('/api/login', (req, res) => {
     const { password } = req.body;
-    // A Railway-en beállított ADMIN_PASSWORD-el veti össze
-    const securePassword = process.env.ADMIN_PASSWORD || "admin"; 
-
-    if (password === securePassword) {
-        res.json({ success: true });
-    } else {
-        res.status(401).json({ success: false, message: "Hibás jelszó!" });
-    }
+    if (password === (process.env.ADMIN_PASSWORD || "admin")) return res.json({ success: true });
+    res.status(401).json({ success: false });
 });
 
-// 4. ADATKEZELÉS API
+// ADATOK
 app.get('/api/clients', async (req, res) => {
-    if (!isDemoMode && mongoose.connection.readyState === 1) {
-        const clients = await Client.find().sort({date: -1});
-        res.json(clients);
-    } else {
-        res.json(demoData);
-    }
+    const data = isDemo ? [] : await Client.find().sort({date: -1});
+    res.json(data);
 });
 
 app.post('/api/clients', async (req, res) => {
-    if (!isDemoMode) {
-        const newClient = new Client(req.body);
-        await newClient.save();
-        res.json(newClient);
-    } else {
-        const newItem = { ...req.body, _id: Date.now().toString(), date: new Date() };
-        demoData.unshift(newItem);
-        res.json(newItem);
-    }
+    const newItem = new Client(req.body);
+    await newItem.save();
+    res.json(newItem);
 });
 
-// 5. ÚTVONALAK KEZELÉSE
-// Ez dönti el, hogy mit lásson a látogató a főoldalon!
+// FŐOLDAL VÁLASZTÓ (A Variable alapján)
 app.get('/', (req, res) => {
-    // Ha be van állítva a HIDE_LANDING változó 'true'-ra, akkor egyből a login jön be
     if (process.env.HIDE_LANDING === 'true') {
         res.sendFile(path.join(__dirname, 'public', 'crm.html'));
     } else {
@@ -97,9 +55,7 @@ app.get('/', (req, res) => {
     }
 });
 
-app.get('/demo', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'crm.html'));
-});
+app.get('/demo', (req, res) => res.sendFile(path.join(__dirname, 'public', 'crm.html')));
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Rendszer fut a ${PORT} porton`));
+app.listen(PORT, () => console.log(`🚀 Port: ${PORT}`));
