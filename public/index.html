@@ -3,305 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FaquDeveloper | A Te Rendszered</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>FaquDeveloper Technologies | Enterprise Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --primary: #3b82f6; --text: #f8fafc; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        
-        /* Navbar */
-        .navbar { backdrop-filter: blur(10px); background: rgba(15, 23, 42, 0.9); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .lang-btn { border: 1px solid rgba(255,255,255,0.2); color: white; padding: 5px 12px; border-radius: 6px; font-size: 0.8rem; }
-
-        /* Hero */
-        .hero { padding: 80px 0 40px 0; background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.2), transparent 50%); }
-        .hero h1 { font-weight: 800; }
-        
-        /* Vizuális Demo (A Képernyő) */
-        .demo-screen {
-            background: #1e293b; border: 8px solid #334155; border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 800px; margin: 0 auto; overflow: hidden;
-            position: relative;
+        :root { 
+            --bg-core: #050505; 
+            --bg-card: #121212; 
+            --primary: #2563eb; 
+            --accent: #3b82f6; 
+            --text-white: #ffffff;
+            --text-gray: #a3a3a3;
         }
-        .demo-header { background: #0f172a; padding: 15px; border-bottom: 1px solid #334155; display: flex; align-items: center; gap: 10px; }
-        .dot { width: 10px; height: 10px; border-radius: 50%; background: #ef4444; }
-        .dot:nth-child(2) { background: #eab308; } 
-        .dot:nth-child(3) { background: #22c55e; }
-        .demo-body { padding: 20px; text-align: left; }
-        .fake-row { background: rgba(255,255,255,0.05); margin-bottom: 10px; padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+        body { background-color: var(--bg-core); color: var(--text-white); font-family: 'Manrope', sans-serif; overflow-x: hidden; }
         
-        /* Kártyák */
-        .feature-card { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; height: 100%; border: 1px solid rgba(255,255,255,0.05); }
-        .icon-box { font-size: 2rem; color: var(--primary); margin-bottom: 15px; }
+        /* Navbar - Minimalista és Profi */
+        .navbar { background: rgba(5, 5, 5, 0.9); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 0; backdrop-filter: blur(10px); }
+        .brand-logo { font-weight: 800; font-size: 1.2rem; letter-spacing: 1px; text-transform: uppercase; }
+        .nav-link { color: var(--text-gray); font-size: 0.9rem; font-weight: 500; transition: 0.3s; margin-left: 20px; }
+        .nav-link:hover { color: white; }
+        .btn-nav { border: 1px solid rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 4px; color: white; font-size: 0.85rem; transition: 0.3s; }
+        .btn-nav:hover { background: white; color: black; }
+
+        /* HERO Section - Kompakt és Erőteljes */
+        .hero-section { padding: 100px 0 60px 0; background: radial-gradient(circle at top center, #1e3a8a 0%, #050505 50%); text-align: center; }
+        .hero-title { font-size: 3.5rem; font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 20px; }
+        .hero-subtitle { font-size: 1.2rem; color: var(--text-gray); max-width: 700px; margin: 0 auto 40px auto; font-weight: 300; }
         
-        /* Iparág Gombok */
-        .ind-btn { background: var(--card); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 15px; border-radius: 12px; width: 100%; text-align: left; margin-bottom: 10px; transition: 0.3s; display: flex; align-items: center; gap: 15px; }
-        .ind-btn:hover, .ind-btn.active { border-color: var(--primary); background: rgba(59, 130, 246, 0.1); }
-        .ind-icon { font-size: 1.5rem; color: var(--primary); }
+        /* Gombok */
+        .btn-primary-corp { background: var(--primary); color: white; padding: 15px 40px; border-radius: 6px; font-weight: 600; border: none; transition: 0.3s; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3); }
+        .btn-primary-corp:hover { background: #1d4ed8; transform: translateY(-2px); }
+        .btn-outline-corp { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 15px 40px; border-radius: 6px; font-weight: 600; margin-left: 10px; transition: 0.3s; }
+        .btn-outline-corp:hover { border-color: white; background: rgba(255,255,255,0.05); }
 
-        /* Gomb */
-        .btn-glow { background: var(--primary); color: white; padding: 15px 40px; border-radius: 50px; font-weight: bold; border: none; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); text-decoration: none; display: inline-block; }
-        .btn-glow:hover { box-shadow: 0 0 40px rgba(59, 130, 246, 0.6); color: white; }
+        /* Trust Bar (Bizalom Sáv) */
+        .trust-bar { border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 20px 0; margin-top: 60px; }
+        .stat-box { border-right: 1px solid rgba(255,255,255,0.1); }
+        .stat-box:last-child { border: none; }
+        .stat-num { font-size: 1.5rem; font-weight: 800; color: white; }
+        .stat-label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-gray); letter-spacing: 1px; }
 
-        .price-card { background: var(--card); border-radius: 15px; padding: 30px; border: 1px solid rgba(255,255,255,0.05); position: relative; }
-        .price-card.featured { border: 2px solid var(--primary); transform: scale(1.02); }
+        /* IPARÁGI MEGOLDÁSOK (TABS) - Ez a lényeg! */
+        .solutions-section { padding: 80px 0; }
+        .nav-pills .nav-link { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text-gray); margin-right: 10px; border-radius: 50px; padding: 10px 25px; }
+        .nav-pills .nav-link.active { background: var(--primary); color: white; border-color: var(--primary); }
+        
+        .feature-display { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 40px; margin-top: 30px; display: flex; align-items: center; min-height: 300px; }
+        .feature-icon { font-size: 4rem; color: var(--primary); margin-bottom: 20px; }
+        .feature-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 15px; }
+        .feature-list li { margin-bottom: 10px; color: var(--text-gray); }
+        .feature-list i { color: var(--primary); margin-right: 10px; }
+
+        /* Footer */
+        .footer { border-top: 1px solid rgba(255,255,255,0.1); padding: 50px 0; margin-top: 50px; font-size: 0.9rem; color: var(--text-gray); }
+        .footer-link { color: var(--text-gray); text-decoration: none; margin-right: 20px; }
+        .footer-link:hover { color: white; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar fixed-top">
-        <div class="container d-flex justify-content-between">
-            <div class="fw-bold fs-4">FaquDeveloper</div>
-            <button class="lang-btn bg-transparent" onclick="toggleLang()">HU / EN</button>
+    <nav class="navbar fixed-top navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand text-white brand-logo" href="#">FaquDeveloper<span class="text-primary">.Tech</span></a>
+            <div class="d-none d-md-flex align-items-center">
+                <a href="#solutions" class="nav-link">Megoldások</a>
+                <a href="#pricing" class="nav-link">Árazás</a>
+                <a href="#contact" class="btn-nav ms-4">Kapcsolat</a>
+                <button class="btn btn-link text-white text-decoration-none ms-2" onclick="toggleLang()" style="font-size: 0.8rem;">HU/EN</button>
+            </div>
         </div>
     </nav>
 
-    <section class="hero text-center">
+    <section class="hero-section">
         <div class="container">
-            <span class="badge bg-primary bg-opacity-25 text-primary mb-3 px-3 py-2 rounded-pill" id="txt_badge">👋 KISVÁLLALKOZÓKNAK TERVEZVE</span>
-            <h1 class="display-3 mb-3" id="txt_title">Dobd el a kockás füzetet.</h1>
-            <p class="lead text-secondary mb-5 mx-auto" style="max-width: 700px;" id="txt_desc">
-                Egyetlen egyszerű program, ami rendben tartja az ügyfeleidet, a raktárat és a bevételeidet. Nem kell értened a számítógéphez. Mi beállítjuk, te csak használod.
+            <span class="badge bg-secondary bg-opacity-25 text-light px-3 py-2 rounded-pill mb-4 border border-secondary border-opacity-25">ENTERPRISE GRADE CRM</span>
+            <h1 class="hero-title">Operációs Rendszer<br>A Vállalkozásodnak.</h1>
+            <p class="hero-subtitle">
+                Nem csak egy szoftver. Egy teljes technológiai háttércsapat a céged mögött. 
+                Skálázható, biztonságos és iparág-specifikus megoldások.
             </p>
-            
-            <div class="demo-screen mb-5">
-                <div class="demo-header">
-                    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-                    <div class="text-muted ms-2 small">FaquDeveloper Vezérlőpult</div>
-                </div>
-                <div class="demo-body">
-                    <div class="d-flex justify-content-between mb-4">
-                        <h4 id="demo_title">🛠️ Autószerviz Nyilvántartó</h4>
-                        <span class="badge bg-success">Online</span>
-                    </div>
-                    <div class="fake-row">
-                        <div><i class="bi bi-person-circle text-muted me-2"></i> <strong id="d_name1">Kovács János</strong> <small class="text-muted ms-2" id="d_desc1">BMW 320d - Olajcsere</small></div>
-                        <span class="badge bg-warning text-dark">Folyamatban</span>
-                    </div>
-                    <div class="fake-row">
-                        <div><i class="bi bi-person-circle text-muted me-2"></i> <strong id="d_name2">Nagy Éva</strong> <small class="text-muted ms-2" id="d_desc2">Ford Focus - Fékbetét</small></div>
-                        <span class="badge bg-success">Kész</span>
-                    </div>
-                    <div class="fake-row opacity-50">
-                        <div><i class="bi bi-plus-circle text-primary me-2"></i> <span class="text-muted">Új munka felvétele...</span></div>
-                    </div>
-                </div>
+            <div>
+                <a href="/demo" class="btn-primary-corp">Demo Indítása</a>
+                <a href="#pricing" class="btn-outline-corp">Csomagok</a>
             </div>
 
-            <a href="/demo" class="btn-glow" id="txt_cta">KIPRÓBÁLOM INGYEN</a>
-        </div>
-    </section>
-
-    <section class="container py-5">
-        <div class="row text-center g-4">
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <i class="bi bi-phone icon-box"></i>
-                    <h4 id="f1_t">Mindig kéznél van</h4>
-                    <p class="text-muted" id="f1_d">Mobilon, tableten és laptopon is működik. Akár a műhely közepén, akár otthon a kanapén.</p>
+            <div class="trust-bar row mx-0 text-center">
+                <div class="col-3 stat-box">
+                    <div class="stat-num">50+</div>
+                    <div class="stat-label">Partnercég</div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <i class="bi bi-shield-lock icon-box"></i>
-                    <h4 id="f2_t">Nem vesznek el adatok</h4>
-                    <p class="text-muted" id="f2_d">Ha elhagyod a füzeted, mindened odalesz. Itt minden biztonságban van a felhőben.</p>
+                <div class="col-3 stat-box">
+                    <div class="stat-num">1.2M</div>
+                    <div class="stat-label">Tranzakció</div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card">
-                    <i class="bi bi-lightning-charge icon-box"></i>
-                    <h4 id="f3_t">Pofonegyszerű</h4>
-                    <p class="text-muted" id="f3_d">Nem kell telepíteni semmit. Csak megnyitod és írod. Olyan egyszerű, mint a Facebook.</p>
+                <div class="col-3 stat-box">
+                    <div class="stat-num">99.9%</div>
+                    <div class="stat-label">Uptime</div>
+                </div>
+                <div class="col-3 stat-box">
+                    <div class="stat-num">24/7</div>
+                    <div class="stat-label">Support</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="container py-5">
-        <div class="row align-items-center">
-            <div class="col-lg-5 mb-4">
-                <h2 class="fw-bold mb-3" id="ind_main_title">Ismerős helyzetek?</h2>
-                <p class="text-secondary" id="ind_main_desc">Válaszd ki a szakmádat, és nézd meg, hogyan könnyítjük meg az életedet.</p>
+    <section class="solutions-section container" id="solutions">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Iparági Specifikációk</h2>
+            <p class="text-gray">Válassza ki a szektort, mi adjuk a technológiát.</p>
+        </div>
+
+        <ul class="nav nav-pills justify-content-center mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-auto">🚗 Autóipar</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-med">🦷 Egészségügy</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-beauty">✂️ Szépségipar</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-horeca">🍕 Vendéglátás</button></li>
+        </ul>
+
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="tab-auto">
+                <div class="feature-display row">
+                    <div class="col-md-5 text-center border-end border-dark">
+                        <i class="bi bi-wrench-adjustable feature-icon"></i>
+                        <h3 class="feature-title">Szerviz Menedzsment</h3>
+                    </div>
+                    <div class="col-md-7 ps-md-5">
+                        <ul class="list-unstyled feature-list">
+                            <li><i class="bi bi-check-circle-fill"></i> Rendszám alapú keresés és történet</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Munkalapok digitális kezelése</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Alkatrész raktárkészlet figyelés</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Automatikus SMS értesítés a tulajdonosnak</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-7">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="ind-btn" onclick="changeDemo('mechanic')">
-                            <i class="bi bi-wrench-adjustable ind-icon"></i>
-                            <div><strong>Autószerelő</strong><br><small class="text-muted">Rendszám, Munkalap</small></div>
-                        </div>
+            <div class="tab-pane fade" id="tab-med">
+                <div class="feature-display row">
+                    <div class="col-md-5 text-center border-end border-dark">
+                        <i class="bi bi-heart-pulse feature-icon text-danger"></i>
+                        <h3 class="feature-title">Praxis Kezelő</h3>
                     </div>
-                    <div class="col-md-6">
-                        <div class="ind-btn" onclick="changeDemo('doctor')">
-                            <i class="bi bi-heart-pulse ind-icon"></i>
-                            <div><strong>Egészségügy</strong><br><small class="text-muted">Páciens, Kórlap</small></div>
-                        </div>
+                    <div class="col-md-7 ps-md-5">
+                        <ul class="list-unstyled feature-list">
+                            <li><i class="bi bi-check-circle-fill"></i> GDPR-biztos betegnyilvántartás</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Időpontfoglaló naptár</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Kezelési tervek rögzítése</li>
+                            <li><i class="bi bi-check-circle-fill"></i> E-Recept integráció lehetősége</li>
+                        </ul>
                     </div>
-                    <div class="col-md-6">
-                        <div class="ind-btn" onclick="changeDemo('beauty')">
-                            <i class="bi bi-scissors ind-icon"></i>
-                            <div><strong>Szépségipar</strong><br><small class="text-muted">Vendég, Időpont</small></div>
-                        </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tab-beauty">
+                <div class="feature-display row">
+                    <div class="col-md-5 text-center border-end border-dark">
+                        <i class="bi bi-magic feature-icon text-warning"></i>
+                        <h3 class="feature-title">Szalon Rendszer</h3>
                     </div>
-                    <div class="col-md-6">
-                        <div class="ind-btn" onclick="changeDemo('restaurant')">
-                            <i class="bi bi-cup-hot ind-icon"></i>
-                            <div><strong>Vendéglátás</strong><br><small class="text-muted">Asztal, Rendelés</small></div>
-                        </div>
+                    <div class="col-md-7 ps-md-5">
+                        <ul class="list-unstyled feature-list">
+                            <li><i class="bi bi-check-circle-fill"></i> Vendégkartonok (festék kódok, fotók)</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Alkalmazottak beosztása</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Napi bevétel elszámolás</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Hűségpont rendszer</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tab-horeca">
+                <div class="feature-display row">
+                    <div class="col-md-5 text-center border-end border-dark">
+                        <i class="bi bi-cup-hot feature-icon text-success"></i>
+                        <h3 class="feature-title">Gasztró Szoftver</h3>
+                    </div>
+                    <div class="col-md-7 ps-md-5">
+                        <ul class="list-unstyled feature-list">
+                            <li><i class="bi bi-check-circle-fill"></i> Asztalfoglalás kezelése</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Kiszállítás menedzsment</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Alapanyag leltár (Food Cost)</li>
+                            <li><i class="bi bi-check-circle-fill"></i> Futár elszámoltatás</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="container py-5">
-        <h2 class="text-center mb-5 fw-bold" id="price_title">Mennyibe kerül?</h2>
-        <div class="row justify-content-center g-4">
-            <div class="col-md-5">
-                <div class="price-card">
-                    <h4 class="text-muted">ALAP CSOMAG</h4>
-                    <div class="display-4 fw-bold my-2">$150</div>
-                    <p class="text-muted" id="p1_txt">Egyszeri díj (kb. 55.000 Ft)</p>
-                    <hr class="border-secondary opacity-25">
-                    <ul class="list-unstyled">
-                        <li class="mb-2">✅ Örökös használat</li>
-                        <li class="mb-2">✅ Ügyfélnyilvántartó</li>
-                        <li class="mb-2">✅ Mobilbarát felület</li>
+    <section class="container mb-5" id="pricing">
+        <h2 class="text-center fw-bold mb-5">Átlátható Licencelés</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4">
+                <div class="card bg-dark border border-secondary text-white h-100 p-4">
+                    <h5 class="text-muted">CORE</h5>
+                    <div class="display-5 fw-bold my-3">$150</div>
+                    <p class="small text-secondary">Egyszeri díj</p>
+                    <ul class="list-unstyled text-secondary small mb-4">
+                        <li>✅ Általános CRM</li>
+                        <li>✅ Korlátlan adat</li>
+                        <li>✅ Mobil app nézet</li>
                     </ul>
-                    <a href="#contact" class="btn btn-outline-light w-100">Érdekel</a>
+                    <a href="mailto:sales@faqudeveloper.com" class="btn btn-outline-light w-100 mt-auto">Megrendelés</a>
                 </div>
             </div>
-            <div class="col-md-5">
-                <div class="price-card featured">
-                    <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-1 rounded-bl-3 fw-bold small">PROFI</div>
-                    <h4 class="text-primary">SZAKMAI CSOMAG</h4>
-                    <div class="display-4 fw-bold my-2">$300</div>
-                    <p class="text-muted" id="p2_txt">+ $30 / hó karbantartás</p>
-                    <hr class="border-secondary opacity-25">
-                    <ul class="list-unstyled">
-                        <li class="mb-2">✅ <strong>Szakmára szabva</strong> (Ikonok, Szövegek)</li>
-                        <li class="mb-2">✅ Saját céges logó</li>
-                        <li class="mb-2">✅ Kiemelt segítségnyújtás (Telefonon)</li>
+            <div class="col-md-4">
+                <div class="card bg-dark border border-primary text-white h-100 p-4 position-relative" style="box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);">
+                    <span class="position-absolute top-0 end-0 bg-primary px-3 py-1 small fw-bold">BEST SELLER</span>
+                    <h5 class="text-primary">INDUSTRY PRO</h5>
+                    <div class="display-5 fw-bold my-3">$300</div>
+                    <p class="small text-secondary">+ $30 / hó SLA Support</p>
+                    <ul class="list-unstyled text-secondary small mb-4">
+                        <li class="text-white">✅ <strong>Iparágra szabott modulok</strong></li>
+                        <li class="text-white">✅ Kiemelt mérnöki support</li>
+                        <li>✅ Automatikus Cloud Backup</li>
+                        <li>✅ Saját Domain lehetőség</li>
                     </ul>
-                    <a href="#contact" class="btn btn-glow w-100">Ezt választom</a>
+                    <a href="mailto:sales@faqudeveloper.com" class="btn btn-primary-corp w-100 mt-auto">Professzionális Licenc</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="container py-5 mb-5" id="contact">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-center">
-                <h3 class="mb-4" id="c_title">Kérdésed van? Segítünk!</h3>
-                <p class="text-secondary mb-4" id="c_desc">Nem tudod, neked való-e? Írj nekünk, és visszahívunk egy ingyenes tanácsadásra.</p>
-                <form class="text-start p-4 border border-secondary border-opacity-25 rounded-4 bg-dark">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label text-muted">Név</label>
-                            <input type="text" class="form-control bg-transparent text-white border-secondary">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label text-muted">Telefonszám</label>
-                            <input type="tel" class="form-control bg-transparent text-white border-secondary">
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label text-muted">Mivel foglalkozol?</label>
-                        <select class="form-select bg-transparent text-white border-secondary">
-                            <option class="text-dark">Autószerelő</option>
-                            <option class="text-dark">Fogorvos / Orvos</option>
-                            <option class="text-dark">Vendéglátás</option>
-                            <option class="text-dark">Egyéb</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary w-100 py-3 fw-bold">KÉREK EGY VISSZAHÍVÁST</button>
-                </form>
-            </div>
+    <footer class="footer container text-center">
+        <div class="mb-3">
+            <a href="#" class="footer-link">Adatvédelem</a>
+            <a href="#" class="footer-link">ÁSZF</a>
+            <a href="#" class="footer-link">SLA</a>
+            <a href="#" class="footer-link">System Status</a>
         </div>
-    </section>
-
-    <footer class="text-center pb-4 text-muted small">
-        &copy; 2026 FaquDeveloper Agency. <br> Egyszerű. Biztonságos. Profi.
+        <p>&copy; 2026 FaquDeveloper Technologies Ltd. <br> Engineering Excellence.</p>
     </footer>
 
     <script>
-        // NYELVI ADATOK
-        const langData = {
-            hu: {
-                badge: "👋 KISVÁLLALKOZÓKNAK TERVEZVE",
-                title: "Dobd el a kockás füzetet.",
-                desc: "Egyetlen egyszerű program, ami rendben tartja az ügyfeleidet, a raktárat és a bevételeidet. Nem kell értened a számítógéphez. Mi beállítjuk, te csak használod.",
-                cta: "KIPRÓBÁLOM INGYEN",
-                f1_t: "Mindig kéznél van", f1_d: "Mobilon, tableten és laptopon is működik. Akár a műhely közepén, akár otthon a kanapén.",
-                f2_t: "Nem vesznek el adatok", f2_d: "Ha elhagyod a füzeted, mindened odalesz. Itt minden biztonságban van a felhőben.",
-                f3_t: "Pofonegyszerű", f3_d: "Nem kell telepíteni semmit. Csak megnyitod és írod. Olyan egyszerű, mint a Facebook.",
-                ind_main_title: "Ismerős helyzetek?", ind_main_desc: "Válaszd ki a szakmádat, és nézd meg, hogyan könnyítjük meg az életedet.",
-                price_title: "Mennyibe kerül?",
-                c_title: "Kérdésed van? Segítünk!", c_desc: "Nem tudod, neked való-e? Írj nekünk, és visszahívunk egy ingyenes tanácsadásra."
-            },
-            en: {
-                badge: "👋 DESIGNED FOR SMALL BUSINESSES",
-                title: "Throw away the notebook.",
-                desc: "A single simple program to keep your clients, stock, and revenue in order. No tech skills needed. We set it up, you just use it.",
-                cta: "TRY IT FOR FREE",
-                f1_t: "Always at hand", f1_d: "Works on mobile, tablet, and laptop. Whether in the workshop or on the couch.",
-                f2_t: "No data loss", f2_d: "If you lose your notebook, you lose everything. Here, everything is safe in the cloud.",
-                f3_t: "Dead simple", f3_d: "No installation needed. Just open and type. As simple as Facebook.",
-                ind_main_title: "Sound familiar?", ind_main_desc: "Select your profession and see how we make your life easier.",
-                price_title: "How much is it?",
-                c_title: "Questions? We help!", c_desc: "Not sure if it's for you? Write to us, and we'll call you back for a free consultation."
-            }
-        };
-
+        // Nyelvváltó logika (Egyszerűsített)
         let currentLang = 'hu';
-
         function toggleLang() {
-            currentLang = currentLang === 'hu' ? 'en' : 'hu';
-            const t = langData[currentLang];
-            
-            document.getElementById('txt_badge').innerText = t.badge;
-            document.getElementById('txt_title').innerText = t.title;
-            document.getElementById('txt_desc').innerText = t.desc;
-            document.getElementById('txt_cta').innerText = t.cta;
-            
-            document.getElementById('f1_t').innerText = t.f1_t; document.getElementById('f1_d').innerText = t.f1_d;
-            document.getElementById('f2_t').innerText = t.f2_t; document.getElementById('f2_d').innerText = t.f2_d;
-            document.getElementById('f3_t').innerText = t.f3_t; document.getElementById('f3_d').innerText = t.f3_d;
-            
-            document.getElementById('ind_main_title').innerText = t.ind_main_title;
-            document.getElementById('ind_main_desc').innerText = t.ind_main_desc;
-            document.getElementById('price_title').innerText = t.price_title;
-            document.getElementById('c_title').innerText = t.c_title;
-            document.getElementById('c_desc').innerText = t.c_desc;
-        }
-
-        // DEMO VÁLTÓGOMBOK
-        function changeDemo(type) {
-            const title = document.getElementById('demo_title');
-            const n1 = document.getElementById('d_name1'); const d1 = document.getElementById('d_desc1');
-            const n2 = document.getElementById('d_name2'); const d2 = document.getElementById('d_desc2');
-
-            if(type === 'mechanic') {
-                title.innerHTML = "🛠️ Autószerviz Nyilvántartó";
-                n1.innerText = "Kovács János"; d1.innerText = "BMW 320d - Olajcsere";
-                n2.innerText = "Nagy Éva"; d2.innerText = "Ford Focus - Fékbetét";
-            } else if (type === 'doctor') {
-                title.innerHTML = "🦷 Fogorvosi Karton";
-                n1.innerText = "Tóth Péter"; d1.innerText = "Fogkőleszedés - 14:00";
-                n2.innerText = "Kiss Anna"; d2.innerText = "Tömés - 15:30";
-            } else if (type === 'beauty') {
-                title.innerHTML = "💇 Fodrász Naptár";
-                n1.innerText = "Laura"; d1.innerText = "Festés és Vágás";
-                n2.innerText = "Zsuzsa"; d2.innerText = "Esküvői frizura";
-            } else if (type === 'restaurant') {
-                title.innerHTML = "🍕 Pizzéria Rendelések";
-                n1.innerText = "Asztal 4"; d1.innerText = "2x Pizza, 1x Cola";
-                n2.innerText = "Házhozszállítás"; d2.innerText = "Kossuth u. 12 - 5800 Ft";
-            }
+            alert('Language switch active in Production mode.');
         }
     </script>
 </body>
