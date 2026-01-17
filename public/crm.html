@@ -2,143 +2,156 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Enterprise Core v2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titanium ERP v2</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         :root { 
-            --bg: #050505; 
-            --sidebar: #0a0a0a; 
-            --card: #0f0f0f; 
-            --primary: #ff6600; 
-            --primary-glow: rgba(255, 102, 0, 0.15);
-            --text: #ffffff; 
-            --text-dim: #777; 
-            --border: #1a1a1a; 
+            --bg: #050505; --sidebar: #0a0a0a; --card: #0f0f0f; 
+            --primary: #ff6600; --border: #1a1a1a; --text: #fff; --dim: #666; 
         }
-        * { box-sizing: border-box; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-        body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; font-weight: 400; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); display: flex; }
 
-        /* OLDALSÁV (LUXURY) */
-        aside { width: 260px; background: var(--sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 40px 25px; position: fixed; height: 100vh; z-index: 1000; }
-        .logo { font-size: 1.1rem; font-weight: 700; color: var(--primary); letter-spacing: 4px; margin-bottom: 50px; text-transform: uppercase; }
-        .nav-link { padding: 15px 0; color: var(--text-dim); text-decoration: none; display: flex; align-items: center; gap: 15px; margin-bottom: 10px; cursor: pointer; border-bottom: 1px solid transparent; font-size: 0.85rem; letter-spacing: 1px; }
-        .nav-link:hover { color: var(--primary); }
-        .nav-link.active { color: var(--primary); border-bottom: 1px solid var(--primary); }
-        .nav-link i { font-size: 1.1rem; }
+        /* FIX OLDALSÁV */
+        aside { width: 280px; background: var(--sidebar); border-right: 1px solid var(--border); height: 100vh; position: fixed; padding: 40px 30px; display: flex; flex-direction: column; }
+        .logo { font-size: 0.9rem; letter-spacing: 5px; color: var(--primary); font-weight: 700; margin-bottom: 60px; text-transform: uppercase; }
+        .nav-item { padding: 18px 0; color: var(--dim); text-decoration: none; cursor: pointer; display: flex; align-items: center; gap: 15px; font-size: 0.85rem; letter-spacing: 1px; border-bottom: 1px solid transparent; }
+        .nav-item:hover, .nav-item.active { color: var(--primary); border-bottom-color: var(--primary); }
 
-        main { flex: 1; margin-left: 260px; padding: 50px; max-width: 1400px; }
+        main { flex: 1; margin-left: 280px; padding: 60px; max-width: 1200px; }
 
-        /* STATISZTIKA */
-        .header-row { margin-bottom: 50px; }
-        .header-row h1 { font-size: 2.5rem; font-weight: 200; margin: 0; letter-spacing: -1px; }
-        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 50px; }
-        .card { background: var(--card); padding: 35px; border-radius: 4px; border: 1px solid var(--border); position: relative; overflow: hidden; }
-        .card::before { content: ""; position: absolute; top: 0; left: 0; width: 2px; height: 0; background: var(--primary); transition: 0.5s; }
-        .card:hover::before { height: 100%; }
-        .card small { color: var(--text-dim); font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
-        .card .val { font-size: 2.4rem; font-weight: 600; margin-top: 15px; display: block; letter-spacing: -1px; }
+        /* IDŐSZAK VÁLASZTÓ (ZÁRÁSHOZ) */
+        .period-selector { background: var(--card); padding: 20px; border: 1px solid var(--border); display: flex; gap: 20px; align-items: center; margin-bottom: 40px; }
+        select { background: transparent; border: 1px solid var(--border); color: #fff; padding: 10px; font-family: inherit; cursor: pointer; }
+
+        /* STATS */
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 50px; }
+        .stat-card { background: var(--card); padding: 30px; border: 1px solid var(--border); }
+        .stat-card small { color: var(--dim); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; }
+        .stat-card h2 { margin: 15px 0 0; font-size: 2.2rem; font-weight: 200; }
 
         /* TÁBLÁZAT */
-        .table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 4px; }
+        .table-wrap { background: var(--card); border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 20px; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid var(--border); }
-        td { padding: 20px; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: #ccc; }
-        tr:hover td { color: #fff; background: rgba(255,255,255,0.01); }
+        th { text-align: left; padding: 20px; font-size: 0.7rem; color: var(--dim); text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid var(--border); }
+        td { padding: 20px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        tr:hover td { background: rgba(255,102,0,0.02); color: var(--primary); }
 
-        /* MODAL & BUTTONS */
-        .btn { padding: 12px 30px; border-radius: 2px; font-weight: 600; cursor: pointer; border: none; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; }
-        .btn-primary { background: var(--primary); color: #000; }
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: #fff; }
-        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
-
-        #login-screen { position: fixed; inset: 0; background: var(--bg); z-index: 10001; display: flex; justify-content: center; align-items: center; }
-        .login-card { text-align: center; width: 100%; max-width: 320px; }
-        input { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--border); padding: 15px 0; color: #fff; margin-bottom: 30px; font-family: inherit; font-size: 1.1rem; text-align: center; }
+        /* MODAL */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; }
+        .modal-content { background: var(--sidebar); padding: 50px; width: 450px; border: 1px solid var(--border); }
+        input { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--border); padding: 15px 0; color: #fff; margin-bottom: 25px; font-family: inherit; font-size: 1rem; }
         input:focus { outline: none; border-bottom-color: var(--primary); }
+        .btn { padding: 15px 35px; border-radius: 2px; cursor: pointer; font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; border: none; }
+        .btn-primary { background: var(--primary); color: #000; }
 
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10002; display: none; align-items: center; justify-content: center; padding: 20px; }
-        .modal-content { background: var(--sidebar); padding: 50px; width: 100%; max-width: 450px; border: 1px solid var(--border); }
-
-        @media (max-width: 1024px) { aside { display: none; } main { margin-left: 0; padding: 30px; } }
+        #login-screen { position: fixed; inset: 0; background: #000; z-index: 3000; display: flex; align-items: center; justify-content: center; }
+        
+        @media (max-width: 1024px) { aside { display: none; } main { margin-left: 0; } }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
-        <div class="login-card">
-            <h1 id="l_comp" style="font-weight: 200; letter-spacing: 5px; margin-bottom: 50px;">ENTERPRISE</h1>
-            <input type="password" id="pass" placeholder="SECURITY CODE">
+        <div style="text-align: center; width: 300px;">
+            <h1 style="font-weight: 200; letter-spacing: 8px; margin-bottom: 50px;">SECURITY</h1>
+            <input type="password" id="pass" placeholder="ACCESS CODE" style="text-align: center;">
             <button class="btn btn-primary" style="width: 100%;" onclick="login()">AUTHORIZE</button>
-            <button onclick="enterAsStaff()" style="background:none; border:none; color:var(--text-dim); margin-top:30px; cursor:pointer; font-size: 0.7rem; letter-spacing: 2px;">STAFF ACCESS</button>
         </div>
     </div>
 
-    <div id="app" style="display:none;" class="wrapper">
-        <aside>
-            <div class="logo">Core System</div>
-            <div class="nav-link active" onclick="switchTab('home', this)"><i class="bi bi-layers"></i> Dashboard</div>
-            <div class="nav-link" onclick="switchTab('inv', this)"><i class="bi bi-box-seam"></i> Inventory</div>
-            <div class="nav-link" onclick="switchTab('parts', this)"><i class="bi bi-shield-check"></i> Partners</div>
-            <div class="nav-link admin-only" id="nav-staff" onclick="switchTab('staff', this)"><i class="bi bi-person-badge"></i> Personnel</div>
-            <div style="margin-top:auto" class="nav-link" onclick="location.reload()"><i class="bi bi-lock"></i> Terminate</div>
-        </aside>
+    <aside>
+        <div class="logo" id="l_comp">ENTERPRISE</div>
+        <div class="nav-item active" onclick="switchTab('home', this)"><i class="bi bi-cpu"></i> Dashboard</div>
+        <div class="nav-item" onclick="switchTab('inv', this)"><i class="bi bi-box"></i> Inventory</div>
+        <div class="nav-item" onclick="switchTab('parts', this)"><i class="bi bi-shield-check"></i> Partners</div>
+        <div class="nav-item" id="nav-staff" onclick="switchTab('staff', this)"><i class="bi bi-person-badge"></i> Personnel</div>
+        <div style="margin-top: auto;" class="nav-item" onclick="location.reload()"><i class="bi bi-lock"></i> Exit</div>
+    </aside>
 
-        <main>
-            <div id="tab-home" class="tab-content active">
-                <div class="header-row">
-                    <h1 id="h_comp">ADMINISTRATION</h1>
-                    <div style="margin-top: 20px; display: flex; gap: 15px;">
-                        <button class="btn btn-outline" onclick="openModal('expenses')">+ Expense</button>
-                        <button class="btn btn-primary" onclick="openModal('clients')">+ Transaction</button>
-                    </div>
+    <main id="app" style="display: none;">
+        <div class="header-row">
+            <h1 id="h_comp" style="font-weight: 200; letter-spacing: -1px; margin-bottom: 30px;">ADMINISTRATION</h1>
+        </div>
+
+        <div class="period-selector">
+            <small style="letter-spacing: 2px; color: var(--dim);">SZŰRÉS:</small>
+            <select id="sel-year" onchange="refresh()">
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026" selected>2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+            </select>
+            <select id="sel-month" onchange="refresh()">
+                <option value="1">Január</option><option value="2">Február</option><option value="3">Március</option>
+                <option value="4">Április</option><option value="5">Május</option><option value="6">Június</option>
+                <option value="7">Július</option><option value="8">Augusztus</option><option value="9">Szeptember</option>
+                <option value="10">Október</option><option value="11">November</option><option value="12" selected>December</option>
+            </select>
+            <button class="btn btn-primary" style="padding: 10px 20px; font-size: 0.6rem;" onclick="refresh()">Havi Zárás Frissítése</button>
+        </div>
+
+        <div id="tab-home" class="tab-content active">
+            <div class="grid">
+                <div class="stat-card"><small id="lbl_rev">Revenue</small><h2 id="tot_rev">0</h2></div>
+                <div class="stat-card"><small>Operational Cost</small><h2 id="tot_exp" style="color: #444;">0</h2></div>
+                <div class="stat-card"><small>Net Profit</small><h2 id="tot_profit" style="color: var(--primary);">0</h2></div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 id="lbl_list" style="font-weight: 400; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">Transactions</h3>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-outline" onclick="openModal('expenses')">+ Expense</button>
+                    <button class="btn btn-primary" onclick="openModal('clients')">+ Transaction</button>
                 </div>
-
-                <div class="stat-grid admin-only" id="admin-stats">
-                    <div class="card"><small id="lbl_rev">Revenue</small><span class="val" id="tot_rev">0</span></div>
-                    <div class="card"><small>Operational Cost</small><span class="val" id="tot_exp" style="color: #666;">0</span></div>
-                    <div class="card"><small>Net Profit</small><span class="val" id="tot_profit" style="color: var(--primary);">0</span></div>
-                </div>
-
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr><th id="th_n">Entity</th><th id="th_d">Reference</th><th>Amount</th><th class="admin-only">Action</th></tr>
-                        </thead>
-                        <tbody id="list-body"></tbody>
-                    </table>
-                </div>
             </div>
 
-            <div id="tab-inv" class="tab-content">
-                <div class="header-row"><h1>STOCKS</h1><button class="btn btn-primary" onclick="openModal('inventory')">+ Add Item</button></div>
-                <div class="table-wrap"><table><thead><tr><th>Resource</th><th>Quantity</th><th>Unit Price</th><th class="admin-only"></th></tr></thead><tbody id="inv-body"></tbody></table></div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th id="th_n">Entity</th><th id="th_d">Details</th><th>Amount</th><th>Action</th></tr></thead>
+                    <tbody id="list-body"></tbody>
+                </table>
             </div>
+        </div>
 
-            <div id="tab-parts" class="tab-content">
-                <div class="header-row"><h1>PARTNERS</h1><button class="btn btn-primary" onclick="openModal('partners')">+ New Entity</button></div>
-                <div class="table-wrap"><table><thead><tr><th>Entity Name</th><th>Contact</th><th>Type</th><th class="admin-only"></th></tr></thead><tbody id="parts-body"></tbody></table></div>
+        <div id="tab-inv" class="tab-content" style="display:none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">Inventory</h3>
+                <button class="btn btn-primary" onclick="openModal('inventory')">+ Add Item</button>
             </div>
+            <div class="table-wrap"><table><thead><tr><th>Resource</th><th>Qty</th><th>Price</th><th></th></tr></thead><tbody id="inv-body"></tbody></table></div>
+        </div>
 
-            <div id="tab-staff" class="tab-content">
-                <div class="header-row"><h1>PERSONNEL</h1><button class="btn btn-primary" onclick="openModal('employees')">+ New Member</button></div>
-                <div class="table-wrap"><table><thead><tr><th>Name</th><th>Position</th><th>Compensation</th><th class="admin-only"></th></tr></thead><tbody id="staff-body"></tbody></table></div>
+        <div id="tab-parts" class="tab-content" style="display:none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">Partners</h3>
+                <button class="btn btn-primary" onclick="openModal('partners')">+ New Entity</button>
             </div>
-        </main>
-    </div>
+            <div class="table-wrap"><table><thead><tr><th>Name</th><th>Contact</th><th>Type</th><th></th></tr></thead><tbody id="parts-body"></tbody></table></div>
+        </div>
+
+        <div id="tab-staff" class="tab-content" style="display:none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">Personnel</h3>
+                <button class="btn btn-primary" onclick="openModal('employees')">+ New Member</button>
+            </div>
+            <div class="table-wrap"><table><thead><tr><th>Name</th><th>Role</th><th>Salary</th><th></th></tr></thead><tbody id="staff-body"></tbody></table></div>
+        </div>
+    </main>
 
     <div class="modal" id="modal">
         <div class="modal-content">
-            <h2 id="m_title" style="font-weight: 200; letter-spacing: 3px; margin-bottom: 40px;">DATA ENTRY</h2>
+            <h2 id="m_title" style="font-weight: 200; letter-spacing: 4px; margin-bottom: 40px;">ENTRY</h2>
             <div id="m_fields"></div>
             <button class="btn btn-primary" style="width: 100%;" onclick="save()">Execute</button>
-            <button onclick="closeModal()" style="width:100%; background:none; border:none; color:var(--text-dim); margin-top:20px; cursor:pointer; font-size: 0.7rem; letter-spacing: 2px;">CANCEL</button>
         </div>
     </div>
 
     <script>
-        let config = {}; let role = 'staff'; let activeType = '';
+        let config = {}; let activeType = '';
 
         async function init() {
             const res = await fetch('/api/config'); config = await res.json();
@@ -146,56 +159,57 @@
             document.getElementById('h_comp').innerText = config.companyName;
 
             const dict = {
-                restaurant: { rev: "GASTRO REVENUE", list: "ORDERS", n: "TABLE", d: "ITEMS" },
                 doctor: { rev: "CLINIC REVENUE", list: "PATIENTS", n: "PATIENT", d: "TREATMENT" },
-                mechanic: { rev: "SERVICE REVENUE", list: "JOBS", n: "PLATE", d: "DIAGNOSIS" },
-                general: { rev: "TOTAL REVENUE", list: "TRANSACTIONS", n: "ENTITY", d: "DETAILS" }
+                restaurant: { rev: "GASTRO REVENUE", list: "ORDERS", n: "TABLE", d: "ITEMS" },
+                general: { rev: "REVENUE", list: "TRANSACTIONS", n: "ENTITY", d: "DETAILS" }
             };
             const t = dict[config.industry] || dict.general;
             document.getElementById('lbl_rev').innerText = t.rev;
+            document.getElementById('lbl_list').innerText = t.list;
             document.getElementById('th_n').innerText = t.n; document.getElementById('th_d').innerText = t.d;
         }
 
         async function login() {
             const res = await fetch('/api/login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({password: document.getElementById('pass').value})});
-            if(res.ok) { role = 'admin'; unlock(); } else alert('AUTH FAILED');
-        }
-
-        function enterAsStaff() { role = 'staff'; unlock(); }
-
-        function unlock() {
-            document.getElementById('login-screen').style.display='none';
-            document.getElementById('app').style.display='flex';
-            if(role === 'admin') document.querySelectorAll('.admin-only').forEach(e => e.style.display = 'block');
-            refresh();
+            if(res.ok) { document.getElementById('login-screen').style.display='none'; document.getElementById('app').style.display='block'; refresh(); }
+            else alert('DENIED');
         }
 
         async function refresh() {
-            const get = t => fetch('/api/'+t).then(r => r.json());
+            const y = document.getElementById('sel-year').value;
+            const m = document.getElementById('sel-month').value;
+            const get = t => fetch(`/api/${t}?year=${y}&month=${m}`).then(r => r.json());
+            
             const [c, i, p, e, ex] = await Promise.all([get('clients'), get('inventory'), get('partners'), get('employees'), get('expenses')]);
-            
-            if(role === 'admin') {
-                const totalRev = c.reduce((s,x)=>s+x.amount,0);
-                const totalExp = ex.reduce((s,x)=>s+x.amount,0);
-                const totalSal = e.reduce((s,x)=>s+(x.salary||0),0);
-                document.getElementById('tot_rev').innerText = totalRev.toLocaleString() + ' ' + config.currency;
-                document.getElementById('tot_exp').innerText = (totalExp + totalSal).toLocaleString() + ' ' + config.currency;
-                document.getElementById('tot_profit').innerText = (totalRev - totalExp - totalSal).toLocaleString() + ' ' + config.currency;
-            }
 
-            const delBtn = (t,id) => role === 'admin' ? `<i class="bi bi-trash" onclick="delItem('${t}','${id}')" style="color:#333; cursor:pointer;"></i>` : '';
-            
-            document.getElementById('list-body').innerHTML = c.map(x => `<tr><td>${x.name}</td><td>${x.details}</td><td>${x.amount.toLocaleString()}</td><td class="admin-only">${delBtn('clients',x._id)}</td></tr>`).join('');
-            document.getElementById('inv-body').innerHTML = i.map(x => `<tr><td>${x.name}</td><td>${x.qty}</td><td>${x.price.toLocaleString()}</td><td class="admin-only">${delBtn('inventory',x._id)}</td></tr>`).join('');
-            document.getElementById('parts-body').innerHTML = p.map(x => `<tr><td>${x.name}</td><td>${x.contact}</td><td>${x.type}</td><td class="admin-only">${delBtn('partners',x._id)}</td></tr>`).join('');
-            document.getElementById('staff-body').innerHTML = e.map(x => `<tr><td>${x.name}</td><td>${x.role}</td><td>${(x.salary||0).toLocaleString()}</td><td class="admin-only">${delBtn('employees',x._id)}</td></tr>`).join('');
+            const rev = c.reduce((s,x)=>s+x.amount,0);
+            const exp = ex.reduce((s,x)=>s+x.amount,0);
+            const sal = e.reduce((s,x)=>s+(x.salary||0),0);
+
+            document.getElementById('tot_rev').innerText = rev.toLocaleString() + ' ' + config.currency;
+            document.getElementById('tot_exp').innerText = (exp + sal).toLocaleString() + ' ' + config.currency;
+            document.getElementById('tot_profit').innerText = (rev - exp - sal).toLocaleString() + ' ' + config.currency;
+
+            const draw = (data, target, type, fields) => {
+                document.getElementById(target).innerHTML = data.map(x => `
+                    <tr>
+                        ${fields.map(f => `<td>${f === 'amount' || f === 'salary' || f === 'price' ? (x[f]||0).toLocaleString() : (x[f]||'')}</td>`).join('')}
+                        <td style="text-align:right;"><i class="bi bi-trash" style="cursor:pointer; color:#333;" onclick="del('${type}','${x._id}')"></i></td>
+                    </tr>
+                `).join('');
+            };
+
+            draw(c, 'list-body', 'clients', ['name', 'details', 'amount']);
+            draw(i, 'inv-body', 'inventory', ['name', 'qty', 'price']);
+            draw(p, 'parts-body', 'partners', ['name', 'contact', 'type']);
+            draw(e, 'staff-body', 'employees', ['name', 'role', 'salary']);
         }
 
         function openModal(type) {
             activeType = type;
             let h = `<input id="i1" placeholder="NAME / ID"><input id="i2" placeholder="DESCRIPTION"><input id="i3" type="number" placeholder="VALUE">`;
-            if(type === 'employees') h = `<input id="i1" placeholder="MEMBER NAME"><input id="i2" placeholder="POSITION"><input id="i3" type="number" placeholder="SALARY">`;
-            if(type === 'expenses') h = `<input id="i1" placeholder="EXPENSE TITLE"><input id="i3" type="number" placeholder="AMOUNT">`;
+            if(type === 'employees') h = `<input id="i1" placeholder="NAME"><input id="i2" placeholder="ROLE"><input id="i3" type="number" placeholder="SALARY">`;
+            if(type === 'expenses') h = `<input id="i1" placeholder="TITLE"><input id="i3" type="number" placeholder="AMOUNT">`;
             document.getElementById('m_fields').innerHTML = h;
             document.getElementById('modal').style.display = 'flex';
         }
@@ -207,20 +221,19 @@
                 contact: val('i2'), type: val('i3'), role: val('i2'), salary: Number(val('i3')||0)
             };
             await fetch('/api/'+activeType, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)});
-            closeModal(); refresh();
+            document.getElementById('modal').style.display = 'none'; refresh();
         }
 
-        async function delItem(type, id) {
-            if(confirm('TERMINATE DATA?')) { await fetch(`/api/${type}/${id}`, { method: 'DELETE' }); refresh(); }
-        }
-
+        async function del(type, id) { if(confirm('TERMINATE?')) { await fetch(`/api/${type}/${id}`, { method: 'DELETE' }); refresh(); } }
+        
         function switchTab(t, b) {
-            document.querySelectorAll('.tab-content, .nav-link').forEach(x => x.classList.remove('active'));
-            document.getElementById('tab-'+t).classList.add('active'); b.classList.add('active');
+            document.querySelectorAll('.tab-content, .nav-item').forEach(x => x.classList.remove('active', 'active-tab'));
+            document.querySelectorAll('.tab-content').forEach(x => x.style.display = 'none');
+            document.getElementById('tab-'+t).style.display = 'block';
+            b.classList.add('active');
         }
 
         const val = id => document.getElementById(id).value;
-        const closeModal = () => document.getElementById('modal').style.display = 'none';
         init();
     </script>
 </body>
