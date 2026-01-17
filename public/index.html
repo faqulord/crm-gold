@@ -3,192 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise CRM Solutions</title>
+    <title>FaquDeveloper | Industry CRM</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        :root {
-            --bg-dark: #0b0f19;
-            --card-bg: #111827;
-            --primary: #3b82f6;
-            --accent: #60a5fa;
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-        }
-        body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; line-height: 1.6; }
+        :root { --bg: #0f172a; --card: #1e293b; --primary: #3b82f6; --gold: #fbbf24; --text: #f8fafc; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
         
-        /* Navigáció */
-        .navbar { background: rgba(11, 15, 25, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 1rem 0; }
-        .brand-text { font-weight: 800; letter-spacing: -0.5px; font-size: 1.5rem; color: white; }
-        .lang-btn { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 5px 12px; border-radius: 6px; font-size: 0.8rem; transition: 0.3s; }
-        .lang-btn:hover { border-color: var(--primary); color: var(--primary); }
+        /* Navbar */
+        .navbar { backdrop-filter: blur(10px); background: rgba(15, 23, 42, 0.8); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .nav-btn { border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 5px; padding: 5px 15px; font-size: 0.85rem; transition: 0.3s; }
+        .nav-btn:hover { border-color: var(--primary); color: var(--primary); }
 
-        /* Hero Section */
-        .hero-section { padding: 100px 0; background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.1), transparent 40%); }
-        .display-title { font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; background: linear-gradient(to right, #fff, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .lead-text { color: var(--text-muted); font-size: 1.25rem; font-weight: 300; margin-bottom: 2.5rem; }
-
-        /* Statisztikák sáv */
-        .stats-bar { border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2rem 0; margin: 4rem 0; background: rgba(255,255,255,0.01); }
-        .stat-number { font-size: 2rem; font-weight: 800; color: white; display: block; }
-        .stat-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
-
-        /* Kártyák */
-        .pro-card { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 2.5rem; transition: all 0.3s ease; height: 100%; }
-        .pro-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-        .card-header-badge { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); font-weight: 700; margin-bottom: 1rem; display: block; }
-        .price-text { font-size: 3rem; font-weight: 800; color: white; }
-        .price-period { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
+        /* Hero */
+        .hero { padding: 80px 0; background: radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.15), transparent 40%); }
+        .hero h1 { font-weight: 800; letter-spacing: -1px; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Iparágak */
+        .industry-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 20px; text-align: center; transition: 0.3s; cursor: pointer; }
+        .industry-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .industry-icon { font-size: 2rem; color: var(--primary); margin-bottom: 15px; }
+        
+        /* Árazás */
+        .pricing-card { background: var(--card); border-radius: 15px; padding: 30px; border: 1px solid rgba(255,255,255,0.05); height: 100%; position: relative; overflow: hidden; }
+        .pricing-card.popular { border: 1px solid var(--primary); box-shadow: 0 0 30px rgba(59, 130, 246, 0.15); }
+        .badge-pop { position: absolute; top: 15px; right: 15px; background: var(--primary); color: white; font-size: 0.7rem; padding: 5px 10px; border-radius: 20px; font-weight: bold; }
+        .price { font-size: 2.5rem; font-weight: 800; color: white; }
+        .price-sub { font-size: 0.9rem; color: #94a3b8; }
         
         /* Gombok */
-        .btn-primary-custom { background: var(--primary); color: white; padding: 14px 32px; border-radius: 8px; font-weight: 600; border: none; transition: 0.3s; box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3); }
-        .btn-primary-custom:hover { background: #2563eb; transform: translateY(-2px); color: white; }
-        .btn-outline-custom { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 14px 32px; border-radius: 8px; font-weight: 600; transition: 0.3s; }
-        .btn-outline-custom:hover { border-color: white; background: rgba(255,255,255,0.05); color: white; }
+        .btn-cta { background: var(--primary); color: white; padding: 12px 30px; border-radius: 50px; font-weight: 600; border: none; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); transition: 0.3s; }
+        .btn-cta:hover { transform: scale(1.05); background: #2563eb; color: white; }
 
-        /* Footer */
-        footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 3rem 0; margin-top: 5rem; }
-        .footer-brand { color: var(--text-muted); font-size: 0.9rem; }
-        .developer-tag { color: var(--primary); font-weight: 600; text-decoration: none; }
+        footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 40px 0; margin-top: 50px; font-size: 0.9rem; color: #64748b; }
     </style>
 </head>
 <body>
 
     <nav class="navbar fixed-top">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="brand-text">CRM<span class="text-primary">.Pro</span></div>
-            <button class="lang-btn" onclick="toggleLang()">HU / EN</button>
+        <div class="container d-flex justify-content-between">
+            <div class="fw-bold fs-4 text-white">FaquDeveloper<span class="text-primary">.Global</span></div>
+            <button class="nav-btn bg-transparent" onclick="toggleLang()">HU / EN</button>
         </div>
     </nav>
 
-    <section class="hero-section">
+    <section class="hero text-center mt-5">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8 mx-auto text-center">
-                    <span class="badge bg-secondary bg-opacity-25 text-light px-3 py-2 rounded-pill mb-4" id="txt_badge">🚀 VÁLLALATI MEGOLDÁSOK 2.0</span>
-                    <h1 class="display-3 display-title" id="txt_title">Skálázható rendszer<br>Ambiciózus cégeknek.</h1>
-                    <p class="lead lead-text" id="txt_desc">
-                        Hagyja maga mögött az Excel táblákat. Automatizálja folyamatait, növelje bevételeit és tartsa biztonságban adatait egyetlen központi rendszerben.
-                    </p>
-                    <div class="d-flex gap-3 justify-content-center">
-                        <a href="/demo" class="btn-primary-custom" id="txt_cta1">RENDSZER KIPRÓBÁLÁSA</a>
-                        <a href="#pricing" class="btn-outline-custom" id="txt_cta2">ÁRAINK</a>
-                    </div>
+            <span class="badge bg-primary bg-opacity-25 text-primary mb-3 px-3 py-2 rounded-pill" id="txt_badge">🛡️ BIZTONSÁGOS ADATKEZELÉS</span>
+            <h1 class="display-3 mb-4" id="txt_title">Egy Rendszer.<br>Minden Szakmának.</h1>
+            <p class="lead text-secondary mb-5 mx-auto" style="max-width: 600px;" id="txt_desc">
+                Speciális CRM megoldások autószerelőknek, orvosoknak, vendéglátósoknak és szolgáltatóknak. Felejtse el a papírmunkát.
+            </p>
+            <a href="/demo" class="btn-cta" id="txt_cta">DEMO INDÍTÁSA</a>
+        </div>
+    </section>
+
+    <section class="container mb-5">
+        <h3 class="text-center mb-4 fw-bold text-white-50" id="txt_ind_title">Válassza ki iparágát:</h3>
+        <div class="row g-3 justify-content-center">
+            <div class="col-6 col-md-2">
+                <div class="industry-card">
+                    <i class="bi bi-wrench-adjustable industry-icon"></i>
+                    <div class="small fw-bold" id="ind_1">Autószerviz</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="industry-card">
+                    <i class="bi bi-heart-pulse industry-icon"></i>
+                    <div class="small fw-bold" id="ind_2">Egészségügy</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="industry-card">
+                    <i class="bi bi-scissors industry-icon"></i>
+                    <div class="small fw-bold" id="ind_3">Szépségipar</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="industry-card">
+                    <i class="bi bi-cup-hot industry-icon"></i>
+                    <div class="small fw-bold" id="ind_4">Vendéglátás</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2">
+                <div class="industry-card">
+                    <i class="bi bi-briefcase industry-icon"></i>
+                    <div class="small fw-bold" id="ind_5">Szolgáltató</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="stats-bar">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <span class="stat-number">50+</span>
-                    <span class="stat-label" id="txt_stat1">Partnercég</span>
-                </div>
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <span class="stat-number">$1.2M</span>
-                    <span class="stat-label" id="txt_stat2">Kezelt Bevétel</span>
-                </div>
-                <div class="col-md-4">
-                    <span class="stat-number">99.9%</span>
-                    <span class="stat-label" id="txt_stat3">Rendelkezésre állás</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="container py-5" id="pricing">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold text-white mb-3" id="txt_price_title">Átlátható Befektetés</h2>
-            <p class="text-muted" id="txt_price_sub">Nincsenek rejtett költségek. Csak eredmények.</p>
-        </div>
-
-        <div class="row justify-content-center g-4">
-            <div class="col-lg-5">
-                <div class="pro-card">
-                    <span class="card-header-badge" id="txt_pkg1_name">STANDARD</span>
-                    <div class="d-flex align-items-baseline">
-                        <span class="price-text">$100</span>
-                        <span class="price-period ms-2" id="txt_pkg1_type">/ egyszeri</span>
-                    </div>
-                    <p class="text-muted mt-3 mb-4" id="txt_pkg1_desc">Tökéletes választás induló vállalkozásoknak és KKV-knak.</p>
+    <section class="container py-5">
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4">
+                <div class="pricing-card">
+                    <h4 class="fw-bold text-muted">START</h4>
+                    <div class="price">$150</div>
+                    <p class="price-sub" id="p1_sub">Egyszeri díj</p>
                     <hr class="border-secondary opacity-25">
-                    <ul class="list-unstyled mt-4 text-light" id="list_pkg1">
-                        </ul>
-                    <a href="#" class="btn btn-outline-light w-100 mt-4 disabled">Jelenleg Várólista</a>
+                    <ul class="list-unstyled text-light small" id="list_1"></ul>
+                    <a href="#" class="btn btn-outline-light w-100 mt-3 btn-sm">Kapcsolat</a>
                 </div>
             </div>
 
-            <div class="col-lg-5">
-                <div class="pro-card" style="border-color: var(--primary); background: linear-gradient(180deg, rgba(59,130,246,0.05) 0%, var(--card-bg) 100%);">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="card-header-badge mb-0" id="txt_pkg2_name">ENTERPRISE</span>
-                        <span class="badge bg-primary">AJÁNLOTT</span>
-                    </div>
-                    <div class="d-flex align-items-baseline mt-3">
-                        <span class="price-text">$50</span>
-                        <span class="price-period ms-2" id="txt_pkg2_type">/ hó</span>
-                    </div>
-                    <p class="text-muted mt-3 mb-4" id="txt_pkg2_desc">Teljes körű technológiai partnerkapcsolat és üzemeltetés.</p>
+            <div class="col-md-4">
+                <div class="pricing-card popular">
+                    <span class="badge-pop" id="badge_pop">AJÁNLOTT</span>
+                    <h4 class="fw-bold text-primary">INDUSTRY PRO</h4>
+                    <div class="price">$300</div>
+                    <p class="price-sub" id="p2_sub">+ $30 / hó üzemeltetés</p>
                     <hr class="border-secondary opacity-25">
-                    <ul class="list-unstyled mt-4 text-light" id="list_pkg2">
-                         </ul>
-                    <a href="mailto:contact@faqudeveloper.com" class="btn btn-primary-custom w-100 mt-4" id="txt_contact_btn">KAPCSOLATFELVÉTEL</a>
+                    <ul class="list-unstyled text-light small" id="list_2"></ul>
+                    <a href="#" class="btn btn-cta w-100 mt-3">Megrendelés</a>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="pricing-card">
+                    <h4 class="fw-bold text-warning">ENTERPRISE</h4>
+                    <div class="price">Egyedi</div>
+                    <p class="price-sub" id="p3_sub">Nagyvállalati megoldás</p>
+                    <hr class="border-secondary opacity-25">
+                    <ul class="list-unstyled text-light small" id="list_3"></ul>
+                    <a href="mailto:info@faqudeveloper.com" class="btn btn-outline-warning w-100 mt-3 btn-sm">Ajánlatkérés</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="text-center">
-        <div class="container">
-            <p class="footer-brand mb-2">&copy; 2026 Minden jog fenntartva.</p>
-            <small class="text-muted">
-                System Designed & Developed by <a href="#" class="developer-tag">FaquDeveloper Agency</a>
-            </small>
-        </div>
+    <footer class="text-center container">
+        <p class="mb-1">&copy; 2026 FaquDeveloper Agency. Minden adat titkosítva.</p>
+        <small class="text-muted">GDPR Compliant • SSL Secured • Isolated Databases</small>
     </footer>
 
     <script>
         const langData = {
             hu: {
-                badge: "🚀 VÁLLALATI MEGOLDÁSOK 2.0",
-                title: "Skálázható rendszer<br>Ambiciózus cégeknek.",
-                desc: "Hagyja maga mögött az Excel táblákat. Automatizálja folyamatait, növelje bevételeit és tartsa biztonságban adatait egyetlen központi rendszerben.",
-                cta1: "RENDSZER KIPRÓBÁLÁSA",
-                cta2: "ÁRAINK",
-                stat1: "PARTNERCÉG", stat2: "KEZELT BEVÉTEL", stat3: "RENDELKEZÉSRE ÁLLÁS",
-                price_title: "Átlátható Befektetés",
-                price_sub: "Nincsenek rejtett költségek. Csak eredmények.",
-                pkg1: {
-                    name: "STANDARD", type: "/ egyszeri", desc: "Tökéletes választás induló vállalkozásoknak és KKV-knak.",
-                    list: ["✅ Örökös Licenc (Life-time)", "✅ Saját, izolált adatbázis", "✅ Korlátlan Ügyfél & Adat", "✅ Mobilra optimalizált felület"]
-                },
-                pkg2: {
-                    name: "ENTERPRISE", type: "/ hó", desc: "Teljes körű technológiai partnerkapcsolat és üzemeltetés.",
-                    list: ["🔥 Kiemelt 0-24 Fejlesztői Support", "🔥 Szerver & Cloud költségek fedezve", "🔥 Havi rendszerfrissítések", "🔥 Egyedi funkciók fejlesztése"]
-                },
-                contact: "KAPCSOLATFELVÉTEL"
+                badge: "🛡️ BIZTONSÁGOS ADATKEZELÉS",
+                title: "Egy Rendszer.<br>Minden Szakmának.",
+                desc: "Speciális CRM megoldások autószerelőknek, orvosoknak, vendéglátósoknak és szolgáltatóknak. Felejtse el a papírmunkát.",
+                cta: "DEMO INDÍTÁSA",
+                ind_title: "Válassza ki iparágát:",
+                inds: ["Autószerviz", "Egészségügy", "Szépségipar", "Vendéglátás", "Szolgáltató"],
+                p1_sub: "Egyszeri díj",
+                p2_sub: "+ $30 / hó üzemeltetés",
+                p3_sub: "Nagyvállalati megoldás",
+                pop: "AJÁNLOTT",
+                l1: ["✅ Általános CRM", "✅ Ügyfélkezelés", "✅ Mobil nézet", "❌ Iparági funkciók"],
+                l2: ["✅ IPARÁGI SPECIFIKUS ⚙️", "✅ Autó / Páciens / Asztal", "✅ Saját Logó elhelyezés", "✅ Kiemelt Support"],
+                l3: ["🔥 Dedikált Szerver", "🔥 Korlátlan hozzáférés", "🔥 Egyedi fejlesztés", "🔥 Szerződéses garancia"]
             },
             en: {
-                badge: "🚀 ENTERPRISE SOLUTIONS 2.0",
-                title: "Scalable Systems for<br>Ambitious Companies.",
-                desc: "Leave Excel sheets behind. Automate processes, increase revenue, and keep data secure in one central hub.",
-                cta1: "TRY LIVE DEMO",
-                cta2: "PRICING",
-                stat1: "PARTNERS", stat2: "REVENUE MANAGED", stat3: "UPTIME GUARANTEE",
-                price_title: "Transparent Investment",
-                price_sub: "No hidden fees. Just results.",
-                pkg1: {
-                    name: "STANDARD", type: "/ one-time", desc: "Perfect choice for startups and SMEs.",
-                    list: ["✅ Lifetime License", "✅ Private Isolated Database", "✅ Unlimited Clients & Data", "✅ Mobile Optimized UI"]
-                },
-                pkg2: {
-                    name: "ENTERPRISE", type: "/ month", desc: "Full technological partnership and operation.",
-                    list: ["🔥 Priority 24/7 Developer Support", "🔥 Server & Cloud Costs Covered", "🔥 Monthly System Updates", "🔥 Custom Feature Development"]
-                },
-                contact: "CONTACT US"
+                badge: "🛡️ SECURE DATA HANDLING",
+                title: "One System.<br>Every Industry.",
+                desc: "Specialized CRM solutions for mechanics, doctors, restaurants, and service providers. Forget paperwork.",
+                cta: "LAUNCH DEMO",
+                ind_title: "Choose your industry:",
+                inds: ["Auto Service", "Healthcare", "Beauty", "Restaurant", "Services"],
+                p1_sub: "One-time fee",
+                p2_sub: "+ $30 / mo maintenance",
+                p3_sub: "Enterprise Solution",
+                pop: "RECOMMENDED",
+                l1: ["✅ General CRM", "✅ Client Management", "✅ Mobile View", "❌ No Specific Features"],
+                l2: ["✅ INDUSTRY SPECIFIC ⚙️", "✅ Car / Patient / Table", "✅ Custom Logo", "✅ Priority Support"],
+                l3: ["🔥 Dedicated Server", "🔥 Unlimited Access", "🔥 Custom Development", "🔥 Contractual SLA"]
             }
         };
 
@@ -204,32 +184,27 @@
             document.getElementById('txt_badge').innerText = t.badge;
             document.getElementById('txt_title').innerHTML = t.title;
             document.getElementById('txt_desc').innerText = t.desc;
-            document.getElementById('txt_cta1').innerText = t.cta1;
-            document.getElementById('txt_cta2').innerText = t.cta2;
+            document.getElementById('txt_cta').innerText = t.cta;
+            document.getElementById('txt_ind_title').innerText = t.ind_title;
             
-            document.getElementById('txt_stat1').innerText = t.stat1;
-            document.getElementById('txt_stat2').innerText = t.stat2;
-            document.getElementById('txt_stat3').innerText = t.stat3;
-            
-            document.getElementById('txt_price_title').innerText = t.price_title;
-            document.getElementById('txt_price_sub').innerText = t.price_sub;
+            // Iparág nevek
+            document.getElementById('ind_1').innerText = t.inds[0];
+            document.getElementById('ind_2').innerText = t.inds[1];
+            document.getElementById('ind_3').innerText = t.inds[2];
+            document.getElementById('ind_4').innerText = t.inds[3];
+            document.getElementById('ind_5').innerText = t.inds[4];
 
-            // Package 1
-            document.getElementById('txt_pkg1_name').innerText = t.pkg1.name;
-            document.getElementById('txt_pkg1_type').innerText = t.pkg1.type;
-            document.getElementById('txt_pkg1_desc').innerText = t.pkg1.desc;
-            document.getElementById('list_pkg1').innerHTML = t.pkg1.list.map(i => `<li class="mb-2">${i}</li>`).join('');
+            // Árazás
+            document.getElementById('p1_sub').innerText = t.p1_sub;
+            document.getElementById('p2_sub').innerText = t.p2_sub;
+            document.getElementById('p3_sub').innerText = t.p3_sub;
+            document.getElementById('badge_pop').innerText = t.pop;
 
-            // Package 2
-            document.getElementById('txt_pkg2_name').innerText = t.pkg2.name;
-            document.getElementById('txt_pkg2_type').innerText = t.pkg2.type;
-            document.getElementById('txt_pkg2_desc').innerText = t.pkg2.desc;
-            document.getElementById('list_pkg2').innerHTML = t.pkg2.list.map(i => `<li class="mb-2">${i}</li>`).join('');
-
-            document.getElementById('txt_contact_btn').innerText = t.contact;
+            // Listák
+            document.getElementById('list_1').innerHTML = t.l1.map(i => `<li class="mb-2">${i}</li>`).join('');
+            document.getElementById('list_2').innerHTML = t.l2.map(i => `<li class="mb-2 fw-bold text-white">${i}</li>`).join('');
+            document.getElementById('list_3').innerHTML = t.l3.map(i => `<li class="mb-2">${i}</li>`).join('');
         }
-        
-        // Indítás
         render();
     </script>
 </body>
