@@ -3,177 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FaquDeveloper | Prémium Szoftverfejlesztés</title>
+    <title>FaquDeveloper | Enterprise Solutions</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         :root {
-            --bg-body: #050505;
-            --surface: #101010;
-            --surface-hover: #161616;
+            --bg: #050505;
+            --card: #111;
             --primary: #3b82f6;
-            --text-main: #ffffff;
-            --text-sub: #a1a1aa;
-            --border: rgba(255, 255, 255, 0.1);
+            --text: #fff;
+            --gold: #fbbf24;
         }
-        body { background-color: var(--bg-body); color: var(--text-main); font-family: 'Manrope', sans-serif; overflow-x: hidden; padding-top: 70px; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; overflow-x: hidden; padding-top: 60px; }
         
         /* NAVBAR */
-        .navbar { background: rgba(5, 5, 5, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 15px 0; }
-        .navbar-brand { font-weight: 800; letter-spacing: 1px; color: white !important; font-size: 1.1rem; }
-        .btn-contact { background: white; color: black; padding: 8px 20px; border-radius: 4px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: 0.3s; }
-        .btn-contact:hover { background: #e5e5e5; }
+        .navbar { background: rgba(5,5,5,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 0; }
+        .navbar-brand { font-weight: 800; letter-spacing: 1px; color: white !important; text-transform: uppercase; }
+        .btn-mail { border: 1px solid white; color: white; padding: 8px 20px; border-radius: 4px; font-weight: 700; text-decoration: none; transition: 0.3s; font-size: 0.85rem; }
+        .btn-mail:hover { background: white; color: black; }
 
-        /* HERO */
-        .hero { padding: 80px 0 60px 0; text-align: center; }
-        .hero-label { border: 1px solid var(--border); padding: 5px 15px; border-radius: 50px; font-size: 0.75rem; color: var(--text-sub); display: inline-block; margin-bottom: 25px; }
-        .hero-title { font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; letter-spacing: -1px; }
-        .hero-subtitle { font-size: 1.1rem; color: var(--text-sub); max-width: 600px; margin: 0 auto 50px auto; }
-
-        /* PRICING CARDS */
-        .pricing-section { padding: 40px 0 80px 0; }
-        .price-card { 
-            background: var(--surface); 
-            border: 1px solid var(--border); 
-            border-radius: 16px; 
-            padding: 40px; 
-            transition: all 0.3s ease; 
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-        .price-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); background: var(--surface-hover); }
+        /* HERO - A Marketing Lényege */
+        .hero { padding: 100px 0 60px 0; text-align: center; }
+        .hero h1 { font-size: 4rem; font-weight: 800; line-height: 1; margin-bottom: 20px; letter-spacing: -1px; }
+        .hero p { font-size: 1.3rem; color: #a1a1aa; max-width: 700px; margin: 0 auto 40px auto; }
+        .highlight { color: var(--primary); }
         
-        /* Kiemelt kártya */
-        .card-featured { border: 1px solid var(--primary); background: linear-gradient(180deg, rgba(59, 130, 246, 0.05) 0%, var(--surface) 100%); }
-        .badge-featured { position: absolute; top: 20px; right: 20px; background: var(--primary); color: white; font-size: 0.7rem; font-weight: 800; padding: 5px 10px; border-radius: 4px; text-transform: uppercase; }
+        /* MIT ADUNK? (Value Props) */
+        .value-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 40px 0; }
+        .value-card { background: var(--card); border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 12px; transition: 0.3s; }
+        .value-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .value-icon { font-size: 2rem; color: var(--primary); margin-bottom: 15px; }
+        .value-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; }
+        .value-desc { color: #a1a1aa; font-size: 0.95rem; }
 
-        .price-title { font-size: 1.2rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px; }
-        .price-desc { font-size: 0.9rem; color: var(--text-sub); margin-bottom: 30px; min-height: 40px; }
-        .price-amount { font-size: 2.5rem; font-weight: 800; color: white; line-height: 1; }
-        .price-period { font-size: 0.9rem; color: var(--text-sub); margin-left: 5px; }
+        /* ÁRAZÁS - A Pénzcsináló */
+        .price-box { background: var(--card); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 40px; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+        .price-box.featured { border: 1px solid var(--primary); background: linear-gradient(180deg, rgba(59,130,246,0.05), var(--card)); }
         
-        .feature-list { list-style: none; padding: 0; margin: 30px 0; }
-        .feature-list li { margin-bottom: 15px; display: flex; align-items: center; color: var(--text-sub); font-size: 0.9rem; }
-        .feature-list i { color: var(--text-main); margin-right: 12px; font-size: 1.1rem; }
-        .feature-list i.check-pro { color: var(--primary); }
-
-        .btn-price { width: 100%; padding: 15px; border-radius: 6px; font-weight: 700; text-decoration: none; display: block; text-align: center; transition: 0.3s; }
-        .btn-outline { border: 1px solid var(--border); color: white; }
+        .price-tag { font-size: 3rem; font-weight: 800; color: white; margin: 15px 0; }
+        .price-sub { font-size: 0.9rem; color: #a1a1aa; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .btn-action { display: block; width: 100%; padding: 15px; border-radius: 6px; font-weight: 800; text-decoration: none; margin-top: 20px; transition: 0.3s; text-transform: uppercase; }
+        .btn-outline { border: 1px solid rgba(255,255,255,0.2); color: white; }
         .btn-outline:hover { background: white; color: black; }
-        .btn-solid { background: var(--primary); color: white; border: none; }
-        .btn-solid:hover { background: #2563eb; }
+        .btn-fill { background: var(--primary); color: white; border: none; }
+        .btn-fill:hover { background: #2563eb; }
+
+        .check-list { list-style: none; padding: 0; text-align: left; margin-top: 30px; }
+        .check-list li { margin-bottom: 12px; color: #d4d4d8; font-size: 0.9rem; display: flex; align-items: center; }
+        .check-list i { color: var(--primary); margin-right: 10px; font-size: 1.1rem; }
 
         /* Footer */
-        footer { margin-top: 50px; padding: 40px 0; border-top: 1px solid var(--border); font-size: 0.8rem; color: #525252; text-align: center; }
+        footer { margin-top: 80px; padding: 40px 0; border-top: 1px solid rgba(255,255,255,0.1); color: #525252; text-align: center; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
     <nav class="navbar fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">FaquDeveloper<span style="color:#525252">.Global</span></a>
-            <div class="d-flex align-items-center gap-3">
+            <a class="navbar-brand" href="#">FaquDeveloper<span class="text-secondary">.Global</span></a>
+            <div class="d-flex gap-3 align-items-center">
                 <span class="small text-secondary cursor-pointer" onclick="toggleLang()">HU | EN</span>
-                <a href="mailto:skyhigh983@proton.me" class="btn-contact">Kapcsolat</a>
+                <a href="mailto:skyhigh983@proton.me" class="btn-mail">KAPCSOLAT</a>
             </div>
         </div>
     </nav>
 
     <div class="container">
+        
         <section class="hero">
-            <div class="hero-label">ENTERPRISE ARCHITECTURE v2.0</div>
-            <h1 class="hero-title" id="txt_title">Szoftver,<br>amire építhetsz.</h1>
-            <p class="hero-subtitle" id="txt_desc">
-                A dobozos megoldások korlátok közé szorítanak. Mi a vállalkozásod folyamataira öntjük a kódot. Gyors, skálázható és biztonságos.
+            <h1 id="hero_title">Ne bérelj szoftvert.<br><span class="highlight">Birtokold a céged.</span></h1>
+            <p id="hero_desc">
+                Az Excel táblák ideje lejárt. Mi nem "programot" adunk, hanem automatizált birodalmat.
+                Te irányítasz, a rendszer dolgozik.
             </p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="mailto:skyhigh983@proton.me?subject=Egyedi%20Ajánlatkérés" class="btn-fill px-5 py-3 rounded-2 text-decoration-none fw-bold">EGYEDI AJÁNLATOT KÉREK</a>
+            </div>
         </section>
 
-        <section class="pricing-section">
+        <div class="value-grid">
+            <div class="value-card">
+                <i class="bi bi-shield-check value-icon"></i>
+                <h4 class="value-title" id="v1_t">Biztonság & Tulajdon</h4>
+                <p class="value-desc" id="v1_d">Nem függsz senkitől. Az adatbázis a tiéd. A kulcsok a te kezedben vannak. GDPR-biztos erődítmény.</p>
+            </div>
+            <div class="value-card">
+                <i class="bi bi-graph-up-arrow value-icon"></i>
+                <h4 class="value-title" id="v2_t">Profit Maximalizálás</h4>
+                <p class="value-desc" id="v2_d">A rendszer látja, hol folyik el a pénz. Készlethiány? Elfelejtett ügyfél? Soha többé.</p>
+            </div>
+            <div class="value-card">
+                <i class="bi bi-phone value-icon"></i>
+                <h4 class="value-title" id="v3_t">Szabadság</h4>
+                <p class="value-desc" id="v3_d">Irányítsd a céged a telefonodról. A tengerpartról is látod, mi történik a boltban vagy a szervizben.</p>
+            </div>
+        </div>
+
+        <section class="py-5">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-white">Befektetés a Jövőbe</h2>
+                <p class="text-secondary">Átlátható matek. Nincsenek apróbetűk.</p>
+            </div>
             <div class="row g-4 justify-content-center">
                 
-                <div class="col-md-5 col-lg-4">
-                    <div class="price-card">
-                        <div class="price-title" id="p1_t">SZOFTVER LICENC</div>
-                        <div class="price-desc" id="p1_d">A saját rendszered alapköve. Egyszeri beruházás, örökös tulajdonjog.</div>
-                        <div class="d-flex align-items-baseline mb-4">
-                            <span class="price-amount">150.000 Ft</span>
-                            <span class="price-period" id="p1_sub">/ egyszeri díj</span>
+                <div class="col-md-5">
+                    <div class="price-box">
+                        <div>
+                            <span class="price-sub" id="p1_t">SZOFTVER TULAJDONJOG</span>
+                            <div class="price-tag">150.000 Ft</div>
+                            <p class="text-secondary small" id="p1_d">Egyszeri díj. Örökös használat.</p>
+                            <ul class="check-list">
+                                <li><i class="bi bi-check-lg"></i> <span id="l1_1">Saját Rendszer (Nem bérelt)</span></li>
+                                <li><i class="bi bi-check-lg"></i> <span id="l1_2">Korlátlan Ügyfél & Adat</span></li>
+                                <li><i class="bi bi-check-lg"></i> <span id="l1_3">Mobil App Nézet</span></li>
+                            </ul>
                         </div>
-                        <button onclick="location.href='mailto:skyhigh983@proton.me'" class="btn-price btn-outline" id="btn_p1">Megrendelés</button>
-                        
-                        <ul class="feature-list">
-                            <li><i class="bi bi-check2"></i> <span id="f1_1">Saját, izolált adatbázis</span></li>
-                            <li><i class="bi bi-check2"></i> <span id="f1_2">Korlátlan ügyfélkezelés</span></li>
-                            <li><i class="bi bi-check2"></i> <span id="f1_3">Mobil & Tablet nézet</span></li>
-                            <li><i class="bi bi-check2"></i> <span id="f1_4">Alap statisztikák</span></li>
-                        </ul>
+                        <a href="mailto:skyhigh983@proton.me?subject=Megrendelés:%20Szoftver%20Licenc%20(150e)" class="btn-action btn-outline" id="btn_1">MEGRENDELEM EMAILBEN</a>
                     </div>
                 </div>
 
-                <div class="col-md-5 col-lg-4">
-                    <div class="price-card card-featured">
-                        <span class="badge-featured" id="badge">AJÁNLOTT</span>
-                        <div class="price-title" style="color:var(--primary)" id="p2_t">VIP ÜZEMELTETÉS</div>
-                        <div class="price-desc" id="p2_d">Hogy neked csak a munkával kelljen foglalkoznod. Teljes technikai háttér.</div>
-                        <div class="d-flex align-items-baseline mb-4">
-                            <span class="price-amount">20.000 Ft</span>
-                            <span class="price-period" id="p2_sub">/ hó</span>
+                <div class="col-md-5">
+                    <div class="price-box featured">
+                        <div>
+                            <span class="text-primary fw-bold small mb-2 d-block">AJÁNLOTT VÁLASZTÁS</span>
+                            <span class="price-sub" id="p2_t">VIP HÁTTÉRORSZÁG</span>
+                            <div class="price-tag">20.000 Ft <span class="fs-6 text-muted fw-normal">/ hó</span></div>
+                            <p class="text-secondary small" id="p2_d">Teljes nyugalom. Mi üzemeltetjük.</p>
+                            <ul class="check-list">
+                                <li><i class="bi bi-check-lg"></i> <span id="l2_1">Minden, ami az alapcsomagban</span></li>
+                                <li><i class="bi bi-check-lg"></i> <span id="l2_2">0-24 Fejlesztői Support</span></li>
+                                <li><i class="bi bi-check-lg"></i> <span id="l2_3">Szerver & Biztonsági mentés</span></li>
+                                <li><i class="bi bi-check-lg"></i> <span id="l2_4">Egyedi fejlesztések havonta</span></li>
+                            </ul>
                         </div>
-                        <button onclick="location.href='mailto:skyhigh983@proton.me'" class="btn-price btn-solid" id="btn_p2">Szolgáltatás Indítása</button>
-                        
-                        <ul class="feature-list">
-                            <li><i class="bi bi-check2-circle check-pro"></i> <strong class="text-white" id="f2_1">Minden, ami az Alapban van</strong></li>
-                            <li><i class="bi bi-check2-circle check-pro"></i> <span id="f2_2">0-24 Fejlesztői Support</span></li>
-                            <li><i class="bi bi-check2-circle check-pro"></i> <span id="f2_3">Szerver költségek & Backup</span></li>
-                            <li><i class="bi bi-check2-circle check-pro"></i> <span id="f2_4">Egyedi logó & Brand integráció</span></li>
-                            <li><i class="bi bi-check2-circle check-pro"></i> <span id="f2_5">Havi rendszerfrissítések</span></li>
-                        </ul>
+                        <a href="mailto:skyhigh983@proton.me?subject=Megrendelés:%20VIP%20Csomag%20(20e/ho)" class="btn-action btn-fill" id="btn_2">EZ KELL NEKEM</a>
                     </div>
                 </div>
 
             </div>
         </section>
 
-        <div class="text-center py-5 border-top" style="border-color: var(--border) !important;">
-            <p class="text-secondary mb-2" id="cta_t">Kérdése van? Írjon közvetlenül:</p>
-            <a href="mailto:skyhigh983@proton.me" class="text-primary text-decoration-none fs-5 fw-bold">skyhigh983@proton.me</a>
-        </div>
     </div>
 
     <footer>
-        <div class="container">
-            <div class="mb-3">
-                FaquDeveloper Agency &bull; Budapest &bull; Since 2025
-            </div>
-            <div class="opacity-50 small">
-                Jogi Nyilatkozat: "Open Beta v1.0". <br>
-                A szoftver használata saját felelősségre történik. GDPR Compliant.
-            </div>
-        </div>
+        FaquDeveloper Agency &bull; <a href="mailto:skyhigh983@proton.me" class="text-decoration-none text-secondary">skyhigh983@proton.me</a> <br>
+        <span class="opacity-50">Open Beta v1.0 • GDPR Compliant</span>
     </footer>
 
     <script>
         const langData = {
             hu: {
-                title: "Szoftver,<br>amire építhetsz.",
-                desc: "A dobozos megoldások korlátok közé szorítanak. Mi a vállalkozásod folyamataira öntjük a kódot. Gyors, skálázható és biztonságos.",
-                p1t: "SZOFTVER LICENC", p1d: "A saját rendszered alapköve. Egyszeri beruházás, örökös tulajdonjog.", p1s: "/ egyszeri díj", btn1: "Megrendelés",
-                f1: ["Saját, izolált adatbázis", "Korlátlan ügyfélkezelés", "Mobil & Tablet nézet", "Alap statisztikák"],
-                p2t: "VIP ÜZEMELTETÉS", p2d: "Hogy neked csak a munkával kelljen foglalkoznod. Teljes technikai háttér.", p2s: "/ hó", btn2: "Szolgáltatás Indítása", badge: "AJÁNLOTT",
-                f2: ["Minden, ami az Alapban van", "0-24 Fejlesztői Support", "Szerver költségek & Backup", "Egyedi logó & Brand integráció", "Havi rendszerfrissítések"],
-                cta: "Kérdése van? Írjon közvetlenül:"
+                h_title: "Ne bérelj szoftvert.<br><span class='highlight'>Birtokold a céged.</span>",
+                h_desc: "Az Excel táblák ideje lejárt. Mi nem 'programot' adunk, hanem automatizált birodalmat. Te irányítasz, a rendszer dolgozik.",
+                v1t: "Biztonság & Tulajdon", v1d: "Nem függsz senkitől. Az adatbázis a tiéd. A kulcsok a te kezedben vannak. GDPR-biztos erődítmény.",
+                v2t: "Profit Maximalizálás", v2d: "A rendszer látja, hol folyik el a pénz. Készlethiány? Elfelejtett ügyfél? Soha többé.",
+                v3t: "Szabadság", v3d: "Irányítsd a céged a telefonodról. A tengerpartról is látod, mi történik a boltban.",
+                p1t: "SZOFTVER TULAJDONJOG", p1d: "Egyszeri díj. Örökös használat.",
+                l1: ["Saját Rendszer (Nem bérelt)", "Korlátlan Ügyfél & Adat", "Mobil App Nézet"],
+                p2t: "VIP HÁTTÉRORSZÁG", p2d: "Teljes nyugalom. Mi üzemeltetjük.",
+                l2: ["Minden, ami az alapcsomagban", "0-24 Fejlesztői Support", "Szerver & Biztonsági mentés", "Egyedi fejlesztések havonta"],
+                btn1: "MEGRENDELEM EMAILBEN", btn2: "EZ KELL NEKEM"
             },
             en: {
-                title: "Software<br>You Can Build On.",
-                desc: "Boxed solutions limit you. We mold the code to your business processes. Fast, scalable, and secure.",
-                p1t: "SOFTWARE LICENSE", p1d: "The cornerstone of your system. One-time investment, lifetime ownership.", p1s: "/ one-time fee", btn1: "Order Now",
-                f1: ["Private isolated database", "Unlimited client management", "Mobile & Tablet view", "Basic analytics"],
-                p2t: "VIP MANAGEMENT", p2d: "Focus on your work, we handle the tech. Full technical background.", p2s: "/ month", btn2: "Start Service", badge: "RECOMMENDED",
-                f2: ["Everything in License", "24/7 Developer Support", "Server costs & Backups", "Custom Logo & Branding", "Monthly System Updates"],
-                cta: "Questions? Email us directly:"
+                h_title: "Don't rent software.<br><span class='highlight'>Own your business.</span>",
+                h_desc: "The era of Excel sheets is over. We don't give you a 'program', we give you an automated empire. You lead, the system works.",
+                v1t: "Security & Ownership", v1d: "Depend on no one. The database is yours. Keys are in your hand. GDPR fortress.",
+                v2t: "Profit Maximization", v2d: "See where the money leaks. Stock shortage? Forgotten client? Never again.",
+                v3t: "Freedom", v3d: "Manage your business from your phone. See what happens in the shop from the beach.",
+                p1t: "SOFTWARE OWNERSHIP", p1d: "One-time fee. Lifetime usage.",
+                l1: ["Own System (Not rented)", "Unlimited Clients & Data", "Mobile App View"],
+                p2t: "VIP HINTERLAND", p2d: "Total peace of mind. We operate it.",
+                l2: ["Everything in Base", "24/7 Developer Support", "Server & Backups", "Monthly Custom Features"],
+                btn1: "ORDER VIA EMAIL", btn2: "I WANT THIS"
             }
         };
 
@@ -181,18 +184,18 @@
         function toggleLang() {
             currentLang = currentLang === 'hu' ? 'en' : 'hu';
             const t = langData[currentLang];
-            document.getElementById('txt_title').innerHTML = t.title;
-            document.getElementById('txt_desc').innerHTML = t.desc;
+            document.getElementById('hero_title').innerHTML = t.h_title;
+            document.getElementById('hero_desc').innerText = t.h_desc;
             
-            // Csomag 1
-            document.getElementById('p1_t').innerText = t.p1t; document.getElementById('p1_d').innerText = t.p1d; document.getElementById('p1_sub').innerText = t.p1s; document.getElementById('btn_p1').innerText = t.btn1;
-            document.getElementById('f1_1').innerText = t.f1[0]; document.getElementById('f1_2').innerText = t.f1[1]; document.getElementById('f1_3').innerText = t.f1[2]; document.getElementById('f1_4').innerText = t.f1[3];
+            document.getElementById('v1_t').innerText = t.v1t; document.getElementById('v1_d').innerText = t.v1d;
+            document.getElementById('v2_t').innerText = t.v2t; document.getElementById('v2_d').innerText = t.v2d;
+            document.getElementById('v3_t').innerText = t.v3t; document.getElementById('v3_d').innerText = t.v3d;
 
-            // Csomag 2
-            document.getElementById('p2_t').innerText = t.p2t; document.getElementById('p2_d').innerText = t.p2d; document.getElementById('p2_sub').innerText = t.p2s; document.getElementById('btn_p2').innerText = t.btn2; document.getElementById('badge').innerText = t.badge;
-            document.getElementById('f2_1').innerText = t.f2[0]; document.getElementById('f2_2').innerText = t.f2[1]; document.getElementById('f2_3').innerText = t.f2[2]; document.getElementById('f2_4').innerText = t.f2[3]; document.getElementById('f2_5').innerText = t.f2[4];
+            document.getElementById('p1_t').innerText = t.p1t; document.getElementById('p1_d').innerText = t.p1d; document.getElementById('btn_1').innerText = t.btn1;
+            document.getElementById('l1_1').innerText = t.l1[0]; document.getElementById('l1_2').innerText = t.l1[1]; document.getElementById('l1_3').innerText = t.l1[2];
 
-            document.getElementById('cta_t').innerText = t.cta;
+            document.getElementById('p2_t').innerText = t.p2t; document.getElementById('p2_d').innerText = t.p2d; document.getElementById('btn_2').innerText = t.btn2;
+            document.getElementById('l2_1').innerText = t.l2[0]; document.getElementById('l2_2').innerText = t.l2[1]; document.getElementById('l2_3').innerText = t.l2[2]; document.getElementById('l2_4').innerText = t.l2[3];
         }
     </script>
 </body>
