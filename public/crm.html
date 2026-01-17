@@ -3,156 +3,345 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRM Rendszer | Vezérlőpult</title>
+    <title>CRM Dashboard | FaquDeveloper</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { background-color: #f1f5f9; font-family: 'Segoe UI', sans-serif; }
+        :root {
+            --bg-dark: #050505;
+            --surface: #101010;
+            --border: #262626;
+            --primary: #3b82f6;
+            --text: #e5e5e5;
+            --success: #10b981;
+        }
+        body { background-color: var(--bg-dark); color: var(--text); font-family: 'Manrope', sans-serif; font-size: 0.9rem; overflow-x: hidden; }
         
-        /* Oldalsáv Design */
-        .sidebar { min-height: 100vh; background: #0f172a; color: white; width: 260px; transition: all 0.3s; position: fixed; left: 0; top: 0; z-index: 1000; }
-        .sidebar-header { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .nav-link { color: #94a3b8; padding: 12px 20px; font-size: 1.05rem; cursor: pointer; display: flex; align-items: center; transition: 0.2s; }
-        .nav-link:hover, .nav-link.active { background: rgba(255,255,255,0.1); color: #fff; border-right: 4px solid #3b82f6; }
-        .nav-link i { margin-right: 10px; font-size: 1.2rem; }
+        /* SIDEBAR (Bal oldali menü) */
+        .sidebar { height: 100vh; width: 250px; position: fixed; top: 0; left: 0; background: var(--surface); border-right: 1px solid var(--border); padding: 20px; z-index: 1000; }
+        .sidebar-brand { font-size: 1.2rem; font-weight: 800; color: white; margin-bottom: 40px; display: block; text-decoration: none; letter-spacing: 1px; }
+        .nav-link { color: #a3a3a3; padding: 12px 15px; border-radius: 8px; margin-bottom: 5px; display: flex; align-items: center; transition: 0.2s; text-decoration: none; }
+        .nav-link:hover, .nav-link.active { background: rgba(59, 130, 246, 0.1); color: var(--primary); }
+        .nav-link i { margin-right: 10px; font-size: 1.1rem; }
         
-        /* Tartalom Design */
-        .main-content { margin-left: 260px; padding: 30px; }
-        .stat-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: none; }
-        .stat-value { font-size: 2rem; font-weight: bold; color: #0f172a; }
-        .stat-label { color: #64748b; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        /* MAIN CONTENT */
+        .main-content { margin-left: 250px; padding: 30px; }
         
-        /* Mobil Nézet */
+        /* STAT CARDS */
+        .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; align-items: center; justify-content: space-between; }
+        .stat-val { font-size: 1.8rem; font-weight: 800; color: white; margin: 0; }
+        .stat-label { color: #a3a3a3; font-size: 0.8rem; text-transform: uppercase; }
+        .stat-icon { font-size: 2rem; color: var(--primary); opacity: 0.8; }
+
+        /* TABLE */
+        .table-container { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 30px; }
+        .table { color: var(--text); margin-top: 15px; }
+        .table th { background: transparent; color: #737373; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; border-bottom: 1px solid var(--border); border-top: none; }
+        .table td { border-bottom: 1px solid var(--border); vertical-align: middle; }
+        .status-badge { padding: 4px 10px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .status-active { background: rgba(59, 130, 246, 0.1); color: var(--primary); }
+        .status-done { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+
+        /* FORM MODAL */
+        .modal-content { background: var(--surface); border: 1px solid var(--border); color: white; }
+        .modal-header, .modal-footer { border-color: var(--border); }
+        .form-control { background: #050505; border: 1px solid var(--border); color: white; }
+        .form-control:focus { background: #050505; color: white; border-color: var(--primary); box-shadow: none; }
+
+        /* LEGAL FOOTER */
+        .legal-footer { margin-top: 50px; border-top: 1px solid var(--border); padding-top: 20px; font-size: 0.75rem; color: #525252; text-align: center; }
+
+        /* MOBILE RESPONSIVE */
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); }
-            .sidebar.show { transform: translateX(0); }
-            .main-content { margin-left: 0; }
+            .sidebar { width: 100%; height: auto; position: relative; padding: 10px; }
+            .main-content { margin-left: 0; padding: 15px; }
+            .sidebar-brand { margin-bottom: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <button class="btn btn-dark d-md-none m-3 position-fixed" style="z-index: 2000;" onclick="toggleMenu()">
-        <i class="bi bi-list"></i> Menü
-    </button>
-
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h4 class="mb-0 fw-bold text-white" id="companyName">Betöltés...</h4>
-            <small class="text-muted">Enterprise CRM v1.0</small>
-        </div>
-        <ul class="nav flex-column mt-4" id="menuList">
-            </ul>
-        <div class="mt-auto p-3 text-center border-top border-secondary">
-            <small class="text-white-50">Powered by FaquDeveloper</small>
+    <div class="sidebar">
+        <a href="/" class="sidebar-brand">FaquDeveloper<span style="color:var(--primary)">.CRM</span></a>
+        <nav class="nav flex-column">
+            <a href="#" class="nav-link active"><i class="bi bi-grid-fill"></i> <span id="menu_dash">Áttekintés</span></a>
+            <a href="#" class="nav-link" id="menu_main"><i class="bi bi-people-fill"></i> <span id="lbl_clients_menu">Ügyfelek</span></a>
+            <a href="#" class="nav-link" id="menu_inv" style="display:none;"><i class="bi bi-box-seam"></i> Raktár</a>
+            <a href="#" class="nav-link" id="menu_emp" style="display:none;"><i class="bi bi-person-badge"></i> Alkalmazottak</a>
+            <a href="#" class="nav-link"><i class="bi bi-gear-fill"></i> Beállítások</a>
+            <hr style="border-color:var(--border)">
+            <a href="/" class="nav-link text-danger"><i class="bi bi-box-arrow-left"></i> Kilépés</a>
+        </nav>
+        
+        <div class="mt-auto pt-4 text-center">
+             <button class="btn btn-sm btn-outline-secondary w-100" onclick="toggleLang()">HU | EN</button>
         </div>
     </div>
 
     <div class="main-content">
+        
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold text-dark" id="pageTitle">Vezérlőpult</h2>
-            <button class="btn btn-primary btn-lg shadow-sm" onclick="alert('Ez a Demo verzió! Éles rendszerben itt nyílik meg az űrlap.')">
-                <i class="bi bi-plus-lg"></i> Új Tétel
+            <div>
+                <h4 class="fw-bold text-white mb-1" id="dash_title">Vezérlőpult</h4>
+                <small class="text-secondary" id="company_name">Betöltés...</small>
+            </div>
+            <button class="btn btn-primary fw-bold" data-bs-toggle="modal" data-bs-target="#addModal">
+                <i class="bi bi-plus-lg me-1"></i> <span id="btn_add">Új Tétel</span>
             </button>
         </div>
 
-        <div class="row g-4 mb-5">
+        <div class="row g-3 mb-4">
             <div class="col-md-4">
-                <div class="stat-card border-start border-4 border-primary">
-                    <div class="stat-label">Összes Ügyfél</div>
-                    <div class="stat-value">124</div>
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-val" id="stat_revenue">0 Ft</div>
+                        <div class="stat-label" id="lbl_rev">Havi Forgalom (Becsült)</div>
+                    </div>
+                    <i class="bi bi-wallet2 stat-icon"></i>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="stat-card border-start border-4 border-success">
-                    <div class="stat-label">Havi Bevétel</div>
-                    <div class="stat-value">$4,500</div>
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-val" id="stat_count">0</div>
+                        <div class="stat-label" id="lbl_count">Nyitott Rendelések</div>
+                    </div>
+                    <i class="bi bi-clipboard-data stat-icon"></i>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="stat-card border-start border-4 border-warning">
-                    <div class="stat-label">Nyitott Feladatok</div>
-                    <div class="stat-value">8</div>
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-val text-success">100%</div>
+                        <div class="stat-label">Rendszer Állapot</div>
+                    </div>
+                    <i class="bi bi-check-circle stat-icon text-success"></i>
                 </div>
             </div>
         </div>
 
-        <div id="itemsContainer" class="row g-3">
-            <div class="col-12 text-center text-muted py-5">
-                <div class="spinner-border text-primary" role="status"></div>
-                <p class="mt-2">Adatok betöltése...</p>
+        <div class="table-container">
+            <h5 class="fw-bold text-white mb-3" id="table_title">Aktuális Tételek</h5>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th id="th_name">Név / Azonosító</th>
+                            <th id="th_details">Részletek</th>
+                            <th id="th_amount">Összeg</th>
+                            <th>Státusz</th>
+                            <th>Művelet</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_body">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="legal-footer">
+            <i class="bi bi-info-circle me-1"></i>
+            <span id="legal_txt">
+                FIGYELEM: Ez a rendszer belső nyilvántartásra szolgál. 
+                Az itt megjelenített pénzügyi adatok tájékoztató jellegűek ("Internal Statistics"), 
+                és nem helyettesítik a hivatalos NAV pénztárgépet vagy a könyvelést.
+            </span>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_title">Új Tétel Felvétele</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addForm">
+                        <div class="mb-3">
+                            <label class="form-label text-secondary" id="lbl_inp_name">Név</label>
+                            <input type="text" class="form-control" id="inpName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary" id="lbl_inp_details">Részletek</label>
+                            <input type="text" class="form-control" id="inpDetails" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary" id="lbl_inp_amount">Összeg</label>
+                            <input type="number" class="form-control" id="inpAmount" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 fw-bold">Mentés</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
-<script>
-    // --- KONFIGURÁCIÓ ---
-    // Ezeket a menüket látja az ügyfél. Bármikor bővíthető!
-    const MENUS = [
-        { id: 'dashboard', label: '📊 Áttekintés', icon: 'bi-speedometer2' },
-        { id: 'ugyfelek', label: '👥 Ügyfelek', icon: 'bi-people' },
-        { id: 'raktar', label: '📦 Raktárkészlet', icon: 'bi-box-seam' },
-        { id: 'penzugy', label: '💰 Pénzügyek', icon: 'bi-wallet2' },
-        { id: 'teendok', label: '✅ Teendők', icon: 'bi-check-square' }
-    ];
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // --- 1. CONFIG & NYELV ---
+        let config = {};
+        let clients = [];
+        let currentLang = 'hu';
 
-    // Rendszer indítása
-    async function init() {
-        try {
-            // 1. Cégnév lekérése a szerverről (Railway Variable)
+        const dict = {
+            restaurant: {
+                hu: { clients: "Rendelések", add: "Új Rendelés", name: "Asztal / Név", details: "Étel / Ital", count: "Nyitott Rendelések" },
+                en: { clients: "Orders", add: "New Order", name: "Table / Name", details: "Food / Drink", count: "Open Orders" }
+            },
+            mechanic: {
+                hu: { clients: "Munkalapok", add: "Új Munkalap", name: "Tulajdonos", details: "Rendszám / Hiba", count: "Bentlévő Autók" },
+                en: { clients: "Work Orders", add: "New Job", name: "Owner", details: "License Plate", count: "Cars in Shop" }
+            },
+            doctor: {
+                hu: { clients: "Páciensek", add: "Új Időpont", name: "Páciens Neve", details: "Kezelés típusa", count: "Mai Időpontok" },
+                en: { clients: "Patients", add: "New Appointment", name: "Patient Name", details: "Treatment", count: "Today's Appts" }
+            },
+            general: {
+                hu: { clients: "Ügyfelek", add: "Új Ügyfél", name: "Név", details: "Leírás", count: "Aktív Ügyfelek" },
+                en: { clients: "Clients", add: "New Client", name: "Name", details: "Description", count: "Active Clients" }
+            }
+        };
+
+        const staticText = {
+            hu: { dash: "Vezérlőpult", rev: "Havi Forgalom (Becsült)", list: "Aktuális Tételek", amt: "Összeg", st: "Státusz", act: "Művelet", save: "Mentés" },
+            en: { dash: "Dashboard", rev: "Monthly Revenue (Est.)", list: "Current Items", amt: "Amount", st: "Status", act: "Action", save: "Save" }
+        };
+
+        // --- 2. INDÍTÁS ---
+        async function init() {
+            // Konfiguráció betöltése a szerverről
             const res = await fetch('/api/config');
-            const data = await res.json();
-            document.getElementById('companyName').innerText = data.name; // Itt írja ki a cég nevét!
+            config = await res.json();
+            
+            // UI Beállítása a config alapján
+            document.getElementById('company_name').innerText = config.companyName;
+            
+            // Feature Flagok (Kapcsolók)
+            if(config.features.inventory) document.getElementById('menu_inv').style.display = 'flex';
+            if(config.features.employees) document.getElementById('menu_emp').style.display = 'flex';
 
-            // 2. Menü felépítése
-            const menuContainer = document.getElementById('menuList');
-            menuContainer.innerHTML = MENUS.map(m => `
-                <li class="nav-item mb-1">
-                    <a class="nav-link" onclick="loadPage('${m.label}')">
-                        <i class="bi ${m.icon}"></i> ${m.label}
-                    </a>
-                </li>
-            `).join('');
-
-            // 3. Alapértelmezett nézet
-            loadPage(MENUS[0].label);
-
-        } catch (err) {
-            console.error("Hiba:", err);
-            document.getElementById('companyName').innerText = "Hiba a betöltéskor";
+            updateUI();
+            loadData();
         }
-    }
 
-    // Oldal váltás (Demo módban csak a címet és demo adatot cserél)
-    function loadPage(label) {
-        document.getElementById('pageTitle').innerText = label;
-        
-        // Demo adat generálása (hogy lássák, működik)
-        const demoHTML = `
-            <div class="col-md-12">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="fw-bold text-primary"><i class="bi bi-info-circle"></i> ${label} betöltve</h5>
-                        <p class="text-muted">Itt jelennének meg a(z) ${label} adatai táblázatos formában.</p>
-                        <hr>
-                        <div class="alert alert-light border">
-                            <strong>Demo adat:</strong> Minta János - 2026.01.17 - <span class="badge bg-success">Aktív</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        document.getElementById('itemsContainer').innerHTML = demoHTML;
-        
-        // Mobilon bezárjuk a menüt kattintás után
-        if(window.innerWidth < 768) document.getElementById('sidebar').classList.remove('show');
-    }
+        // --- 3. UI FRISSÍTÉS (Nyelv + Iparág) ---
+        function updateUI() {
+            const ind = config.industry || 'general';
+            const texts = dict[ind][currentLang];
+            const statics = staticText[currentLang];
 
-    function toggleMenu() {
-        document.getElementById('sidebar').classList.toggle('show');
-    }
+            // Menü és Címkék cseréje
+            document.getElementById('lbl_clients_menu').innerText = texts.clients;
+            document.getElementById('btn_add').innerText = texts.add;
+            document.getElementById('modal_title').innerText = texts.add;
+            
+            document.getElementById('lbl_count').innerText = texts.count;
+            
+            document.getElementById('th_name').innerText = texts.name;
+            document.getElementById('lbl_inp_name').innerText = texts.name;
+            
+            document.getElementById('th_details').innerText = texts.details;
+            document.getElementById('lbl_inp_details').innerText = texts.details;
 
-    init();
-</script>
+            // Statikus szövegek
+            document.getElementById('dash_title').innerText = statics.dash;
+            document.getElementById('menu_dash').innerText = statics.dash;
+            document.getElementById('lbl_rev').innerText = statics.rev;
+            document.getElementById('table_title').innerText = statics.list;
+            document.getElementById('th_amount').innerText = statics.amt;
+        }
+
+        function toggleLang() {
+            currentLang = currentLang === 'hu' ? 'en' : 'hu';
+            updateUI();
+        }
+
+        // --- 4. ADATKEZELÉS ---
+        async function loadData() {
+            const res = await fetch('/api/clients');
+            clients = await res.json();
+            renderTable();
+            calcStats();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('table_body');
+            tbody.innerHTML = '';
+            
+            clients.forEach(c => {
+                const badge = c.status === 'active' 
+                    ? `<span class="status-badge status-active">Aktív</span>` 
+                    : `<span class="status-badge status-done">Kész</span>`;
+                
+                const btn = c.status === 'active'
+                    ? `<button class="btn btn-sm btn-outline-success" onclick="setStatus('${c._id}', 'done')"><i class="bi bi-check2"></i></button>`
+                    : `<button class="btn btn-sm btn-outline-danger" onclick="deleteItem('${c._id}')"><i class="bi bi-trash"></i></button>`;
+
+                const row = `
+                    <tr>
+                        <td class="fw-bold text-white">${c.name}</td>
+                        <td class="text-secondary">${c.details}</td>
+                        <td class="fw-bold">${c.amount} ${config.currency}</td>
+                        <td>${badge}</td>
+                        <td>${btn}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function calcStats() {
+            const total = clients.reduce((sum, c) => sum + (c.amount || 0), 0);
+            const active = clients.filter(c => c.status === 'active').length;
+            
+            document.getElementById('stat_revenue').innerText = total.toLocaleString() + " " + config.currency;
+            document.getElementById('stat_count').innerText = active;
+        }
+
+        // --- 5. MŰVELETEK ---
+        document.getElementById('addForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('inpName').value,
+                details: document.getElementById('inpDetails').value,
+                amount: Number(document.getElementById('inpAmount').value),
+                status: 'active'
+            };
+            
+            await fetch('/api/clients', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            
+            // Modal bezárása és frissítés
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
+            modal.hide();
+            document.getElementById('addForm').reset();
+            loadData();
+        });
+
+        async function setStatus(id, status) {
+            await fetch(`/api/clients/${id}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({status})
+            });
+            loadData();
+        }
+
+        async function deleteItem(id) {
+            if(confirm('Biztosan törölni szeretnéd?')) {
+                await fetch(`/api/clients/${id}`, { method: 'DELETE' });
+                loadData();
+            }
+        }
+
+        // Indulás!
+        init();
+    </script>
 </body>
 </html>
