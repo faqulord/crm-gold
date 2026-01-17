@@ -7,12 +7,12 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 1. ADATBÁZIS CSATLAKOZÁS
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('✅ Rendszer Motor Aktív'))
-    .catch(err => console.error('❌ MongoDB Hiba:', err));
+// ADATBÁZIS CSATLAKOZÁS
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('✅ Adatbázis aktív'))
+    .catch(err => console.error('❌ Hiba:', err));
 
-// 2. MODELLEK
+// MODELLEK
 const Client = mongoose.model('Client', new mongoose.Schema({ name: String, details: String, amount: Number, date: { type: Date, default: Date.now } }));
 const Inventory = mongoose.model('Inventory', new mongoose.Schema({ name: String, qty: Number, price: Number }));
 const Partner = mongoose.model('Partner', new mongoose.Schema({ name: String, contact: String, type: String }));
@@ -21,7 +21,7 @@ const Expense = mongoose.model('Expense', new mongoose.Schema({ name: String, am
 
 const models = { clients: Client, inventory: Inventory, partners: Partner, employees: Employee, expenses: Expense };
 
-// 3. KONFIGURÁCIÓ API
+// DINAMIKUS KONFIGURÁCIÓ
 app.get('/api/config', (req, res) => {
     res.json({
         companyName: process.env.COMPANY_NAME || "Vállalkozás",
@@ -31,13 +31,10 @@ app.get('/api/config', (req, res) => {
 });
 
 app.post('/api/login', (req, res) => {
-    if (req.body.password === (process.env.ADMIN_PASSWORD || "admin")) {
-        return res.json({ success: true, role: 'admin' });
-    }
+    if (req.body.password === (process.env.ADMIN_PASSWORD || "admin")) return res.json({ success: true });
     res.status(401).json({ success: false });
 });
 
-// 4. ADATKEZELŐ API-K
 app.get('/api/:type', async (req, res) => {
     try {
         const data = await models[req.params.type].find().sort({date: -1});
@@ -60,20 +57,12 @@ app.delete('/api/:type/:id', async (req, res) => {
     } catch (e) { res.status(500).json({error: "Hiba"}); }
 });
 
-// 5. ÚTVONALAK (A DEMO FIXÁLÁSA)
+// IRÁNYÍTÁS
 app.get('/', (req, res) => {
     const hide = String(process.env.HIDE_LANDING).trim().toLowerCase() === 'true';
-    if (hide) {
-        res.sendFile(path.join(__dirname, 'public', 'crm.html'));
-    } else {
-        res.sendFile(path.join(__dirname, 'public', 'index.html'));
-    }
+    res.sendFile(path.join(__dirname, 'public', hide ? 'crm.html' : 'index.html'));
 });
 
-// Ez a sor felel a demó gombért!
-app.get('/demo', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'crm.html'));
-});
+app.get('/demo', (req, res) => res.sendFile(path.join(__dirname, 'public', 'crm.html')));
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Szerver fut a ${PORT} porton`));
+app.listen(process.env.PORT || 3000);
