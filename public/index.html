@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         :root { --bg: #0f172a; --card: #1e293b; --primary: #3b82f6; --gold: #fbbf24; --text: #f8fafc; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
@@ -32,6 +33,14 @@
         .price { font-size: 2.5rem; font-weight: 800; color: white; }
         .price-sub { font-size: 0.9rem; color: #94a3b8; }
         
+        /* FAQ & Contact */
+        .accordion-item { background: var(--card); border: 1px solid rgba(255,255,255,0.05); color: white; }
+        .accordion-button { background: var(--card); color: white; font-weight: 600; }
+        .accordion-button:not(.collapsed) { background: rgba(59, 130, 246, 0.1); color: var(--primary); box-shadow: none; }
+        .accordion-button:focus { box-shadow: none; }
+        .form-control { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; }
+        .form-control:focus { background: rgba(255,255,255,0.1); color: white; border-color: var(--primary); box-shadow: none; }
+
         /* Gombok */
         .btn-cta { background: var(--primary); color: white; padding: 12px 30px; border-radius: 50px; font-weight: 600; border: none; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); transition: 0.3s; }
         .btn-cta:hover { transform: scale(1.05); background: #2563eb; color: white; }
@@ -104,7 +113,7 @@
                     <p class="price-sub" id="p1_sub">Egyszeri díj</p>
                     <hr class="border-secondary opacity-25">
                     <ul class="list-unstyled text-light small" id="list_1"></ul>
-                    <a href="#" class="btn btn-outline-light w-100 mt-3 btn-sm">Kapcsolat</a>
+                    <a href="#contact" class="btn btn-outline-light w-100 mt-3 btn-sm">Kapcsolat</a>
                 </div>
             </div>
 
@@ -116,7 +125,7 @@
                     <p class="price-sub" id="p2_sub">+ $30 / hó üzemeltetés</p>
                     <hr class="border-secondary opacity-25">
                     <ul class="list-unstyled text-light small" id="list_2"></ul>
-                    <a href="#" class="btn btn-cta w-100 mt-3">Megrendelés</a>
+                    <a href="#contact" class="btn btn-cta w-100 mt-3">Megrendelés</a>
                 </div>
             </div>
 
@@ -127,7 +136,54 @@
                     <p class="price-sub" id="p3_sub">Nagyvállalati megoldás</p>
                     <hr class="border-secondary opacity-25">
                     <ul class="list-unstyled text-light small" id="list_3"></ul>
-                    <a href="mailto:info@faqudeveloper.com" class="btn btn-outline-warning w-100 mt-3 btn-sm">Ajánlatkérés</a>
+                    <a href="#contact" class="btn btn-outline-warning w-100 mt-3 btn-sm">Ajánlatkérés</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container py-5" id="contact">
+        <div class="row g-5">
+            <div class="col-lg-6">
+                <h3 class="fw-bold mb-4" id="txt_faq_title">Gyakori Kérdések</h3>
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" id="faq_q1">Kell szervert vásárolnom?</button></h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion"><div class="accordion-body text-secondary" id="faq_a1">Nem! Mi biztosítjuk a teljes technikai hátteret a felhőben.</div></div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" id="faq_q2">Biztonságban vannak az adataim?</button></h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion"><div class="accordion-body text-secondary" id="faq_a2">Igen. Minden ügyfél elkülönített, titkosított adatbázist kap. GDPR kompatibilis.</div></div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" id="faq_q3">Működik mobilon is?</button></h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion"><div class="accordion-body text-secondary" id="faq_a3">Természetesen. A rendszert kifejezetten mobilra és tabletre optimalizáltuk.</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="pricing-card">
+                    <h3 class="fw-bold mb-4" id="txt_contact_title">Lépjen velünk kapcsolatba</h3>
+                    <form onsubmit="event.preventDefault(); alert('Köszönjük az üzenetet! Hamarosan keressük.');">
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Cégnév / Név</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Email cím</label>
+                            <input type="email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Választott Csomag</label>
+                            <select class="form-select form-control text-white bg-dark">
+                                <option>Start ($150)</option>
+                                <option selected>Industry Pro ($300)</option>
+                                <option>Enterprise</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mt-2" id="btn_send">Üzenet Küldése</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -153,7 +209,15 @@
                 pop: "AJÁNLOTT",
                 l1: ["✅ Általános CRM", "✅ Ügyfélkezelés", "✅ Mobil nézet", "❌ Iparági funkciók"],
                 l2: ["✅ IPARÁGI SPECIFIKUS ⚙️", "✅ Autó / Páciens / Asztal", "✅ Saját Logó elhelyezés", "✅ Kiemelt Support"],
-                l3: ["🔥 Dedikált Szerver", "🔥 Korlátlan hozzáférés", "🔥 Egyedi fejlesztés", "🔥 Szerződéses garancia"]
+                l3: ["🔥 Dedikált Szerver", "🔥 Korlátlan hozzáférés", "🔥 Egyedi fejlesztés", "🔥 Szerződéses garancia"],
+                faq_title: "Gyakori Kérdések",
+                faqs: [
+                    {q: "Kell szervert vásárolnom?", a: "Nem! Mi biztosítjuk a teljes technikai hátteret a felhőben."},
+                    {q: "Biztonságban vannak az adataim?", a: "Igen. Minden ügyfél elkülönített, titkosított adatbázist kap. GDPR kompatibilis."},
+                    {q: "Működik mobilon is?", a: "Természetesen. A rendszert kifejezetten mobilra és tabletre optimalizáltuk."}
+                ],
+                contact_title: "Lépjen velünk kapcsolatba",
+                btn_send: "Üzenet Küldése"
             },
             en: {
                 badge: "🛡️ SECURE DATA HANDLING",
@@ -168,7 +232,15 @@
                 pop: "RECOMMENDED",
                 l1: ["✅ General CRM", "✅ Client Management", "✅ Mobile View", "❌ No Specific Features"],
                 l2: ["✅ INDUSTRY SPECIFIC ⚙️", "✅ Car / Patient / Table", "✅ Custom Logo", "✅ Priority Support"],
-                l3: ["🔥 Dedicated Server", "🔥 Unlimited Access", "🔥 Custom Development", "🔥 Contractual SLA"]
+                l3: ["🔥 Dedicated Server", "🔥 Unlimited Access", "🔥 Custom Development", "🔥 Contractual SLA"],
+                faq_title: "Frequently Asked Questions",
+                faqs: [
+                    {q: "Do I need to buy a server?", a: "No! We provide the full technical background in the cloud."},
+                    {q: "Is my data secure?", a: "Yes. Every client gets an isolated, encrypted database. GDPR compliant."},
+                    {q: "Does it work on mobile?", a: "Absolutely. The system is optimized specifically for mobile and tablets."}
+                ],
+                contact_title: "Get in touch",
+                btn_send: "Send Message"
             }
         };
 
@@ -204,6 +276,15 @@
             document.getElementById('list_1').innerHTML = t.l1.map(i => `<li class="mb-2">${i}</li>`).join('');
             document.getElementById('list_2').innerHTML = t.l2.map(i => `<li class="mb-2 fw-bold text-white">${i}</li>`).join('');
             document.getElementById('list_3').innerHTML = t.l3.map(i => `<li class="mb-2">${i}</li>`).join('');
+
+            // FAQ & Contact
+            document.getElementById('txt_faq_title').innerText = t.faq_title;
+            document.getElementById('faq_q1').innerText = t.faqs[0].q; document.getElementById('faq_a1').innerText = t.faqs[0].a;
+            document.getElementById('faq_q2').innerText = t.faqs[1].q; document.getElementById('faq_a2').innerText = t.faqs[1].a;
+            document.getElementById('faq_q3').innerText = t.faqs[2].q; document.getElementById('faq_a3').innerText = t.faqs[2].a;
+            
+            document.getElementById('txt_contact_title').innerText = t.contact_title;
+            document.getElementById('btn_send').innerText = t.btn_send;
         }
         render();
     </script>
