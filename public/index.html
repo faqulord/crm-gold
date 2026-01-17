@@ -3,188 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FaquDeveloper | Enterprise Solutions</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>FaquDeveloper | Egyedi Rendszerek</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         :root {
-            --bg: #050505;
+            --bg: #0a0a0a;
             --card: #111;
-            --primary: #3b82f6;
-            --text: #fff;
-            --gold: #fbbf24;
+            --border: #333;
+            --text: #e5e5e5;
+            --primary: #fff; /* Fehér a főszín a letisztultsághoz */
         }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; overflow-x: hidden; padding-top: 60px; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; font-size: 0.95rem; line-height: 1.6; }
         
-        /* NAVBAR */
-        .navbar { background: rgba(5,5,5,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 0; }
-        .navbar-brand { font-weight: 800; letter-spacing: 1px; color: white !important; text-transform: uppercase; }
-        .btn-mail { border: 1px solid white; color: white; padding: 8px 20px; border-radius: 4px; font-weight: 700; text-decoration: none; transition: 0.3s; font-size: 0.85rem; }
-        .btn-mail:hover { background: white; color: black; }
+        /* Minimalista Navbar */
+        .navbar { border-bottom: 1px solid var(--border); padding: 15px 0; background: var(--bg); }
+        .brand { font-weight: 700; letter-spacing: 0.5px; color: white; text-decoration: none; font-size: 1.1rem; }
+        .btn-contact { border: 1px solid #555; color: white; padding: 6px 15px; border-radius: 4px; font-size: 0.85rem; text-decoration: none; transition: 0.2s; }
+        .btn-contact:hover { border-color: white; background: white; color: black; }
 
-        /* HERO */
-        .hero { padding: 100px 0 60px 0; text-align: center; }
-        .hero h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; letter-spacing: -1px; }
-        .hero p { font-size: 1.2rem; color: #a1a1aa; max-width: 700px; margin: 0 auto 40px auto; }
-        .highlight { color: var(--primary); }
-        
-        /* FOLYAMAT (STEPPER) */
-        .step-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; height: 100%; position: relative; }
-        .step-num { font-size: 3rem; font-weight: 800; color: rgba(255,255,255,0.1); position: absolute; top: 10px; right: 20px; }
-        
-        /* ÁRAZÁS */
-        .price-box { background: var(--card); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 40px; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
-        .price-box.featured { border: 1px solid var(--primary); background: linear-gradient(180deg, rgba(59,130,246,0.05), var(--card)); }
-        
-        .price-tag { font-size: 2.5rem; font-weight: 800; color: white; margin: 15px 0; }
-        .price-sub { font-size: 0.9rem; color: #a1a1aa; text-transform: uppercase; letter-spacing: 1px; }
-        
-        .btn-action { display: block; width: 100%; padding: 15px; border-radius: 6px; font-weight: 800; text-decoration: none; margin-top: 20px; transition: 0.3s; text-transform: uppercase; }
-        .btn-outline { border: 1px solid rgba(255,255,255,0.2); color: white; }
-        .btn-outline:hover { background: white; color: black; }
-        .btn-fill { background: var(--primary); color: white; border: none; }
-        .btn-fill:hover { background: #2563eb; }
+        /* Hero - Tömör és Tárgyilagos */
+        .hero { padding: 80px 0 60px 0; text-align: center; border-bottom: 1px solid var(--border); }
+        .hero h1 { font-size: 2.5rem; font-weight: 700; color: white; margin-bottom: 15px; }
+        .hero p { color: #888; max-width: 600px; margin: 0 auto 30px auto; }
 
-        .check-list { list-style: none; padding: 0; text-align: left; margin-top: 30px; }
-        .check-list li { margin-bottom: 12px; color: #d4d4d8; font-size: 0.9rem; display: flex; align-items: center; }
-        .check-list i { color: var(--primary); margin-right: 10px; font-size: 1.1rem; }
+        /* Szolgáltatás leírás */
+        .process-box { padding: 20px; border: 1px solid var(--border); border-radius: 8px; height: 100%; background: var(--card); }
+        .step-title { font-weight: 700; color: white; margin-bottom: 10px; display: block; }
+        .step-desc { color: #888; font-size: 0.9rem; margin: 0; }
 
-        footer { margin-top: 80px; padding: 40px 0; border-top: 1px solid rgba(255,255,255,0.1); color: #525252; text-align: center; font-size: 0.8rem; }
+        /* Árazás - Letisztult táblázat */
+        .pricing-section { padding: 60px 0; }
+        .price-card { border: 1px solid var(--border); border-radius: 8px; padding: 30px; background: var(--card); height: 100%; }
+        .price-card.active { border-color: #666; background: #161616; }
+        
+        .price-head { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 10px; }
+        .price-amount { font-size: 2rem; font-weight: 700; color: white; }
+        .price-meta { font-size: 0.85rem; color: #666; margin-bottom: 25px; }
+        
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { margin-bottom: 10px; display: flex; align-items: start; font-size: 0.9rem; color: #ccc; }
+        .feature-list i { margin-right: 10px; color: white; margin-top: 3px; }
+
+        .btn-order { display: block; width: 100%; text-align: center; padding: 12px; background: white; color: black; font-weight: 700; border-radius: 4px; text-decoration: none; margin-top: 25px; transition: 0.2s; }
+        .btn-order:hover { background: #ccc; }
+
+        footer { padding: 40px 0; border-top: 1px solid var(--border); font-size: 0.8rem; color: #666; text-align: center; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">FaquDeveloper<span class="text-secondary">.Global</span></a>
+    <nav class="navbar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="#" class="brand">FaquDeveloper</a>
             <div class="d-flex gap-3 align-items-center">
-                <span class="small text-secondary cursor-pointer" onclick="toggleLang()">HU | EN</span>
-                <a href="mailto:skyhigh983@proton.me" class="btn-mail">KAPCSOLAT</a>
+                <span style="font-size: 0.8rem; cursor: pointer; color: #888;" onclick="toggleLang()">HU | EN</span>
+                <a href="mailto:skyhigh983@proton.me" class="btn-contact">Kapcsolat</a>
             </div>
         </div>
     </nav>
 
-    <div class="container">
-        
-        <section class="hero">
-            <h1 id="hero_title">Felejtsd el az Excel táblákat.<br><span class="highlight">Automatizáld a céged.</span></h1>
-            <p id="hero_desc">
-                Egyedi vállalatirányítási rendszer, ami pontosan azt tudja, amit Te akarsz. 
-                Nincs felesleges funkció, csak tiszta hatékonyság.
-            </p>
-            <div class="d-flex justify-content-center gap-3">
-                <a href="mailto:skyhigh983@proton.me?subject=Rendszer%20Megrendelés" class="btn-fill px-5 py-3 rounded-2 text-decoration-none fw-bold">EGYEDI RENDSZERT KÉREK</a>
-            </div>
-        </section>
+    <section class="hero container">
+        <h1 id="h_title">Egyedi vállalatirányítási rendszerek</h1>
+        <p id="h_desc">
+            Cégre szabott adminisztrációs felület kis- és középvállalkozásoknak. 
+            Váltsa le az Excel táblákat egy biztonságos, felhő alapú szoftverre.
+        </p>
+        <a href="mailto:skyhigh983@proton.me" class="btn-contact px-4 py-2">Ajánlatkérés</a>
+    </section>
 
-        <section class="py-5">
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="step-box">
-                        <span class="step-num">1</span>
-                        <h4 class="fw-bold text-white mb-3" id="s1_t">Megálmodod</h4>
-                        <p class="text-secondary" id="s1_d">Írd meg emailben, milyen színeket, logót szeretnél, és mi az a funkció, ami a legjobban hiányzik a cégedből.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="step-box">
-                        <span class="step-num">2</span>
-                        <h4 class="fw-bold text-white mb-3" id="s2_t">Elkészítjük</h4>
-                        <p class="text-secondary" id="s2_d">A FaquDeveloper csapata beállítja a saját, dedikált rendszeredet. Nem kell telepítened semmit.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="step-box">
-                        <span class="step-num">3</span>
-                        <h4 class="fw-bold text-white mb-3" id="s3_t">Használod</h4>
-                        <p class="text-secondary" id="s3_d">Megkapod a belépési adatokat. Te és az alkalmazottaid azonnal kezdhetitek a munkát.</p>
-                    </div>
+    <section class="container py-5">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="process-box">
+                    <span class="step-title" id="s1_t">1. Igényfelmérés</span>
+                    <p class="step-desc" id="s1_d">Ön elküldi emailben az elképzelését (színek, logó, funkciók). Mi felmérjük a vállalkozása igényeit.</p>
                 </div>
             </div>
-        </section>
+            <div class="col-md-4">
+                <div class="process-box">
+                    <span class="step-title" id="s2_t">2. Fejlesztés & Beüzemelés</span>
+                    <p class="step-desc" id="s2_d">Elkészítjük a saját rendszerét, beállítjuk az adatbázisokat és a jogosultságokat. Önnek nincs technikai teendője.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="process-box">
+                    <span class="step-title" id="s3_t">3. Átadás & Támogatás</span>
+                    <p class="step-desc" id="s3_d">Megkapja a hozzáféréseket. A rendszert mi üzemeltetjük tovább, így az adatai biztonságban vannak.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <section class="py-5">
-            <div class="text-center mb-5">
-                <h2 class="fw-bold text-white">Egyértelmű Árazás</h2>
-                <p class="text-secondary">Két tétel. Semmi más.</p>
-            </div>
-            <div class="row g-4 justify-content-center">
-                
-                <div class="col-md-5">
-                    <div class="price-box">
-                        <div>
-                            <span class="price-sub" id="p1_t">A RENDSZER ÁRA</span>
-                            <div class="price-tag">150.000 Ft</div>
-                            <p class="text-secondary small" id="p1_d">Egyszeri díj a szoftverért.</p>
-                            <ul class="check-list">
-                                <li><i class="bi bi-check-lg"></i> <span id="l1_1">Saját bejelentkező felület (Logó, Színek)</span></li>
-                                <li><i class="bi bi-check-lg"></i> <span id="l1_2">Korlátlan adatbázis</span></li>
-                                <li><i class="bi bi-check-lg"></i> <span id="l1_3">Mobil & Tablet nézet (Bárhonnan)</span></li>
-                                <li><i class="bi bi-check-lg"></i> <span id="l1_4">Alkalmazotti hozzáférések kezelése</span></li>
+    <section class="pricing-section container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h3 class="text-white mb-4 text-center fw-bold" id="price_head">Árazási Modell</h3>
+                <div class="row g-0">
+                    
+                    <div class="col-md-6">
+                        <div class="price-card">
+                            <div class="price-head" id="p1_t">LICENCDÍJ</div>
+                            <div class="price-amount">150.000 Ft</div>
+                            <div class="price-meta" id="p1_d">Egyszeri beüzemelési költség</div>
+                            <ul class="feature-list">
+                                <li><i class="bi bi-check2"></i> <span id="f1_1">Saját, dedikált szoftver példány</span></li>
+                                <li><i class="bi bi-check2"></i> <span id="f1_2">Céges arculatra szabott felület</span></li>
+                                <li><i class="bi bi-check2"></i> <span id="f1_3">Korlátlan felhasználó hozzáadása</span></li>
+                                <li><i class="bi bi-check2"></i> <span id="f1_4">Örökös használati jog</span></li>
                             </ul>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-md-5">
-                    <div class="price-box featured">
-                        <div>
-                            <span class="text-primary fw-bold small mb-2 d-block">HAVI FENNTARTÁS</span>
-                            <span class="price-sub" id="p2_t">BIZTONSÁG & SUPPORT</span>
-                            <div class="price-tag">20.000 Ft <span class="fs-6 text-muted fw-normal">/ hó</span></div>
-                            <p class="text-secondary small" id="p2_d">Hogy az adataid biztonságban legyenek.</p>
-                            <ul class="check-list">
-                                <li><i class="bi bi-cloud-check-fill"></i> <span id="l2_1">Felhő alapú biztonságos tárhely</span></li>
-                                <li><i class="bi bi-shield-lock-fill"></i> <span id="l2_2">Napi biztonsági mentés</span></li>
-                                <li><i class="bi bi-headset"></i> <span id="l2_3">24/7 Ügyfélszolgálat (Email)</span></li>
-                                <li><i class="bi bi-tools"></i> <span id="l2_4">Rendszeres karbantartás & Frissítés</span></li>
+                    <div class="col-md-6">
+                        <div class="price-card active" style="border-left: none;">
+                            <div class="price-head" id="p2_t">ÜZEMELTETÉS & SUPPORT</div>
+                            <div class="price-amount">20.000 Ft</div>
+                            <div class="price-meta" id="p2_d">Havi szolgáltatási díj</div>
+                            <ul class="feature-list">
+                                <li><i class="bi bi-server"></i> <span id="f2_1">Felhő szerver bérlése (Cloud Hosting)</span></li>
+                                <li><i class="bi bi-shield-check"></i> <span id="f2_2">Napi biztonsági mentés (Backup)</span></li>
+                                <li><i class="bi bi-wrench"></i> <span id="f2_3">Rendszerkarbantartás és frissítés</span></li>
+                                <li><i class="bi bi-envelope"></i> <span id="f2_4">24/7 E-mail ügyfélszolgálat</span></li>
                             </ul>
+                            <a href="mailto:skyhigh983@proton.me?subject=Megrendelés" class="btn-order" id="btn_ord">Megrendelés</a>
                         </div>
                     </div>
+
                 </div>
-
+                <p class="text-center mt-3 text-muted small" id="vat_info">Az árak az ÁFA-t nem tartalmazzák. (Ha van céged)</p>
             </div>
-            
-            <div class="text-center mt-5">
-                <a href="mailto:skyhigh983@proton.me?subject=Megrendelés:%20Rendszer%20%2B%20Fenntartás" class="btn-fill px-5 py-4 rounded-3 text-decoration-none fw-bold fs-5 shadow-lg d-inline-block">
-                    IGEN, ÉRDEKEL AZ AJÁNLAT <i class="bi bi-arrow-right ms-2"></i>
-                </a>
-                <p class="mt-3 text-muted small">Kattints a gombra, és írd meg az elképzelésed!</p>
-            </div>
-        </section>
-
-    </div>
+        </div>
+    </section>
 
     <footer>
-        FaquDeveloper Agency &bull; <a href="mailto:skyhigh983@proton.me" class="text-decoration-none text-secondary">skyhigh983@proton.me</a> <br>
-        <span class="opacity-50">Open Beta v1.0 • GDPR Compliant • Isolated Databases</span>
+        <div class="container">
+            <p class="mb-1 text-white">FaquDeveloper Agency</p>
+            <a href="mailto:skyhigh983@proton.me" class="text-decoration-none" style="color:#888;">skyhigh983@proton.me</a>
+            <div class="mt-3">Open Beta v1.0 • GDPR Compliant</div>
+        </div>
     </footer>
 
     <script>
         const langData = {
             hu: {
-                h_title: "Felejtsd el az Excel táblákat.<br><span class='highlight'>Automatizáld a céged.</span>",
-                h_desc: "Egyedi vállalatirányítási rendszer, ami pontosan azt tudja, amit Te akarsz. Nincs felesleges funkció, csak tiszta hatékonyság.",
-                s1t: "Megálmodod", s1d: "Írd meg emailben, milyen színeket, logót szeretnél, és mi az a funkció, ami a legjobban hiányzik a cégedből.",
-                s2t: "Elkészítjük", s2d: "A FaquDeveloper csapata beállítja a saját, dedikált rendszeredet. Nem kell telepítened semmit.",
-                s3t: "Használod", s3d: "Megkapod a belépési adatokat. Te és az alkalmazottaid azonnal kezdhetitek a munkát.",
-                p1t: "A RENDSZER ÁRA", p1d: "Egyszeri díj a szoftverért.",
-                l1: ["Saját bejelentkező felület (Logó, Színek)", "Korlátlan adatbázis", "Mobil & Tablet nézet (Bárhonnan)", "Alkalmazotti hozzáférések kezelése"],
-                p2t: "BIZTONSÁG & SUPPORT", p2d: "Hogy az adataid biztonságban legyenek.",
-                l2: ["Felhő alapú biztonságos tárhely", "Napi biztonsági mentés", "24/7 Ügyfélszolgálat (Email)", "Rendszeres karbantartás & Frissítés"]
+                h_title: "Egyedi vállalatirányítási rendszerek",
+                h_desc: "Cégre szabott adminisztrációs felület kis- és középvállalkozásoknak. Váltsa le az Excel táblákat egy biztonságos, felhő alapú szoftverre.",
+                s1t: "1. Igényfelmérés", s1d: "Ön elküldi emailben az elképzelését (színek, logó, funkciók). Mi felmérjük a vállalkozása igényeit.",
+                s2t: "2. Fejlesztés & Beüzemelés", s2d: "Elkészítjük a saját rendszerét, beállítjuk az adatbázisokat és a jogosultságokat. Önnek nincs technikai teendője.",
+                s3t: "3. Átadás & Támogatás", s3d: "Megkapja a hozzáféréseket. A rendszert mi üzemeltetjük tovább, így az adatai biztonságban vannak.",
+                price_head: "Árazási Modell",
+                p1t: "LICENCDÍJ", p1d: "Egyszeri beüzemelési költség",
+                f1: ["Saját, dedikált szoftver példány", "Céges arculatra szabott felület", "Korlátlan felhasználó hozzáadása", "Örökös használati jog"],
+                p2t: "ÜZEMELTETÉS & SUPPORT", p2d: "Havi szolgáltatási díj",
+                f2: ["Felhő szerver bérlése (Cloud Hosting)", "Napi biztonsági mentés (Backup)", "Rendszerkarbantartás és frissítés", "24/7 E-mail ügyfélszolgálat"],
+                btn: "Megrendelés",
+                vat: "Az árak nettó árak."
             },
             en: {
-                h_title: "Forget Excel Sheets.<br><span class='highlight'>Automate Your Business.</span>",
-                h_desc: "Custom ERP system that does exactly what you want. No useless features, just pure efficiency.",
-                s1t: "Dream It", s1d: "Email us your logo, colors, and the feature your business misses the most.",
-                s2t: "We Build It", s2d: "FaquDeveloper team sets up your dedicated system. No installation needed.",
-                s3t: "Use It", s3d: "You get the login credentials. You and your employees can start working immediately.",
-                p1t: "SYSTEM PRICE", p1d: "One-time fee for the software.",
-                l1: ["Custom Login (Logo, Colors)", "Unlimited Database", "Mobile & Tablet View", "Employee Access Management"],
-                p2t: "SECURITY & SUPPORT", p2d: "Keeping your data safe.",
-                l2: ["Secure Cloud Hosting", "Daily Backups", "24/7 Support (Email)", "Regular Maintenance & Updates"]
+                h_title: "Custom Enterprise Resource Planning",
+                h_desc: "Tailored administration interface for SMEs. Replace Excel sheets with secure, cloud-based software.",
+                s1t: "1. Consultation", s1d: "Send us your vision via email (colors, logo, functions). We assess your business needs.",
+                s2t: "2. Development & Setup", s2d: "We build your dedicated system, configure databases and permissions. No technical work for you.",
+                s3t: "3. Handover & Support", s3d: "You receive access credentials. We continue to operate the system, keeping your data safe.",
+                price_head: "Pricing Model",
+                p1t: "LICENSE FEE", p1d: "One-time setup cost",
+                f1: ["Own, dedicated software instance", "Branded interface (Logo, Colors)", "Unlimited users", "Lifetime usage rights"],
+                p2t: "OPERATION & SUPPORT", p2d: "Monthly service fee",
+                f2: ["Cloud Server Hosting", "Daily Security Backups", "System Maintenance & Updates", "24/7 Email Support"],
+                btn: "Order Now",
+                vat: "Prices are net."
             }
         };
 
@@ -192,18 +181,24 @@
         function toggleLang() {
             currentLang = currentLang === 'hu' ? 'en' : 'hu';
             const t = langData[currentLang];
-            document.getElementById('hero_title').innerHTML = t.h_title;
-            document.getElementById('hero_desc').innerText = t.h_desc;
+            document.getElementById('h_title').innerText = t.h_title;
+            document.getElementById('h_desc').innerText = t.h_desc;
             
             document.getElementById('s1_t').innerText = t.s1t; document.getElementById('s1_d').innerText = t.s1d;
             document.getElementById('s2_t').innerText = t.s2t; document.getElementById('s2_d').innerText = t.s2d;
             document.getElementById('s3_t').innerText = t.s3t; document.getElementById('s3_d').innerText = t.s3d;
-
+            
+            document.getElementById('price_head').innerText = t.price_head;
             document.getElementById('p1_t').innerText = t.p1t; document.getElementById('p1_d').innerText = t.p1d;
-            document.getElementById('l1_1').innerText = t.l1[0]; document.getElementById('l1_2').innerText = t.l1[1]; document.getElementById('l1_3').innerText = t.l1[2]; document.getElementById('l1_4').innerText = t.l1[3];
-
+            document.getElementById('f1_1').innerText = t.f1[0]; document.getElementById('f1_2').innerText = t.f1[1];
+            document.getElementById('f1_3').innerText = t.f1[2]; document.getElementById('f1_4').innerText = t.f1[3];
+            
             document.getElementById('p2_t').innerText = t.p2t; document.getElementById('p2_d').innerText = t.p2d;
-            document.getElementById('l2_1').innerText = t.l2[0]; document.getElementById('l2_2').innerText = t.l2[1]; document.getElementById('l2_3').innerText = t.l2[2]; document.getElementById('l2_4').innerText = t.l2[3];
+            document.getElementById('f2_1').innerText = t.f2[0]; document.getElementById('f2_2').innerText = t.f2[1];
+            document.getElementById('f2_3').innerText = t.f2[2]; document.getElementById('f2_4').innerText = t.f2[3];
+            
+            document.getElementById('btn_ord').innerText = t.btn;
+            document.getElementById('vat_info').innerText = t.vat;
         }
     </script>
 </body>
