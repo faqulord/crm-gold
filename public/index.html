@@ -3,69 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FaquDeveloper Agency | Enterprise CRM</title>
+    <title>FaquDeveloper | Enterprise Solutions</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body { background: #0f172a; color: white; font-family: 'Segoe UI', sans-serif; text-align: center; }
-        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); }
-        .glass-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; transition: transform 0.3s; }
-        .glass-card:hover { transform: translateY(-5px); border-color: #3b82f6; }
-        .btn-glow { background: linear-gradient(90deg, #3b82f6, #2563eb); color: white; padding: 15px 50px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 1.2rem; box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); border: none; }
-        .btn-glow:hover { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); color: white; }
-        .price-tag { font-size: 2.5rem; font-weight: 800; color: #3b82f6; }
-        .check-list li { margin-bottom: 10px; text-align: left; }
+        :root { --primary: #fbbf24; --bg: #0f172a; --glass: rgba(255, 255, 255, 0.03); }
+        body { background-color: var(--bg); color: #e2e8f0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
+        /* Prémium Háttér */
+        .bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+                   background: radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.1) 0%, rgba(15, 23, 42, 0) 50%); }
+
+        /* Üveghatású Kártyák */
+        .glass-card { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 2.5rem; transition: 0.4s; }
+        .glass-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 0 30px rgba(251, 191, 36, 0.2); }
+
+        /* Gombok */
+        .btn-gold { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); color: #000; font-weight: 800; padding: 15px 40px; border-radius: 50px; border: none; box-shadow: 0 0 20px rgba(251, 191, 36, 0.4); text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .btn-gold:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(251, 191, 36, 0.6); color: #000; }
+        
+        /* Nyelvváltó */
+        .lang-switch { position: absolute; top: 20px; right: 20px; cursor: pointer; color: white; font-weight: bold; border: 1px solid rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; backdrop-filter: blur(5px); }
+        .lang-switch:hover { border-color: var(--primary); color: var(--primary); }
+
+        h1 { font-weight: 800; background: -webkit-linear-gradient(#fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .text-gold { color: var(--primary); }
     </style>
 </head>
 <body>
 
-    <div class="hero p-4">
-        <div class="container">
-            <h1 class="display-3 fw-bold mb-3">FaquDeveloper Agency</h1>
-            <p class="lead text-secondary mb-5">
-                Vállalatirányítási rendszerek (CRM) a jövő vállalkozóinak.<br>
-                <span class="text-white">Profi fejlesztői háttér • 99.9% Rendelkezésre állás • 0-24 Support</span>
+    <div class="bg-glow"></div>
+    <div class="lang-switch" onclick="toggleLang()">HU / EN</div>
+
+    <div class="container d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="text-center mb-5 animate-up">
+            <span class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill" id="txt_badge">✨ VÁLLALKOZÓKNAK</span>
+            <h1 class="display-3 mb-4" id="txt_title">Az Excel táblák kora <br> <span class="text-gold">LEJÁRT.</span></h1>
+            <p class="lead text-secondary mb-5" style="max-width: 600px; margin: 0 auto;" id="txt_desc">
+                Ne veszíts el több ügyfelet a káosz miatt. Építsd fel a saját digitális birodalmadat a FaquDeveloper egyedi rendszerével.
             </p>
+            <a href="/demo" class="btn-gold" id="txt_cta">🚀 DEMO INDÍTÁSA</a>
+        </div>
 
-            <a href="/demo" class="btn-glow mb-5">🚀 RENDSZER KIPRÓBÁLÁSA (DEMO)</a>
-
-            <div class="row g-4 justify-content-center">
-                <div class="col-md-5">
-                    <div class="glass-card h-100">
-                        <h3 class="text-uppercase text-secondary small ls-2">Start Csomag</h3>
-                        <div class="price-tag my-3">$100</div>
-                        <p class="text-white-50">Egyszeri telepítési díj</p>
-                        <hr class="border-secondary">
-                        <ul class="list-unstyled check-list mx-auto" style="max-width: 250px;">
-                            <li>✅ Teljes CRM Rendszer</li>
-                            <li>✅ Egyedi céges adatbázis</li>
-                            <li>✅ Korlátlan felhasználó</li>
-                            <li>✅ 30 nap garancia</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-md-5">
-                    <div class="glass-card h-100" style="border-color: #3b82f6;">
-                        <span class="badge bg-primary mb-3">LEGKERESETTEBB</span>
-                        <h3 class="text-uppercase text-secondary small ls-2">VIP Support</h3>
-                        <div class="price-tag my-3">$50 <span class="fs-6 text-muted">/hó</span></div>
-                        <p class="text-white-50">Teljes üzemeltetés</p>
-                        <hr class="border-secondary">
-                        <ul class="list-unstyled check-list mx-auto" style="max-width: 250px;">
-                            <li>🔥 0-24 Fejlesztői Support</li>
-                            <li>🔥 Szerver költségek</li>
-                            <li>🔥 Napi biztonsági mentés</li>
-                            <li>🔥 Havi funkció frissítések</li>
-                        </ul>
-                    </div>
+        <div class="row w-100 mt-5">
+            <div class="col-lg-6 mb-4">
+                <div class="glass-card h-100">
+                    <h3 class="text-uppercase text-muted small ls-2">Starter Edition</h3>
+                    <div class="display-4 fw-bold my-3 text-white">$100</div>
+                    <p class="text-gold" id="txt_p1_sub">Egyszeri Befektetés</p>
+                    <hr class="border-secondary">
+                    <ul class="list-unstyled text-secondary mt-4" id="list_p1">
+                        <li class="mb-3"><i class="bi bi-check-circle-fill text-gold me-2"></i> Saját adatbázis (Privát)</li>
+                        <li class="mb-3"><i class="bi bi-check-circle-fill text-gold me-2"></i> Ügyfélkezelő (CRM)</li>
+                        <li class="mb-3"><i class="bi bi-check-circle-fill text-gold me-2"></i> Mobilra optimalizálva</li>
+                        <li class="mb-3"><i class="bi bi-shield-check text-gold me-2"></i> Örökös Licenc</li>
+                    </ul>
                 </div>
             </div>
 
-            <footer class="mt-5 pt-4 text-white-50 small border-top border-secondary">
-                &copy; 2026 FaquDeveloper Agency. Minden jog fenntartva. | <a href="#" class="text-white">ÁSZF</a> | <a href="#" class="text-white">Kapcsolat</a>
-            </footer>
+            <div class="col-lg-6 mb-4">
+                <div class="glass-card h-100 position-relative" style="border-color: var(--primary);">
+                    <div class="position-absolute top-0 end-0 bg-warning text-dark fw-bold px-3 py-1 rounded-bl-lg" style="border-bottom-left-radius: 15px;">VIP</div>
+                    <h3 class="text-uppercase text-muted small ls-2">Empire Edition</h3>
+                    <div class="display-4 fw-bold my-3 text-white">$50 <span class="fs-6 text-muted">/hó</span></div>
+                    <p class="text-gold" id="txt_p2_sub">Teljes Üzemeltetés</p>
+                    <hr class="border-secondary">
+                    <ul class="list-unstyled text-secondary mt-4" id="list_p2">
+                        <li class="mb-3"><i class="bi bi-lightning-fill text-gold me-2"></i> 0-24 Fejlesztői Support</li>
+                        <li class="mb-3"><i class="bi bi-server text-gold me-2"></i> Szerver költségek állva</li>
+                        <li class="mb-3"><i class="bi bi-cloud-arrow-up-fill text-gold me-2"></i> Napi biztonsági mentés</li>
+                        <li class="mb-3"><i class="bi bi-stars text-gold me-2"></i> Havi új funkciók</li>
+                    </ul>
+                </div>
+            </div>
         </div>
+        
+        <footer class="mt-5 text-muted small pb-4">
+            &copy; 2026 FaquDeveloper Agency. <span id="txt_footer">A jövő technológiája.</span>
+        </footer>
     </div>
 
+    <script>
+        // NYELVI ADATBÁZIS
+        const langData = {
+            hu: {
+                badge: "✨ VÁLLALKOZÓKNAK",
+                title: "Az Excel táblák kora <br> <span class='text-gold'>LEJÁRT.</span>",
+                desc: "Ne veszíts el több ügyfelet a káosz miatt. Építsd fel a saját digitális birodalmadat a FaquDeveloper egyedi rendszerével.",
+                cta: "🚀 DEMO INDÍTÁSA",
+                p1_sub: "Egyszeri Befektetés",
+                p2_sub: "Teljes Üzemeltetés",
+                list1: ["Saját adatbázis (Privát)", "Ügyfélkezelő (CRM)", "Mobilra optimalizálva", "Örökös Licenc"],
+                list2: ["0-24 Fejlesztői Support", "Szerver költségek állva", "Napi biztonsági mentés", "Havi új funkciók"],
+                footer: "A jövő technológiája."
+            },
+            en: {
+                badge: "✨ FOR ENTREPRENEURS",
+                title: "The Era of Excel Sheets <br> <span class='text-gold'>IS OVER.</span>",
+                desc: "Stop losing clients to chaos. Build your own digital empire with FaquDeveloper's custom ecosystem.",
+                cta: "🚀 LAUNCH DEMO",
+                p1_sub: "One-Time Investment",
+                p2_sub: "Full Management",
+                list1: ["Private Database", "Customer Relationship (CRM)", "Mobile Optimized", "Lifetime License"],
+                list2: ["24/7 Developer Support", "Server Costs Covered", "Daily Backups", "Monthly New Features"],
+                footer: "Future technology."
+            }
+        };
+
+        let currentLang = 'hu';
+
+        function toggleLang() {
+            currentLang = currentLang === 'hu' ? 'en' : 'hu';
+            updateContent();
+        }
+
+        function updateContent() {
+            const t = langData[currentLang];
+            document.getElementById('txt_badge').innerText = t.badge;
+            document.getElementById('txt_title').innerHTML = t.title;
+            document.getElementById('txt_desc').innerText = t.desc;
+            document.getElementById('txt_cta').innerText = t.cta;
+            document.getElementById('txt_p1_sub').innerText = t.p1_sub;
+            document.getElementById('txt_p2_sub').innerText = t.p2_sub;
+            document.getElementById('txt_footer').innerText = t.footer;
+
+            // Listák frissítése
+            updateList('list_p1', t.list1, 'bi-check-circle-fill');
+            updateList('list_p2', t.list2, 'bi-lightning-fill');
+        }
+
+        function updateList(id, items, icon) {
+            const el = document.getElementById(id);
+            el.innerHTML = items.map(item => `<li class="mb-3"><i class="bi ${icon} text-gold me-2"></i> ${item}</li>`).join('');
+        }
+    </script>
 </body>
 </html>
