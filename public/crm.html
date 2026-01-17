@@ -3,365 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Login</title>
+    <title>Enterprise Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        :root {
-            --bg-body: #0f172a;
-            --bg-panel: #1e293b;
-            --primary: #3b82f6;
-            --border: #334155;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --sidebar-width: 260px;
-        }
+        :root { --bg-dark: #09090b; --sidebar-bg: #121214; --card-bg: #18181b; --border: #27272a; --primary: #3b82f6; --text-main: #f4f4f5; --text-muted: #a1a1aa; --success: #10b981; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text-main); height: 100vh; overflow: hidden; }
 
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            overflow-x: hidden;
-            height: 100vh;
-        }
-
-        /* --- 1. LOGIN SCREEN --- */
-        #login-section {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: radial-gradient(circle at top, #1e293b, #020617);
-            position: fixed;
-            width: 100%;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-
-        .login-card {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            padding: 40px;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
+        /* LOGIN */
+        #login-wrap { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; background: var(--bg-dark); transition: 0.5s; }
+        .login-brand-side { flex: 1; background: linear-gradient(135deg, #1e3a8a 0%, #000000 100%); display: flex; flex-direction: column; justify-content: center; padding: 60px; position: relative; }
+        .login-form-side { width: 500px; display: flex; align-items: center; justify-content: center; background: var(--bg-dark); border-left: 1px solid var(--border); }
+        .login-box { width: 100%; max-width: 360px; padding: 20px; }
+        .inp-field { width: 100%; background: var(--card-bg); border: 1px solid var(--border); color: white; padding: 12px; border-radius: 8px; margin-bottom: 20px; outline: none; }
+        .btn-login { width: 100%; background: var(--primary); color: white; border: none; padding: 14px; border-radius: 8px; font-weight: 600; cursor: pointer; }
         
-        /* Díszítő csík felül */
-        .login-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), #60a5fa);
-        }
-
-        .login-input {
-            background: #0f172a;
-            border: 1px solid var(--border);
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
-        }
-        .login-input:focus {
-            background: #0f172a;
-            border-color: var(--primary);
-            color: white;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
-            outline: none;
-        }
-
-        .company-logo-text {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            margin-bottom: 5px;
-            color: white;
-        }
+        /* APP */
+        #app-wrap { display: none; display: flex; height: 100vh; }
+        .sidebar { width: 280px; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 24px; }
+        .nav-item { padding: 12px; color: var(--text-muted); border-radius: 8px; margin-bottom: 4px; cursor: pointer; display: flex; gap: 10px; align-items: center; }
+        .nav-item.active { background: rgba(59,130,246,0.1); color: var(--primary); }
+        .main-area { flex: 1; display: flex; flex-direction: column; background: var(--bg-dark); }
+        .top-header { height: 70px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; }
+        .content-scroll { flex: 1; overflow-y: auto; padding: 32px; }
         
-        .system-badge {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--primary);
-            font-weight: 700;
-            background: rgba(59, 130, 246, 0.1);
-            padding: 4px 10px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        /* --- 2. DASHBOARD STYLES --- */
-        #app-section { display: none; height: 100vh; flex-direction: column; }
+        /* CARDS & TABLE */
+        .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 32px; }
+        .kpi-card { background: var(--card-bg); border: 1px solid var(--border); padding: 24px; border-radius: 12px; }
+        .kpi-value { font-size: 2rem; font-weight: 700; margin-top: 10px; }
         
-        .sidebar {
-            width: var(--sidebar-width);
-            background: var(--bg-panel);
-            border-right: 1px solid var(--border);
-            height: 100vh;
-            position: fixed;
-            left: 0; top: 0;
-            display: flex; flex-direction: column;
-            z-index: 100;
-            transition: 0.3s;
-        }
-        .brand-box { padding: 25px 20px; border-bottom: 1px solid var(--border); font-weight: 800; font-size: 1.1rem; }
-        .nav-menu { padding: 20px; flex: 1; }
-        .nav-item { padding: 12px 15px; color: var(--text-muted); text-decoration: none; border-radius: 8px; margin-bottom: 5px; display: flex; align-items: center; cursor: pointer; transition: 0.2s; font-weight: 500; }
-        .nav-item:hover, .nav-item.active { background: rgba(59, 130, 246, 0.1); color: var(--primary); }
-        .nav-item i { margin-right: 12px; font-size: 1.1rem; }
+        .data-panel { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 16px 24px; color: var(--text-muted); font-size: 0.75rem; border-bottom: 1px solid var(--border); }
+        td { padding: 16px 24px; border-bottom: 1px solid var(--border); }
         
-        .user-profile { padding: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
-        .avatar { width: 40px; height: 40px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; }
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; background: rgba(59,130,246,0.15); color: #60a5fa; display: inline-block; }
 
-        .main-wrapper { margin-left: var(--sidebar-width); background: var(--bg-body); min-height: 100vh; transition: 0.3s; }
-        .topbar { height: 70px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 90; }
-        
-        .page-content { padding: 30px; }
-        .dash-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 25px; height: 100%; }
-
-        /* TABLE */
-        .custom-table { width: 100%; border-collapse: separate; border-spacing: 0; }
-        .custom-table th { text-align: left; padding: 15px; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
-        .custom-table td { padding: 15px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-        .badge-status { padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; }
-        .bg-active { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-        .bg-pending { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
-
-        @media (max-width: 991px) {
-            .sidebar { transform: translateX(-100%); }
-            .sidebar.open { transform: translateX(0); }
-            .main-wrapper { margin-left: 0; }
+        /* MOBIL */
+        @media (max-width: 1024px) { 
+            .login-brand-side { display: none; } 
+            .login-form-side { width: 100%; } 
+            .sidebar { display: none; }
+            .kpi-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div id="login-section">
-        <div class="login-card">
-            <div class="text-center mb-5">
-                <div class="system-badge" id="login_badge">RENDSZER BELÉPÉS</div>
-                <h3 class="company-logo-text" id="login_company_name">Betöltés...</h3>
-                <p class="text-muted small" id="login_subtitle">Kérjük jelentkezzen be a folytatáshoz</p>
-            </div>
-            
-            <form onsubmit="handleLogin(event)">
-                <div class="mb-3">
-                    <label class="form-label text-muted small fw-bold">FELHASZNÁLÓNÉV</label>
-                    <input type="text" class="form-control login-input" placeholder="admin" required>
-                </div>
-                <div class="mb-4">
-                    <label class="form-label text-muted small fw-bold">JELSZÓ</label>
-                    <input type="password" class="form-control login-input" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn btn-primary w-100 fw-bold py-2">BELÉPÉS</button>
-            </form>
-            
-            <div class="mt-4 text-center">
-                <small class="text-muted opacity-50" style="font-size: 0.7rem;">
-                    POWERED BY FAQUDEVELOPER &bull; V1.0.4
-                </small>
+    <div id="login-wrap">
+        <div class="login-brand-side">
+            <h1 style="color: white; font-size: 3rem; font-weight: 800;">FaquDeveloper</h1>
+            <p style="color: #aaa; font-size: 1.2rem;">Enterprise Resource Planning v2.0</p>
+        </div>
+        <div class="login-form-side">
+            <div class="login-box">
+                <h2 style="color: white; margin-bottom: 30px;">Bejelentkezés</h2>
+                <form onsubmit="doLogin(event)">
+                    <label style="color: #888; font-size: 0.8rem;">FELHASZNÁLÓNÉV</label>
+                    <input type="text" class="inp-field" value="admin">
+                    <label style="color: #888; font-size: 0.8rem;">JELSZÓ</label>
+                    <input type="password" class="inp-field" value="pass">
+                    <button type="submit" class="btn-login">BELÉPÉS</button>
+                </form>
             </div>
         </div>
     </div>
 
-    <div id="app-section">
-        <aside class="sidebar" id="sidebar">
-            <div class="brand-box">
-                <span id="sidebar_company_name">Cégnév</span>
+    <div id="app-wrap">
+        <div class="sidebar">
+            <h3 style="color: white; margin-bottom: 30px;">FaquDev</h3>
+            <div class="nav-item active"><i class="bi bi-grid"></i> Áttekintés</div>
+            <div class="nav-item"><i class="bi bi-people"></i> <span id="menu_main">Ügyfelek</span></div>
+            <div class="nav-item" style="color: #ef4444; margin-top: auto;" onclick="location.reload()">Kilépés</div>
+        </div>
+        <div class="main-area">
+            <div class="top-header">
+                <div style="color: #888;">Dashboard / Áttekintés</div>
+                <div style="color: white;">Admin</div>
             </div>
-            <nav class="nav-menu">
-                <div class="nav-item active"><i class="bi bi-grid-fill"></i> Vezérlőpult</div>
-                <div class="nav-item"><i class="bi bi-people-fill"></i> <span id="menu_main">Ügyfelek</span></div>
-                <div class="nav-item"><i class="bi bi-calendar-event"></i> Naptár</div>
-                <div class="nav-item mt-auto text-danger" onclick="location.reload()"><i class="bi bi-box-arrow-left"></i> Kijelentkezés</div>
-            </nav>
-            <div class="user-profile">
-                <div class="avatar">AD</div>
-                <div>
-                    <div class="fw-bold fs-6">Adminisztrátor</div>
-                    <div class="text-muted" style="font-size: 0.7rem;">Jogosultság: Teljes</div>
-                </div>
-            </div>
-        </aside>
-
-        <div class="main-wrapper">
-            <div class="topbar">
-                <button class="btn btn-dark d-lg-none" onclick="document.getElementById('sidebar').classList.toggle('open')"><i class="bi bi-list"></i></button>
-                <h5 class="m-0 fw-bold ps-3" id="page_title">Áttekintés</h5>
-                <div class="ms-auto d-flex gap-3 align-items-center">
-                    <div class="text-end d-none d-sm-block">
-                        <small class="text-muted d-block" id="current_date">...</small>
-                        <small class="text-success fw-bold"><i class="bi bi-circle-fill" style="font-size: 8px;"></i> Online</small>
+            <div class="content-scroll">
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div style="color: #888; font-size: 0.8rem;">HAVI BEVÉTEL</div>
+                        <div class="kpi-value" id="val_rev">0 Ft</div>
                     </div>
-                    <button class="btn btn-primary btn-sm fw-bold px-3"><i class="bi bi-plus-lg"></i> Új</button>
-                </div>
-            </div>
-
-            <div class="page-content">
-                <div class="row g-4 mb-4">
-                    <div class="col-md-4">
-                        <div class="dash-card">
-                            <small class="text-muted fw-bold">HAVI FORGALOM</small>
-                            <h2 class="fw-bold my-2" id="stat_rev">0 Ft</h2>
-                            <small class="text-success"><i class="bi bi-arrow-up"></i> Adatok frissítve</small>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="dash-card">
-                            <small class="text-muted fw-bold" id="lbl_stat_2">AKTÍV ÜGYEK</small>
-                            <h2 class="fw-bold my-2" id="stat_count">0</h2>
-                            <small class="text-primary">Folyamatban</small>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="dash-card">
-                            <small class="text-muted fw-bold">RENDSZER TERHELÉS</small>
-                            <h2 class="fw-bold my-2">Alacsony</h2>
-                            <small class="text-muted">Minden szerver üzemel</small>
-                        </div>
+                    <div class="kpi-card">
+                        <div style="color: #888; font-size: 0.8rem;" id="lbl_kpi">AKTÍV ÜGYEK</div>
+                        <div class="kpi-value" id="val_count">0</div>
                     </div>
                 </div>
 
-                <div class="dash-card p-0 overflow-hidden">
-                    <div class="p-4 border-bottom border-secondary border-opacity-25">
-                        <h6 class="fw-bold m-0" id="table_title">Legutóbbi Aktivitás</h6>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="custom-table">
+                <div class="data-panel">
+                    <div style="padding: 20px; border-bottom: 1px solid #27272a; font-weight: bold;">Legutóbbi Tételek</div>
+                    <div style="overflow-x: auto;">
+                        <table>
                             <thead>
                                 <tr>
-                                    <th id="th_name">Név</th>
-                                    <th id="th_desc">Részletek</th>
+                                    <th id="th_1">Név</th>
+                                    <th id="th_2">Részletek</th>
                                     <th>Státusz</th>
                                     <th>Összeg</th>
-                                    <th class="text-end">Művelet</th>
                                 </tr>
                             </thead>
                             <tbody id="table_body"></tbody>
                         </table>
                     </div>
                 </div>
-                
-                <div class="text-center mt-5 text-muted small">
-                    Ez egy demonstrációs felület. A bevitt adatok nem valósak.
-                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- 0. KONFIGURÁCIÓ BETÖLTÉSE (AZONNAL) ---
-        // Ez fut le legelőször, még a login előtt!
+        let config = {};
+        
+        // INIT
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                // Lekérdezzük a szervertől, hogy ki a cég és mi az iparág
                 const res = await fetch('/api/config');
-                const config = await res.json();
-                
-                // 1. Login képernyő testreszabása
-                document.getElementById('login_company_name').innerText = config.companyName;
-                document.getElementById('sidebar_company_name').innerText = config.companyName;
-
-                // Iparág szerinti szövegek beállítása (Login alcím + Rendszer)
-                const ind = config.industry || 'general';
-                setupIndustry(ind);
-                
-                // Mentjük a configot későbbre
-                window.appConfig = config;
-
-            } catch (e) {
-                console.error("Hiba a betöltéskor:", e);
-                document.getElementById('login_company_name').innerText = "Demo Rendszer";
-            }
-            
-            // Dátum
-            document.getElementById('current_date').innerText = new Date().toLocaleDateString('hu-HU');
+                config = await res.json();
+                setupIndustry(config.industry || 'general');
+            } catch(e) { console.log('Demo mode'); }
         });
 
         function setupIndustry(ind) {
             const dict = {
-                restaurant: { badge: "ÉTTERMI SZOFTVER", sub: "Vendéglátóipari Kezelőfelület", menu: "Rendelések", stat2: "NYITOTT RENDELÉS", th1: "Asztal", th2: "Tétel" },
-                mechanic: { badge: "SZERVIZ PORTÁL", sub: "Műhelyirányítási Rendszer", menu: "Munkalapok", stat2: "AUTÓK A MŰHELYBEN", th1: "Rendszám", th2: "Hiba" },
-                doctor: { badge: "EGÉSZSÉGÜGYI PORTÁL", sub: "Praxis Menedzsment", menu: "Páciensek", stat2: "MAI KEZELÉSEK", th1: "Páciens", th2: "Kezelés" },
-                general: { badge: "VÁLLALATIRÁNYÍTÁS", sub: "Adminisztrációs Rendszer", menu: "Ügyfelek", stat2: "AKTÍV ÜGYFELEK", th1: "Név", th2: "Leírás" }
+                restaurant: { menu: "Rendelések", kpi: "NYITOTT RENDELÉS", th1: "Asztal", th2: "Tétel" },
+                mechanic: { menu: "Munkalapok", kpi: "AUTÓK BENT", th1: "Rendszám", th2: "Hiba" },
+                doctor: { menu: "Páciensek", kpi: "MAI KEZELÉSEK", th1: "Páciens", th2: "Kezelés" },
+                general: { menu: "Ügyfelek", kpi: "AKTÍV ÜGYFELEK", th1: "Név", th2: "Leírás" }
             };
-            
             const t = dict[ind] || dict.general;
-            
-            // Login képernyő elemek
-            document.getElementById('login_badge').innerText = t.badge;
-            document.getElementById('login_subtitle').innerText = t.sub;
-            
-            // Belső rendszer elemek
             document.getElementById('menu_main').innerText = t.menu;
-            document.getElementById('lbl_stat_2').innerText = t.stat2;
-            document.getElementById('th_name').innerText = t.th1;
-            document.getElementById('th_desc').innerText = t.th2;
-            document.getElementById('table_title').innerText = t.menu + " Listája";
+            document.getElementById('lbl_kpi').innerText = t.kpi;
+            document.getElementById('th_1').innerText = t.th1;
+            document.getElementById('th_2').innerText = t.th2;
         }
 
-        // --- 1. LOGIN KEZELÉS ---
-        function handleLogin(e) {
+        function doLogin(e) {
             e.preventDefault();
             const btn = e.target.querySelector('button');
-            const originalText = btn.innerText;
-            
-            // Kamu töltés animáció
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> HITELESÍTÉS...';
-            btn.disabled = true;
-
+            btn.innerText = 'Betöltés...';
             setTimeout(() => {
-                document.getElementById('login-section').style.opacity = 0;
+                document.getElementById('login-wrap').style.opacity = 0;
                 setTimeout(() => {
-                    document.getElementById('login-section').style.display = 'none';
-                    document.getElementById('app-section').style.display = 'flex';
-                    loadData(); // Adatok betöltése belépés után
+                    document.getElementById('login-wrap').style.display = 'none';
+                    document.getElementById('app-wrap').style.display = 'flex';
+                    loadData();
                 }, 500);
-            }, 1000);
+            }, 800);
         }
 
-        // --- 2. ADATOK BETÖLTÉSE ---
         async function loadData() {
             const res = await fetch('/api/clients');
             const clients = await res.json();
-            const currency = window.appConfig.currency || 'Ft';
-
             const tbody = document.getElementById('table_body');
             tbody.innerHTML = '';
-            
-            let total = 0;
-            let count = 0;
+            let total = 0, count = 0;
 
             clients.forEach(c => {
                 total += (c.amount || 0);
                 if(c.status === 'active') count++;
-
-                const statusBadge = c.status === 'active' 
-                    ? `<span class="badge-status bg-pending">Folyamatban</span>`
-                    : `<span class="badge-status bg-active">Kész</span>`;
-
-                const row = `
+                tbody.innerHTML += `
                     <tr>
-                        <td class="fw-bold text-white">${c.name}</td>
-                        <td class="text-muted small">${c.details}</td>
-                        <td>${statusBadge}</td>
-                        <td class="fw-bold small">${c.amount} ${currency}</td>
-                        <td class="text-end"><button class="btn btn-sm btn-outline-secondary border-0"><i class="bi bi-three-dots"></i></button></td>
-                    </tr>
-                `;
-                tbody.innerHTML += row;
+                        <td style="font-weight:bold; color:white;">${c.name}</td>
+                        <td style="color:#aaa;">${c.details}</td>
+                        <td><div class="badge">Folyamatban</div></td>
+                        <td>${c.amount} Ft</td>
+                    </tr>`;
             });
-
-            document.getElementById('stat_rev').innerText = total.toLocaleString() + " " + currency;
-            document.getElementById('stat_count').innerText = count;
+            document.getElementById('val_rev').innerText = total + " Ft";
+            document.getElementById('val_count').innerText = count;
         }
     </script>
 </body>
