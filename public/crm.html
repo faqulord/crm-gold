@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Rendszer | Vezérlőpult</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f1f5f9; font-family: 'Segoe UI', sans-serif; }
+        
+        /* Oldalsáv Design */
+        .sidebar { min-height: 100vh; background: #0f172a; color: white; width: 260px; transition: all 0.3s; position: fixed; left: 0; top: 0; z-index: 1000; }
+        .sidebar-header { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .nav-link { color: #94a3b8; padding: 12px 20px; font-size: 1.05rem; cursor: pointer; display: flex; align-items: center; transition: 0.2s; }
+        .nav-link:hover, .nav-link.active { background: rgba(255,255,255,0.1); color: #fff; border-right: 4px solid #3b82f6; }
+        .nav-link i { margin-right: 10px; font-size: 1.2rem; }
+        
+        /* Tartalom Design */
+        .main-content { margin-left: 260px; padding: 30px; }
+        .stat-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: none; }
+        .stat-value { font-size: 2rem; font-weight: bold; color: #0f172a; }
+        .stat-label { color: #64748b; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Mobil Nézet */
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.show { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn btn-dark d-md-none m-3 position-fixed" style="z-index: 2000;" onclick="toggleMenu()">
+        <i class="bi bi-list"></i> Menü
+    </button>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h4 class="mb-0 fw-bold text-white" id="companyName">Betöltés...</h4>
+            <small class="text-muted">Enterprise CRM v1.0</small>
+        </div>
+        <ul class="nav flex-column mt-4" id="menuList">
+            </ul>
+        <div class="mt-auto p-3 text-center border-top border-secondary">
+            <small class="text-white-50">Powered by FaquDeveloper</small>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold text-dark" id="pageTitle">Vezérlőpult</h2>
+            <button class="btn btn-primary btn-lg shadow-sm" onclick="alert('Ez a Demo verzió! Éles rendszerben itt nyílik meg az űrlap.')">
+                <i class="bi bi-plus-lg"></i> Új Tétel
+            </button>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="stat-card border-start border-4 border-primary">
+                    <div class="stat-label">Összes Ügyfél</div>
+                    <div class="stat-value">124</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card border-start border-4 border-success">
+                    <div class="stat-label">Havi Bevétel</div>
+                    <div class="stat-value">$4,500</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card border-start border-4 border-warning">
+                    <div class="stat-label">Nyitott Feladatok</div>
+                    <div class="stat-value">8</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="itemsContainer" class="row g-3">
+            <div class="col-12 text-center text-muted py-5">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="mt-2">Adatok betöltése...</p>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --- KONFIGURÁCIÓ ---
+    // Ezeket a menüket látja az ügyfél. Bármikor bővíthető!
+    const MENUS = [
+        { id: 'dashboard', label: '📊 Áttekintés', icon: 'bi-speedometer2' },
+        { id: 'ugyfelek', label: '👥 Ügyfelek', icon: 'bi-people' },
+        { id: 'raktar', label: '📦 Raktárkészlet', icon: 'bi-box-seam' },
+        { id: 'penzugy', label: '💰 Pénzügyek', icon: 'bi-wallet2' },
+        { id: 'teendok', label: '✅ Teendők', icon: 'bi-check-square' }
+    ];
+
+    // Rendszer indítása
+    async function init() {
+        try {
+            // 1. Cégnév lekérése a szerverről (Railway Variable)
+            const res = await fetch('/api/config');
+            const data = await res.json();
+            document.getElementById('companyName').innerText = data.name; // Itt írja ki a cég nevét!
+
+            // 2. Menü felépítése
+            const menuContainer = document.getElementById('menuList');
+            menuContainer.innerHTML = MENUS.map(m => `
+                <li class="nav-item mb-1">
+                    <a class="nav-link" onclick="loadPage('${m.label}')">
+                        <i class="bi ${m.icon}"></i> ${m.label}
+                    </a>
+                </li>
+            `).join('');
+
+            // 3. Alapértelmezett nézet
+            loadPage(MENUS[0].label);
+
+        } catch (err) {
+            console.error("Hiba:", err);
+            document.getElementById('companyName').innerText = "Hiba a betöltéskor";
+        }
+    }
+
+    // Oldal váltás (Demo módban csak a címet és demo adatot cserél)
+    function loadPage(label) {
+        document.getElementById('pageTitle').innerText = label;
+        
+        // Demo adat generálása (hogy lássák, működik)
+        const demoHTML = `
+            <div class="col-md-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="fw-bold text-primary"><i class="bi bi-info-circle"></i> ${label} betöltve</h5>
+                        <p class="text-muted">Itt jelennének meg a(z) ${label} adatai táblázatos formában.</p>
+                        <hr>
+                        <div class="alert alert-light border">
+                            <strong>Demo adat:</strong> Minta János - 2026.01.17 - <span class="badge bg-success">Aktív</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.getElementById('itemsContainer').innerHTML = demoHTML;
+        
+        // Mobilon bezárjuk a menüt kattintás után
+        if(window.innerWidth < 768) document.getElementById('sidebar').classList.remove('show');
+    }
+
+    function toggleMenu() {
+        document.getElementById('sidebar').classList.toggle('show');
+    }
+
+    init();
+</script>
+</body>
+</html>
