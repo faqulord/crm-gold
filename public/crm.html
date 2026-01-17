@@ -3,103 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Enterprise ERP Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Enterprise Core v2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        :root { --bg: #0a0a0c; --sidebar: #121214; --card: #18181b; --primary: #3b82f6; --text: #f4f4f5; --text-dim: #a1a1aa; --border: #27272a; }
-        * { box-sizing: border-box; transition: all 0.2s ease-in-out; }
-        body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+        :root { 
+            --bg: #050505; 
+            --sidebar: #0a0a0a; 
+            --card: #0f0f0f; 
+            --primary: #ff6600; 
+            --primary-glow: rgba(255, 102, 0, 0.15);
+            --text: #ffffff; 
+            --text-dim: #777; 
+            --border: #1a1a1a; 
+        }
+        * { box-sizing: border-box; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; font-weight: 400; }
 
-        /* OLDALSÁV */
-        aside { width: 260px; background: var(--sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 30px 20px; position: fixed; height: 100vh; z-index: 1000; }
-        .logo { font-size: 1.4rem; font-weight: 700; color: var(--primary); margin-bottom: 40px; display: flex; align-items: center; gap: 10px; }
-        .nav-link { padding: 14px 18px; border-radius: 12px; color: var(--text-dim); text-decoration: none; display: flex; align-items: center; gap: 15px; margin-bottom: 8px; cursor: pointer; border: 1px solid transparent; }
-        .nav-link:hover { background: #1e1e22; color: #fff; }
-        .nav-link.active { background: rgba(59,130,246,0.1); color: var(--primary); border-color: rgba(59,130,246,0.2); }
+        /* OLDALSÁV (LUXURY) */
+        aside { width: 260px; background: var(--sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 40px 25px; position: fixed; height: 100vh; z-index: 1000; }
+        .logo { font-size: 1.1rem; font-weight: 700; color: var(--primary); letter-spacing: 4px; margin-bottom: 50px; text-transform: uppercase; }
+        .nav-link { padding: 15px 0; color: var(--text-dim); text-decoration: none; display: flex; align-items: center; gap: 15px; margin-bottom: 10px; cursor: pointer; border-bottom: 1px solid transparent; font-size: 0.85rem; letter-spacing: 1px; }
+        .nav-link:hover { color: var(--primary); }
+        .nav-link.active { color: var(--primary); border-bottom: 1px solid var(--primary); }
+        .nav-link i { font-size: 1.1rem; }
 
-        main { flex: 1; margin-left: 260px; padding: 40px; max-width: 1400px; }
+        main { flex: 1; margin-left: 260px; padding: 50px; max-width: 1400px; }
 
-        /* KÁRTYÁK */
-        .header-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; }
-        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .card { background: var(--card); padding: 25px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .card small { color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; font-size: 0.75rem; }
-        .card .val { font-size: 2.2rem; font-weight: 700; margin: 10px 0; display: block; }
-        
+        /* STATISZTIKA */
+        .header-row { margin-bottom: 50px; }
+        .header-row h1 { font-size: 2.5rem; font-weight: 200; margin: 0; letter-spacing: -1px; }
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 50px; }
+        .card { background: var(--card); padding: 35px; border-radius: 4px; border: 1px solid var(--border); position: relative; overflow: hidden; }
+        .card::before { content: ""; position: absolute; top: 0; left: 0; width: 2px; height: 0; background: var(--primary); transition: 0.5s; }
+        .card:hover::before { height: 100%; }
+        .card small { color: var(--text-dim); font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
+        .card .val { font-size: 2.4rem; font-weight: 600; margin-top: 15px; display: block; letter-spacing: -1px; }
+
         /* TÁBLÁZAT */
-        .table-wrap { background: var(--card); border-radius: 20px; border: 1px solid var(--border); overflow: hidden; }
+        .table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 4px; }
         table { width: 100%; border-collapse: collapse; }
-        th { background: rgba(255,255,255,0.02); text-align: left; padding: 18px; font-size: 0.8rem; color: var(--text-dim); border-bottom: 1px solid var(--border); }
-        td { padding: 18px; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
-        tr:last-child td { border-bottom: none; }
-        tr:hover td { background: rgba(255,255,255,0.01); }
+        th { text-align: left; padding: 20px; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid var(--border); }
+        td { padding: 20px; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: #ccc; }
+        tr:hover td { color: #fff; background: rgba(255,255,255,0.01); }
 
-        /* GOMBOK */
-        .btn { padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px; font-family: inherit; }
-        .btn-primary { background: var(--primary); color: #fff; }
-        .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
-        .btn-outline:hover { background: var(--border); }
+        /* MODAL & BUTTONS */
+        .btn { padding: 12px 30px; border-radius: 2px; font-weight: 600; cursor: pointer; border: none; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; }
+        .btn-primary { background: var(--primary); color: #000; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: #fff; }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
 
-        /* LOGIN */
         #login-screen { position: fixed; inset: 0; background: var(--bg); z-index: 10001; display: flex; justify-content: center; align-items: center; }
-        .login-card { background: var(--card); padding: 50px; border-radius: 30px; border: 1px solid var(--border); width: 100%; max-width: 420px; text-align: center; }
+        .login-card { text-align: center; width: 100%; max-width: 320px; }
+        input { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--border); padding: 15px 0; color: #fff; margin-bottom: 30px; font-family: inherit; font-size: 1.1rem; text-align: center; }
+        input:focus { outline: none; border-bottom-color: var(--primary); }
 
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 10002; display: none; align-items: center; justify-content: center; padding: 20px; }
-        .modal-content { background: var(--card); padding: 40px; border-radius: 24px; width: 100%; max-width: 450px; border: 1px solid var(--border); }
-        input { width: 100%; background: #0a0a0a; border: 1px solid var(--border); padding: 16px; border-radius: 14px; color: #fff; margin-bottom: 15px; font-family: inherit; font-size: 1rem; }
-        input:focus { border-color: var(--primary); outline: none; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10002; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: var(--sidebar); padding: 50px; width: 100%; max-width: 450px; border: 1px solid var(--border); }
 
-        @media (max-width: 1024px) { aside { display: none; } main { margin-left: 0; padding: 20px; } }
+        @media (max-width: 1024px) { aside { display: none; } main { margin-left: 0; padding: 30px; } }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
         <div class="login-card">
-            <h2 id="l_comp" style="margin-bottom: 10px;">Betöltés...</h2>
-            <p style="color: var(--text-dim); margin-bottom: 30px;">Kérjük, adja meg a hozzáférési kódját.</p>
-            <input type="password" id="pass" placeholder="Rendszer jelszó">
-            <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="login()">Belépés a rendszerbe</button>
-            <button onclick="enterDemo()" style="background:none; border:none; color:var(--text-dim); margin-top:20px; cursor:pointer; font-size: 0.85rem;">Belépés csak megtekintésre</button>
+            <h1 id="l_comp" style="font-weight: 200; letter-spacing: 5px; margin-bottom: 50px;">ENTERPRISE</h1>
+            <input type="password" id="pass" placeholder="SECURITY CODE">
+            <button class="btn btn-primary" style="width: 100%;" onclick="login()">AUTHORIZE</button>
+            <button onclick="enterAsStaff()" style="background:none; border:none; color:var(--text-dim); margin-top:30px; cursor:pointer; font-size: 0.7rem; letter-spacing: 2px;">STAFF ACCESS</button>
         </div>
     </div>
 
     <div id="app" style="display:none;" class="wrapper">
         <aside>
-            <div class="logo"><i class="bi bi-shield-check"></i> Enterprise</div>
-            <div class="nav-link active" onclick="switchTab('home', this)"><i class="bi bi-pie-chart"></i> <span id="m_home">Dashboard</span></div>
-            <div class="nav-link" onclick="switchTab('inv', this)"><i class="bi bi-box-seam"></i> <span>Raktár</span></div>
-            <div class="nav-link" onclick="switchTab('parts', this)"><i class="bi bi-briefcase"></i> <span>Partnerek</span></div>
-            <div class="nav-link" id="nav-staff" onclick="switchTab('staff', this)"><i class="bi bi-people"></i> <span>Csapat</span></div>
-            <div style="margin-top:auto" class="nav-link" onclick="location.reload()"><i class="bi bi-box-arrow-left"></i> Kijelentkezés</div>
+            <div class="logo">Core System</div>
+            <div class="nav-link active" onclick="switchTab('home', this)"><i class="bi bi-layers"></i> Dashboard</div>
+            <div class="nav-link" onclick="switchTab('inv', this)"><i class="bi bi-box-seam"></i> Inventory</div>
+            <div class="nav-link" onclick="switchTab('parts', this)"><i class="bi bi-shield-check"></i> Partners</div>
+            <div class="nav-link admin-only" id="nav-staff" onclick="switchTab('staff', this)"><i class="bi bi-person-badge"></i> Personnel</div>
+            <div style="margin-top:auto" class="nav-link" onclick="location.reload()"><i class="bi bi-lock"></i> Terminate</div>
         </aside>
 
         <main>
             <div id="tab-home" class="tab-content active">
                 <div class="header-row">
-                    <div>
-                        <h1 id="h_comp" style="margin:0;">Vállalkozás</h1>
-                        <p style="color: var(--text-dim);" id="sub_text">Üdvözöljük a vezérlőpulton.</p>
-                    </div>
-                    <div style="display:flex; gap:10px;">
-                        <button class="btn btn-outline" onclick="openModal('expenses')"><i class="bi bi-dash-circle"></i> Kiadás</button>
-                        <button class="btn btn-primary" onclick="openModal('clients')"><i class="bi bi-plus-circle"></i> Új rögzítése</button>
+                    <h1 id="h_comp">ADMINISTRATION</h1>
+                    <div style="margin-top: 20px; display: flex; gap: 15px;">
+                        <button class="btn btn-outline" onclick="openModal('expenses')">+ Expense</button>
+                        <button class="btn btn-primary" onclick="openModal('clients')">+ Transaction</button>
                     </div>
                 </div>
 
-                <div class="stat-grid" id="stats">
-                    <div class="card"><small id="lbl_rev">BEVÉTEL</small><span class="val" id="tot_rev">0</span></div>
-                    <div class="card"><small>HAVI KIADÁS</small><span class="val" style="color:#ef4444" id="tot_exp">0</span></div>
-                    <div class="card" style="border-color: var(--primary);"><small>NETTÓ PROFIT</small><span class="val" style="color:#10b981" id="tot_prof">0</span></div>
+                <div class="stat-grid admin-only" id="admin-stats">
+                    <div class="card"><small id="lbl_rev">Revenue</small><span class="val" id="tot_rev">0</span></div>
+                    <div class="card"><small>Operational Cost</small><span class="val" id="tot_exp" style="color: #666;">0</span></div>
+                    <div class="card"><small>Net Profit</small><span class="val" id="tot_profit" style="color: var(--primary);">0</span></div>
                 </div>
 
-                <h3 id="lbl_list" style="margin-bottom:20px;">Tranzakciók</h3>
                 <div class="table-wrap">
                     <table>
                         <thead>
-                            <tr><th id="th_n">Név</th><th id="th_d">Tétel</th><th>Összeg</th><th></th></tr>
+                            <tr><th id="th_n">Entity</th><th id="th_d">Reference</th><th>Amount</th><th class="admin-only">Action</th></tr>
                         </thead>
                         <tbody id="list-body"></tbody>
                     </table>
@@ -107,114 +112,90 @@
             </div>
 
             <div id="tab-inv" class="tab-content">
-                <div class="header-row"><h3>Készletnyilvántartás</h3><button class="btn btn-primary" onclick="openModal('inventory')">+ Új tétel</button></div>
-                <div class="table-wrap"><table><thead><tr><th>Megnevezés</th><th>Készlet</th><th>Egységár</th><th></th></tr></thead><tbody id="inv-body"></tbody></table></div>
+                <div class="header-row"><h1>STOCKS</h1><button class="btn btn-primary" onclick="openModal('inventory')">+ Add Item</button></div>
+                <div class="table-wrap"><table><thead><tr><th>Resource</th><th>Quantity</th><th>Unit Price</th><th class="admin-only"></th></tr></thead><tbody id="inv-body"></tbody></table></div>
             </div>
 
             <div id="tab-parts" class="tab-content">
-                <div class="header-row"><h3>Üzleti Kapcsolatok</h3><button class="btn btn-primary" onclick="openModal('partners')">+ Partner hozzáadása</button></div>
-                <div class="table-wrap"><table><thead><tr><th>Partner</th><th>Elérhetőség</th><th>Típus</th><th></th></tr></thead><tbody id="parts-body"></tbody></table></div>
+                <div class="header-row"><h1>PARTNERS</h1><button class="btn btn-primary" onclick="openModal('partners')">+ New Entity</button></div>
+                <div class="table-wrap"><table><thead><tr><th>Entity Name</th><th>Contact</th><th>Type</th><th class="admin-only"></th></tr></thead><tbody id="parts-body"></tbody></table></div>
             </div>
 
             <div id="tab-staff" class="tab-content">
-                <div class="header-row"><h3>Munkatársak</h3><button class="btn btn-primary" onclick="openModal('employees')">+ Új tag</button></div>
-                <div class="table-wrap"><table><thead><tr><th>Név</th><th>Beosztás</th><th>Havi bér</th><th></th></tr></thead><tbody id="staff-body"></tbody></table></div>
+                <div class="header-row"><h1>PERSONNEL</h1><button class="btn btn-primary" onclick="openModal('employees')">+ New Member</button></div>
+                <div class="table-wrap"><table><thead><tr><th>Name</th><th>Position</th><th>Compensation</th><th class="admin-only"></th></tr></thead><tbody id="staff-body"></tbody></table></div>
             </div>
         </main>
     </div>
 
     <div class="modal" id="modal">
         <div class="modal-content">
-            <h3 id="m_title" style="margin-top:0; margin-bottom:25px;">Adatok rögzítése</h3>
+            <h2 id="m_title" style="font-weight: 200; letter-spacing: 3px; margin-bottom: 40px;">DATA ENTRY</h2>
             <div id="m_fields"></div>
-            <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="save()">Adatok mentése</button>
-            <button onclick="closeModal()" style="width:100%; background:none; border:none; color:var(--text-dim); margin-top:15px; cursor:pointer;">Mégse</button>
+            <button class="btn btn-primary" style="width: 100%;" onclick="save()">Execute</button>
+            <button onclick="closeModal()" style="width:100%; background:none; border:none; color:var(--text-dim); margin-top:20px; cursor:pointer; font-size: 0.7rem; letter-spacing: 2px;">CANCEL</button>
         </div>
     </div>
 
     <script>
-        let config = { currency: 'Ft' };
-        let isAdmin = false;
-        let activeType = '';
+        let config = {}; let role = 'staff'; let activeType = '';
 
         async function init() {
-            try {
-                const res = await fetch('/api/config');
-                config = await res.json();
-                document.getElementById('l_comp').innerText = config.companyName;
-                document.getElementById('h_comp').innerText = config.companyName;
+            const res = await fetch('/api/config'); config = await res.json();
+            document.getElementById('l_comp').innerText = config.companyName;
+            document.getElementById('h_comp').innerText = config.companyName;
 
-                // IPARÁG SZÓTÁR - Itt dől el a felirat
-                const dict = {
-                    restaurant: { rev: "VENDÉGLÁTÁS FORGALOM", list: "Mai Rendelések", n: "Asztal", d: "Rendelt ételek", sub: "Étteremvezetői Dashboard" },
-                    doctor: { rev: "RENDELŐI BEVÉTEL", list: "Páciens Napló", n: "Páciens", d: "Beavatkozás", sub: "Orvosi Adminisztráció" },
-                    mechanic: { rev: "SZERVIZ FORGALOM", list: "Munkalapok", n: "Rendszám", d: "Hiba/Javítás", sub: "Műhelyirányítás" },
-                    general: { rev: "BEVÉTEL ÖSSZESÍTŐ", list: "Ügyfél Tranzakciók", n: "Ügyfél", d: "Részletek", sub: "Vállalati Vezérlőpult" }
-                };
-                
-                const t = dict[config.industry] || dict.general;
-                document.getElementById('lbl_rev').innerText = t.rev;
-                document.getElementById('lbl_list').innerText = t.list;
-                document.getElementById('th_n').innerText = t.n;
-                document.getElementById('th_d').innerText = t.d;
-                document.getElementById('sub_text').innerText = t.sub;
-            } catch(e) { console.error("Config hiba", e); }
+            const dict = {
+                restaurant: { rev: "GASTRO REVENUE", list: "ORDERS", n: "TABLE", d: "ITEMS" },
+                doctor: { rev: "CLINIC REVENUE", list: "PATIENTS", n: "PATIENT", d: "TREATMENT" },
+                mechanic: { rev: "SERVICE REVENUE", list: "JOBS", n: "PLATE", d: "DIAGNOSIS" },
+                general: { rev: "TOTAL REVENUE", list: "TRANSACTIONS", n: "ENTITY", d: "DETAILS" }
+            };
+            const t = dict[config.industry] || dict.general;
+            document.getElementById('lbl_rev').innerText = t.rev;
+            document.getElementById('th_n').innerText = t.n; document.getElementById('th_d').innerText = t.d;
         }
 
         async function login() {
-            const res = await fetch('/api/login', { 
-                method: 'POST', 
-                headers: {'Content-Type': 'application/json'}, 
-                body: JSON.stringify({ password: document.getElementById('pass').value })
-            });
-            if(res.ok) { isAdmin = true; start(); } else alert('Helytelen kód!');
+            const res = await fetch('/api/login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({password: document.getElementById('pass').value})});
+            if(res.ok) { role = 'admin'; unlock(); } else alert('AUTH FAILED');
         }
 
-        function enterDemo() { isAdmin = false; start(); }
+        function enterAsStaff() { role = 'staff'; unlock(); }
 
-        function start() {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('app').style.display = 'flex';
-            if(!isAdmin) document.getElementById('stats').style.opacity = '0.1';
+        function unlock() {
+            document.getElementById('login-screen').style.display='none';
+            document.getElementById('app').style.display='flex';
+            if(role === 'admin') document.querySelectorAll('.admin-only').forEach(e => e.style.display = 'block');
             refresh();
         }
 
         async function refresh() {
             const get = t => fetch('/api/'+t).then(r => r.json());
             const [c, i, p, e, ex] = await Promise.all([get('clients'), get('inventory'), get('partners'), get('employees'), get('expenses')]);
+            
+            if(role === 'admin') {
+                const totalRev = c.reduce((s,x)=>s+x.amount,0);
+                const totalExp = ex.reduce((s,x)=>s+x.amount,0);
+                const totalSal = e.reduce((s,x)=>s+(x.salary||0),0);
+                document.getElementById('tot_rev').innerText = totalRev.toLocaleString() + ' ' + config.currency;
+                document.getElementById('tot_exp').innerText = (totalExp + totalSal).toLocaleString() + ' ' + config.currency;
+                document.getElementById('tot_profit').innerText = (totalRev - totalExp - totalSal).toLocaleString() + ' ' + config.currency;
+            }
 
-            const rev = c.reduce((s,x)=>s+x.amount,0);
-            const exp = ex.reduce((s,x)=>s+x.amount,0);
-            const sal = e.reduce((s,x)=>s+(x.salary||0),0);
-
-            document.getElementById('tot_rev').innerText = rev.toLocaleString() + ' ' + config.currency;
-            document.getElementById('tot_exp').innerText = (exp + sal).toLocaleString() + ' ' + config.currency;
-            document.getElementById('tot_prof').innerText = (rev - exp - sal).toLocaleString() + ' ' + config.currency;
-
-            const draw = (data, target, type, fields) => {
-                document.getElementById(target).innerHTML = data.map(x => `
-                    <tr>
-                        ${fields.map(f => `<td>${f === 'amount' || f === 'price' || f === 'salary' ? (x[f]||0).toLocaleString() : (x[f]||'')}</td>`).join('')}
-                        <td style="text-align:right;">${isAdmin ? `<i class="bi bi-trash" style="color:#ef4444; cursor:pointer;" onclick="del('${type}','${x._id}')"></i>` : ''}</td>
-                    </tr>
-                `).join('');
-            };
-
-            draw(c, 'list-body', 'clients', ['name', 'details', 'amount']);
-            draw(i, 'inv-body', 'inventory', ['name', 'qty', 'price']);
-            draw(p, 'parts-body', 'partners', ['name', 'contact', 'type']);
-            draw(e, 'staff-body', 'employees', ['name', 'role', 'salary']);
+            const delBtn = (t,id) => role === 'admin' ? `<i class="bi bi-trash" onclick="delItem('${t}','${id}')" style="color:#333; cursor:pointer;"></i>` : '';
+            
+            document.getElementById('list-body').innerHTML = c.map(x => `<tr><td>${x.name}</td><td>${x.details}</td><td>${x.amount.toLocaleString()}</td><td class="admin-only">${delBtn('clients',x._id)}</td></tr>`).join('');
+            document.getElementById('inv-body').innerHTML = i.map(x => `<tr><td>${x.name}</td><td>${x.qty}</td><td>${x.price.toLocaleString()}</td><td class="admin-only">${delBtn('inventory',x._id)}</td></tr>`).join('');
+            document.getElementById('parts-body').innerHTML = p.map(x => `<tr><td>${x.name}</td><td>${x.contact}</td><td>${x.type}</td><td class="admin-only">${delBtn('partners',x._id)}</td></tr>`).join('');
+            document.getElementById('staff-body').innerHTML = e.map(x => `<tr><td>${x.name}</td><td>${x.role}</td><td>${(x.salary||0).toLocaleString()}</td><td class="admin-only">${delBtn('employees',x._id)}</td></tr>`).join('');
         }
 
         function openModal(type) {
             activeType = type;
-            let h = '';
-            if(type === 'clients') h = '<input id="i1" placeholder="Név / Azonosító"><input id="i2" placeholder="Tétel / Leírás"><input id="i3" type="number" placeholder="Összeg">';
-            if(type === 'inventory') h = '<input id="i1" placeholder="Termék"><input id="i2" type="number" placeholder="Készlet"><input id="i3" type="number" placeholder="Ár">';
-            if(type === 'partners') h = '<input id="i1" placeholder="Partner neve"><input id="i2" placeholder="Kapcsolat (Email/Tel)"><input id="i3" placeholder="Típus">';
-            if(type === 'employees') h = '<input id="i1" placeholder="Név"><input id="i2" placeholder="Beosztás"><input id="i3" type="number" placeholder="Havi fizetés">';
-            if(type === 'expenses') h = '<input id="i1" placeholder="Megnevezés"><input id="i3" type="number" placeholder="Kiadás összege">';
-            
+            let h = `<input id="i1" placeholder="NAME / ID"><input id="i2" placeholder="DESCRIPTION"><input id="i3" type="number" placeholder="VALUE">`;
+            if(type === 'employees') h = `<input id="i1" placeholder="MEMBER NAME"><input id="i2" placeholder="POSITION"><input id="i3" type="number" placeholder="SALARY">`;
+            if(type === 'expenses') h = `<input id="i1" placeholder="EXPENSE TITLE"><input id="i3" type="number" placeholder="AMOUNT">`;
             document.getElementById('m_fields').innerHTML = h;
             document.getElementById('modal').style.display = 'flex';
         }
@@ -225,21 +206,17 @@
                 qty: Number(val('i2')||0), price: Number(val('i3')||0), 
                 contact: val('i2'), type: val('i3'), role: val('i2'), salary: Number(val('i3')||0)
             };
-            await fetch('/api/'+activeType, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)});
+            await fetch('/api/'+activeType, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)});
             closeModal(); refresh();
         }
 
-        async function del(type, id) {
-            if(confirm('Véglegesen törli ezt az elemet?')) {
-                await fetch(`/api/${type}/${id}`, { method: 'DELETE' });
-                refresh();
-            }
+        async function delItem(type, id) {
+            if(confirm('TERMINATE DATA?')) { await fetch(`/api/${type}/${id}`, { method: 'DELETE' }); refresh(); }
         }
 
         function switchTab(t, b) {
             document.querySelectorAll('.tab-content, .nav-link').forEach(x => x.classList.remove('active'));
-            document.getElementById('tab-'+t).classList.add('active');
-            b.classList.add('active');
+            document.getElementById('tab-'+t).classList.add('active'); b.classList.add('active');
         }
 
         const val = id => document.getElementById(id).value;
