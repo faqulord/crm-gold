@@ -3,87 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FaquDeveloper | Modern Vállalatirányítás</title>
+    <title>FaquDeveloper | Enterprise CRM Systems</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        :root { --primary: #3b82f6; --bg: #050505; --card: #111; --text: #fff; }
+        :root { --primary: #3b82f6; --bg: #000000; --card: #0a0a0a; --text: #ffffff; --border: #1a1a1a; }
         * { box-sizing: border-box; scroll-behavior: smooth; }
         body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
 
         /* NAVBAR */
-        nav { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: rgba(5,5,5,0.8); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid #222; }
-        .logo { font-size: 1.5rem; font-weight: 800; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        nav { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); }
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -1px; text-transform: uppercase; color: var(--primary); }
 
         /* HERO SECTION */
-        header { padding: 100px 5%; text-align: center; background: radial-gradient(circle at top right, #1e3a8a33, transparent); }
-        h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; line-height: 1.1; }
-        p.subtitle { font-size: 1.2rem; color: #888; max-width: 600px; margin: 0 auto 40px; }
-        
-        .btn-cta { background: var(--primary); color: white; padding: 18px 40px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1.1rem; display: inline-block; box-shadow: 0 10px 30px rgba(59,130,246,0.3); transition: 0.3s; }
-        .btn-cta:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(59,130,246,0.5); }
+        header { padding: 120px 5%; text-align: center; background: radial-gradient(circle at center, #1e3a8a22, transparent); }
+        h1 { font-size: 4rem; font-weight: 800; margin-bottom: 20px; line-height: 1; letter-spacing: -2px; }
+        p.subtitle { font-size: 1.3rem; color: #666; max-width: 700px; margin: 0 auto 40px; }
 
-        /* FEATURES */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 50px 5%; }
-        .f-card { background: var(--card); padding: 40px; border-radius: 24px; border: 1px solid #222; transition: 0.3s; }
-        .f-card:hover { border-color: var(--primary); background: #161616; }
-        .icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
-        h3 { margin: 0 0 15px 0; font-size: 1.5rem; }
+        .btn-cta { background: var(--primary); color: white; padding: 20px 45px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 1.1rem; display: inline-block; transition: 0.3s; text-transform: uppercase; }
+        .btn-cta:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(59,130,246,0.4); }
+
+        /* PRICING */
+        .section-title { text-align: center; padding-top: 80px; font-size: 2.5rem; font-weight: 800; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 50px 5%; max-width: 1200px; margin: 0 auto; }
+        
+        .p-card { background: var(--card); padding: 40px; border-radius: 20px; border: 1px solid var(--border); transition: 0.4s; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+        .p-card:hover { border-color: var(--primary); transform: scale(1.02); }
+        .p-card.featured { border: 2px solid var(--primary); background: #0c0c0c; }
+        
+        .plan-name { font-size: 0.8rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        .plan-price { font-size: 2.5rem; font-weight: 800; margin-bottom: 30px; }
+        .features-list { list-style: none; padding: 0; margin: 0 0 40px 0; flex-grow: 1; }
+        .features-list li { margin-bottom: 12px; color: #aaa; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; }
+        .features-list li i { color: var(--primary); }
 
         /* INDUSTRIES */
-        .ind-box { background: #0a0a0a; padding: 80px 5%; text-align: center; }
-        .ind-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 40px; }
-        .badge { padding: 10px 25px; border-radius: 50px; background: #222; border: 1px solid #333; font-weight: 600; }
+        .ind-box { background: #050505; padding: 100px 5%; text-align: center; }
+        .badge-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 40px; }
+        .badge { padding: 12px 30px; border-radius: 10px; background: #000; border: 1px solid #222; font-weight: 600; color: #888; transition: 0.3s; }
 
-        footer { padding: 50px; text-align: center; border-top: 1px solid #222; color: #444; font-size: 0.9rem; }
+        footer { padding: 60px; text-align: center; border-top: 1px solid var(--border); color: #333; }
+        .sig { font-style: italic; font-weight: 300; margin-top: 10px; display: block; }
 
-        @media (max-width: 768px) { h1 { font-size: 2.5rem; } }
+        @media (max-width: 768px) { h1 { font-size: 2.8rem; } }
     </style>
 </head>
 <body>
 
     <nav>
         <div class="logo">FaquDeveloper</div>
-        <div style="font-weight: 600; color: var(--primary);">v2.0 Enterprise</div>
+        <div style="font-weight: 800; font-size: 0.8rem; letter-spacing: 1px; color: var(--primary);">V3.0 ENTERPRISE CORE</div>
     </nav>
 
     <header>
-        <h1>Vége a papírozásnak.<br>Itt a jövő CRM rendszere.</h1>
-        <p class="subtitle">Egyszerű, mobilra optimalizált vállalatirányítási rendszer kis- és középvállalkozásoknak. Kezelje raktárát, alkalmazottait és pénzügyeit egy helyen.</p>
-        <a href="/demo" class="btn-cta">Díjmentes Demó Kipróbálása</a>
+        <h1>A Vállalkozásod,<br><span style="color: var(--primary);">Okosítva.</span></h1>
+        <p class="subtitle">Dobd ki a papírokat és az Excel táblákat. Adok egy szoftvert, ami átláthatóvá teszi a pénzügyeidet, az ügyfeleidet és a határidőidet.</p>
+        <a href="mailto:skyhigh983@proton.me?subject=Erdeklodes FaquDeveloper CRM" class="btn-cta">Ajánlatot kérek</a>
     </header>
 
-    <div class="grid">
-        <div class="f-card">
-            <div class="icon"><i class="bi bi-phone"></i></div>
-            <h3>Mobil-Első Élmény</h3>
-            <p>Irányítsa cégét a zsebéből. Minden funkció tökéletesen működik telefonon és tableten is.</p>
-        </div>
-        <div class="f-card">
-            <div class="icon"><i class="bi bi-chat-heart"></i></div>
-            <h3>Belső Csapat Chat</h3>
-            <p>Felejtse el a kaotikus Messenger csoportokat. Beszéljen alkalmazottaival közvetlenül a rendszerben.</p>
-        </div>
-        <div class="f-card">
-            <div class="icon"><i class="bi bi-graph-up-arrow"></i></div>
-            <h3>Valós Idejű Zárás</h3>
-            <p>Lássa azonnal a napi és havi bevételeit, kiadásait és a raktárkészlet aktuális értékét.</p>
-        </div>
-    </div>
+    <h2 class="section-title">Csomagajánlatok</h2>
 
-    <div class="ind-box">
-        <h2>Bármilyen iparághoz alkalmazkodik</h2>
-        <p style="color: #666;">Egyetlen kattintással átállítható kezelőfelület az Ön üzletére szabva.</p>
-        <div class="ind-grid">
-            <span class="badge"><i class="bi bi-cup-hot"></i> Vendéglátás</span>
-            <span class="badge"><i class="bi bi-tools"></i> Autószerviz</span>
-            <span class="badge"><i class="bi bi-hospital"></i> Magánrendelő</span>
-            <span class="badge"><i class="bi bi-briefcase"></i> Irodai CRM</span>
+    <div class="pricing-grid">
+        <div class="p-card">
+            <span class="plan-name">Basic</span>
+            <div class="plan-price">Alapmegoldás</div>
+            <ul class="features-list">
+                <li><i class="bi bi-check2"></i> Iparág-specifikus felület</li>
+                <li><i class="bi bi-check2"></i> Ügyféllista & Státuszkezelés</li>
+                <li><i class="bi bi-check2"></i> Másodpercre pontos naplózás</li>
+                <li><i class="bi bi-check2"></i> Mobilbarát Irányítópult</li>
+                <li style="opacity: 0.3;"><i class="bi bi-x"></i> Jegyzetek & Dokumentáció</li>
+                <li style="opacity: 0.3;"><i class="bi bi-x"></i> Havi Zárás & Export</li>
+            </ul>
+            <a href="mailto:skyhigh983@proton.me?subject=Basic Csomag Erdeklodes" class="btn-cta" style="width: 100%; text-align: center; padding: 15px;">Érdekel</a>
+        </div>
+
+        <div class="p-card featured">
+            <span class="plan-name" style="color: #fff; background: var(--primary); padding: 2px 8px; border-radius: 4px; display: inline-block;">Legnépszerűbb</span>
+            <span class="plan-name" style="margin-top: 10px;">Pro</span>
+            <div class="plan-price">Dokumentált Üzlet</div>
+            <ul class="features-list">
+                <li><i class="bi bi-check2-all"></i> Minden, ami a Basicben</li>
+                <li><i class="bi bi-check2-all"></i> <b>Dokumentumok kezelése</b></li>
+                <li><i class="bi bi-check2-all"></i> Részletes munkalap jegyzetek</li>
+                <li><i class="bi bi-check2-all"></i> Sidebar navigáció</li>
+                <li><i class="bi bi-check2-all"></i> Felhő alapú adattárolás</li>
+                <li style="opacity: 0.3;"><i class="bi bi-x"></i> Pénzügyi modul & Bevétel</li>
+            </ul>
+            <a href="mailto:skyhigh983@proton.me?subject=Pro Csomag Erdeklodes" class="btn-cta" style="width: 100%; text-align: center; padding: 15px;">Ezt választom</a>
+        </div>
+
+        <div class="p-card">
+            <span class="plan-name">Premium</span>
+            <div class="plan-price">Mester Rendszer</div>
+            <ul class="features-list">
+                <li><i class="bi bi-trophy"></i> Teljes PRO funkcionalitás</li>
+                <li><i class="bi bi-trophy"></i> <b>Pénzügyi modul (Bevételek)</b></li>
+                <li><i class="bi bi-trophy"></i> <b>Havi Zárás & Kimutatás</b></li>
+                <li><i class="bi bi-trophy"></i> <b>Excel / CSV Exportálás</b></li>
+                <li><i class="bi bi-trophy"></i> Egyedi branding & színek</li>
+                <li><i class="bi bi-trophy"></i> VIP Terméktámogatás</li>
+            </ul>
+            <a href="mailto:skyhigh983@proton.me?subject=Premium Csomag Erdeklodes" class="btn-cta" style="width: 100%; text-align: center; padding: 15px;">Mindent kérek</a>
         </div>
     </div>
 
     <footer>
-        &copy; 2026 FaquDeveloper Enterprise Systems. Minden jog fenntartva.
+        <p>&copy; 2026 FaquDeveloper Systems.</p>
+        <span class="sig">faqudeveloper system</span>
     </footer>
 
 </body>
