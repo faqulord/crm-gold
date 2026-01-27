@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Vapsolo Debrecen | Premium Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Top Vapsolo Debrecen | 4in1 Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --bg-dark: #050505;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --neon-blue: #00f3ff;
-            --neon-purple: #bc13fe;
-            --text-main: #ffffff;
-            --text-muted: #a1a1aa;
+            /* A TE LINKED BEILLESZTVE: */
+            --sprite-image: url('https://i.postimg.cc/1tFJNXpp/received-752156714173959.jpg');
+            
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --accent-color: #38bdf8;
         }
 
         * {
@@ -27,239 +27,160 @@
 
         body {
             background-color: var(--bg-dark);
-            color: var(--text-main);
+            color: var(--text-primary);
             overflow-x: hidden;
         }
 
-        /* --- HÁTTÉR EFFEKT --- */
-        .bg-orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(100px);
-            z-index: -1;
-            animation: float 10s infinite ease-in-out;
-        }
-        .orb-1 { width: 400px; height: 400px; background: var(--neon-purple); top: -100px; left: -100px; opacity: 0.3; }
-        .orb-2 { width: 300px; height: 300px; background: var(--neon-blue); bottom: 0; right: 0; opacity: 0.2; }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, 50px); }
-        }
-
-        /* --- HERO SECTION --- */
-        header {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            position: relative;
-        }
-
-        .hero-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            max-width: 1400px;
-            width: 100%;
-            align-items: center;
-            z-index: 2;
-        }
-
-        .hero-text h1 {
-            font-size: 4.5rem;
-            font-weight: 900;
-            line-height: 1.1;
-            background: linear-gradient(to right, #fff, var(--text-muted));
-            -webkit-background-clip: text;
-            color: transparent;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-        }
-
-        .hero-text .badge {
-            background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 0 20px rgba(188, 19, 254, 0.5);
-        }
-
-        .pricing-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(20px);
-            padding: 2rem;
-            border-radius: 20px;
-            margin-top: 2rem;
-            display: inline-block;
-            min-width: 300px;
-        }
-
-        .price-big {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--neon-blue);
-            text-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
-        }
-
-        .hero-image {
-            position: relative;
-        }
-
-        .hero-image img {
-            width: 100%;
-            max-width: 600px;
-            border-radius: 30px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-            border: 2px solid var(--glass-border);
-            transform: perspective(1000px) rotateY(-10deg);
-            transition: transform 0.5s ease;
-        }
-
-        .hero-image img:hover {
-            transform: perspective(1000px) rotateY(0deg);
-        }
-
-        /* --- TELEGRAM BUTTON (FIXED) --- */
-        .telegram-fixed {
+        /* --- LEBEGŐ TELEGRAM GOMB --- */
+        .telegram-btn {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background: #229ED9;
-            color: white;
             width: 70px;
             height: 70px;
+            background: linear-gradient(135deg, #229ED9, #0088cc);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 35px;
-            box-shadow: 0 0 30px rgba(34, 158, 217, 0.6);
-            z-index: 100;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 36px;
+            color: white;
             text-decoration: none;
-            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 10px 30px rgba(34, 158, 217, 0.5);
+            z-index: 1000;
+            border: 3px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
         }
 
-        .telegram-fixed:hover {
+        .telegram-btn:hover {
             transform: scale(1.1) rotate(10deg);
-            box-shadow: 0 0 50px rgba(34, 158, 217, 0.8);
         }
 
-        .telegram-cta-text {
-            position: fixed;
-            bottom: 45px;
-            right: 110px;
-            background: white;
-            color: #229ED9;
-            padding: 5px 15px;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            opacity: 0;
-            transform: translateX(20px);
-            animation: slideIn 1s 2s forwards;
-            pointer-events: none;
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 158, 217, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(34, 158, 217, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 158, 217, 0); }
         }
 
-        @keyframes slideIn {
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* --- PRODUCTS GRID --- */
-        .products-section {
-            padding: 5rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section-title {
+        /* --- HERO HEADER --- */
+        header {
+            padding: 4rem 1rem;
             text-align: center;
-            font-size: 3rem;
-            margin-bottom: 4rem;
+            background: radial-gradient(circle at top, #334155 0%, var(--bg-dark) 70%);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 5px;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .price-tag {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid var(--accent-color);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .price-main {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-color);
+        }
+
+        /* --- TERMÉK RÁCS --- */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
         }
 
-        /* --- PROFI KÁRTYA DESIGN --- */
+        /* --- KÁRTYA STÍLUS --- */
         .card {
-            background: #121212;
+            background: var(--card-bg);
             border-radius: 20px;
             overflow: hidden;
-            position: relative;
-            transition: all 0.4s ease;
             border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            border-color: var(--card-color);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            border-color: var(--accent-color);
         }
 
-        /* Ez a trükk: CSS-sel rajzoljuk meg a Vape-et a kép színei alapján */
-        .vape-visual {
-            height: 180px;
-            background: radial-gradient(circle at center, #2a2a2a, #000);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* A VARÁZSLAT: KÉP VÁGÁSA */
+        .card-image-crop {
+            height: 280px; /* A vape magassága a kártyán */
+            width: 100%;
+            background-image: var(--sprite-image);
+            background-size: 500%; /* Mivel 5 termék van egymás mellett a képen */
+            background-repeat: no-repeat;
             position: relative;
+            background-color: #111; /* Sötét háttér betöltésig */
         }
 
-        .vape-mockup {
-            width: 70px;
-            height: 120px;
-            border-radius: 15px;
-            background: linear-gradient(135deg, var(--card-color) 40%, #111 100%);
-            position: relative;
-            box-shadow: 0 0 20px var(--card-glow);
-        }
-        
-        /* A szívóka része */
-        .vape-mockup::before {
-            content: '';
-            position: absolute;
-            top: -15px;
-            left: 20px;
-            width: 30px;
-            height: 15px;
-            background: rgba(255,255,255,0.8);
-            border-radius: 5px 5px 0 0;
-            opacity: 0.5;
-        }
+        /* Pozíciók beállítása (X tengely: 0%, 25%, 50%, 75%, 100%) */
+        /* FELSŐ SOR */
+        .pos-1 { background-position: 0% 17%; }
+        .pos-2 { background-position: 25% 17%; }
+        .pos-3 { background-position: 50% 17%; }
+        .pos-4 { background-position: 75% 17%; }
+        .pos-5 { background-position: 100% 17%; }
 
-        .card-number {
+        /* ALSÓ SOR */
+        .pos-6 { background-position: 0% 86%; }
+        .pos-7 { background-position: 25% 86%; }
+        .pos-8 { background-position: 50% 86%; }
+        .pos-9 { background-position: 75% 86%; }
+        .pos-10 { background-position: 100% 86%; }
+
+        /* Kártya szám */
+        .card-num {
             position: absolute;
             top: 10px;
             right: 15px;
-            font-size: 4rem;
+            font-size: 3.5rem;
             font-weight: 900;
-            color: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.1);
             line-height: 1;
         }
 
         .card-content {
             padding: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
 
         .card-title {
             font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: var(--card-color);
+            font-weight: 800;
             text-transform: uppercase;
-            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #fff;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -271,119 +192,98 @@
 
         .flavor-list li {
             font-size: 0.9rem;
-            margin-bottom: 8px;
-            color: #d4d4d8;
+            color: #cbd5e1;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
             gap: 8px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 5px;
         }
 
         .flavor-list li i {
-            font-size: 0.7rem;
-            color: var(--card-color);
+            font-size: 6px;
+            color: var(--accent-color);
         }
 
-        /* --- RESPONSIVE --- */
-        @media (max-width: 900px) {
-            .hero-container {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .hero-image img {
-                transform: none;
-                margin-top: 2rem;
-            }
-            .hero-text h1 {
-                font-size: 3rem;
-            }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            .card-image-crop { height: 220px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
-
-    <div class="telegram-cta-text">Kérj ajánlatot!</div>
-    <a href="https://t.me/te_telegram_neved" target="_blank" class="telegram-fixed">
+    <a href="https://t.me/te_telegram_neved" target="_blank" class="telegram-btn">
         <i class="fab fa-telegram-plane"></i>
     </a>
 
     <header>
-        <div class="hero-container">
-            <div class="hero-text">
-                <div class="badge">ÚJ GENERÁCIÓ 2026</div>
-                <h1>Vapsolo Quads<br><span style="color: var(--neon-blue);">4in1 System</span></h1>
-                <p style="font-size: 1.2rem; color: #cbd5e1; margin-bottom: 2rem;">
-                    A piac legkeményebb készüléke. 4 tartály, 4 tekercs, végtelen ízélmény. Debrecenben azonnal átvehető.
-                </p>
-                
-                <div class="pricing-card">
-                    <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Prémium Árazás</div>
-                    <div class="price-big">7000 Ft</div>
-                    <div style="color: #94a3b8;">darabja (2 db vásárlása esetén)</div>
-                    <div style="margin-top: 10px; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                        1 db ára: 7500 Ft
-                    </div>
-                </div>
-            </div>
+        <div class="header-content">
+            <h1>Vapsolo Quads 4in1</h1>
+            <p class="subtitle">A legerősebb 80.000 slukkos készülék Debrecenben</p>
             
-            <div class="hero-image">
-                <img src="product.jpg" alt="Vapsolo Quads 4in1">
+            <div class="price-tag">
+                <div style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 5px;">2 db vásárlása esetén:</div>
+                <div class="price-main">7000 Ft / db</div>
+                <div style="font-size: 0.9rem; margin-top: 5px; opacity: 0.7;">1 db ára: 7500 Ft</div>
             </div>
         </div>
     </header>
 
-    <section class="products-section">
-        <h2 class="section-title">Válassz Stílust</h2>
-        
+    <div class="container">
         <div class="grid">
-
-            <div class="card" style="--card-color: #ef4444; --card-glow: rgba(239, 68, 68, 0.4);">
-                <div class="vape-visual"><div class="vape-mockup"></div><span class="card-number">1</span></div>
+            
+            <div class="card">
+                <div class="card-image-crop pos-1"><span class="card-num">1</span></div>
                 <div class="card-content">
-                    <h3 class="card-title"><i class="fas fa-fire"></i> Piros / Red</h3>
+                    <h3 class="card-title" style="color: #ff4d4d;">Piros / Red</h3>
                     <ul class="flavor-list">
                         <li><i class="fas fa-circle"></i> Citrom lime</li>
                         <li><i class="fas fa-circle"></i> Görögdinnye jég</li>
-                        <li><i class="fas fa-circle"></i> Fekete jég sárkány gyümölcs</li>
+                        <li><i class="fas fa-circle"></i> Fekete jég sárkány</li>
                         <li><i class="fas fa-circle"></i> Szerelem 66</li>
                     </ul>
                 </div>
             </div>
 
-            <div class="card" style="--card-color: #f97316; --card-glow: rgba(249, 115, 22, 0.4);">
-                <div class="vape-visual"><div class="vape-mockup"></div><span class="card-number">2</span></div>
+            <div class="card">
+                <div class="card-image-crop pos-2"><span class="card-num">2</span></div>
                 <div class="card-content">
-                    <h3 class="card-title"><i class="fas fa-sun"></i> Narancs / Orange</h3>
+                    <h3 class="card-title" style="color: #ff9f1a;">Narancs / Orange</h3>
                     <ul class="flavor-list">
                         <li><i class="fas fa-circle"></i> Vanília kóla</li>
                         <li><i class="fas fa-circle"></i> Citromos barack</li>
                         <li><i class="fas fa-circle"></i> Eper málna</li>
-                        <li><i class="fas fa-circle"></i> Cseresznye jég & Szőlő</li>
+                        <li><i class="fas fa-circle"></i> Szőlő jég</li>
                     </ul>
                 </div>
             </div>
 
-            <div class="card" style="--card-color: #84cc16; --card-glow: rgba(132, 204, 22, 0.4);">
-                <div class="vape-visual"><div class="vape-mockup"></div><span class="card-number">3</span></div>
+            <div class="card">
+                <div class="card-image-crop pos-3"><span class="card-num">3</span></div>
                 <div class="card-content">
-                    <h3 class="card-title"><i class="fas fa-leaf"></i> Zöld / Green</h3>
+                    <h3 class="card-title" style="color: #3ae374;">Zöld / Green</h3>
                     <ul class="flavor-list">
                         <li><i class="fas fa-circle"></i> Szőlő robbanás</li>
                         <li><i class="fas fa-circle"></i> Licsi jég</li>
-                        <li><i class="fas fa-circle"></i> Kiwi passió guava</li>
+                        <li><i class="fas fa-circle"></i> Kiwipassió guava</li>
                         <li><i class="fas fa-circle"></i> Őszibarack bogyó</li>
                     </ul>
                 </div>
             </div>
 
-            <div class="card" style="--card-color: #3b82f6; --card-glow: rgba(59, 130, 246, 0.4);">
-                <div class="vape-visual"><div class="vape-mockup"></div><span class="card-number">4</span></div>
+            <div class="card">
+                <div class="card-image-crop pos-4"><span class="card-num">4</span></div>
                 <div class="card-content">
-                    <h3 class="card-title"><i class="fas fa-water"></i> Kék / Blue</h3>
+                    <h3 class="card-title" style="color: #18dcff;">Kék / Blue</h3>
                     <ul class="flavor-list">
                         <li><i class="fas fa-circle"></i> Dinnye jég eper</li>
                         <li><i class="fas fa-circle"></i> Eper mangó</li>
@@ -393,23 +293,23 @@
                 </div>
             </div>
 
-            <div class="card" style="--card-color: #eab308; --card-glow: rgba(234, 179, 8, 0.4);">
-                <div class="vape-visual"><div class="vape-mockup"></div><span class="card-number">5</span></div>
+            <div class="card">
+                <div class="card-image-crop pos-5"><span class="card-num">5</span></div>
                 <div class="card-content">
-                    <h3 class="card-title"><i class="fas fa-bolt"></i> Sárga / Yellow</h3>
+                    <h3 class="card-title" style="color: #fff200;">Sárga / Yellow</h3>
                     <ul class="flavor-list">
                         <li><i class="fas fa-circle"></i> Cseresznye kóla</li>
                         <li><i class="fas fa-circle"></i> Eper görögdinnye</li>
                         <li><i class="fas fa-circle"></i> Frissítő</li>
-                        <li><i class="fas fa-circle"></i> Lédús őszibarack jég</li>
+                        <li><i class="fas fa-circle"></i> Lédús őszibarack</li>
                     </ul>
                 </div>
             </div>
 
-            <div class="card" style="--card-color: #d6d3d1; --card-glow: rgba(214, 211, 209, 0.4);">
-                <div class="vape-visual"><div class="vape-mockup"></div><span class="card-number">6</span></div>
+            <div class="card">
+                <div class="card-image-crop pos-6"><span class="card-num">6</span></div>
                 <div class="card-content">
-                    <h3 class="card-title"><i class="fas fa-star"></i> Bézs / Gold</h3>
+                    <h3 class="card-title" style="color: #cd84f1;">Bézs / Gold</h3>
                     <ul class="flavor-list">
                         <li><i class="fas fa-circle"></i> Citrom lime</li>
                         <li><i class="fas fa-circle"></i> Eper jég</li>
@@ -419,10 +319,10 @@
                 </div>
             </div>
 
-            <div class="card" style="--card-color: #06b6d4; --card-glow: rgba(6, 182, 212, 0.4);">
-                <div class="vape-visual"><div class="vape-mockup"></div><span class="card-number">7</span></div>
+            <div class="card">
+                <div class="card-image-crop pos-7"><span class="card-num">7</span></div>
                 <div class="card-content">
-                    <h3 class="card-title"><i class="fas fa-wind"></i> Világoskék</h3>
+                    <h3 class="card-title" style="color: #67e6dc;">Világoskék / Cyan</h3>
                     <ul class="flavor-list">
                         <li><i class="fas fa-circle"></i> Rózsaszín limonádé</li>
                         <li><i class="fas fa-circle"></i> Kiwi guava</li>
@@ -432,23 +332,23 @@
                 </div>
             </div>
 
-            <div class="card" style="--card-color: #a855f7; --card-glow: rgba(168, 85, 247, 0.4);">
-                <div class="vape-visual"><div class="vape-mockup"></div><span class="card-number">8</span></div>
+            <div class="card">
+                <div class="card-image-crop pos-8"><span class="card-num">8</span></div>
                 <div class="card-content">
-                    <h3 class="card-title"><i class="fas fa-gem"></i> Lila / Purple</h3>
+                    <h3 class="card-title" style="color: #c56cf0;">Lila / Purple</h3>
                     <ul class="flavor-list">
                         <li><i class="fas fa-circle"></i> Eper mangó</li>
                         <li><i class="fas fa-circle"></i> Kék razz limonádé</li>
-                        <li><i class="fas fa-circle"></i> Vanília fagylalt</li>
+                        <li><i class="fas fa-circle"></i> Vanillia fagylalt</li>
                         <li><i class="fas fa-circle"></i> Savanyú bogyó</li>
                     </ul>
                 </div>
             </div>
 
-            <div class="card" style="--card-color: #14b8a6; --card-glow: rgba(20, 184, 166, 0.4);">
-                <div class="vape-visual"><div class="vape-mockup"></div><span class="card-number">9</span></div>
+            <div class="card">
+                <div class="card-image-crop pos-9"><span class="card-num">9</span></div>
                 <div class="card-content">
-                    <h3 class="card-title"><i class="fas fa-tint"></i> Türkiz / Teal</h3>
+                    <h3 class="card-title" style="color: #32ff7e;">Türkiz / Teal</h3>
                     <ul class="flavor-list">
                         <li><i class="fas fa-circle"></i> Vegyes bogyók</li>
                         <li><i class="fas fa-circle"></i> Cseresznye citrom eper</li>
@@ -458,10 +358,10 @@
                 </div>
             </div>
 
-            <div class="card" style="--card-color: #ffffff; --card-glow: rgba(255, 255, 255, 0.4);">
-                <div class="vape-visual"><div class="vape-mockup"></div><span class="card-number">10</span></div>
+            <div class="card">
+                <div class="card-image-crop pos-10"><span class="card-num">10</span></div>
                 <div class="card-content">
-                    <h3 class="card-title"><i class="fas fa-snowflake"></i> Fehér / White</h3>
+                    <h3 class="card-title" style="color: #ffffff;">Fehér / White</h3>
                     <ul class="flavor-list">
                         <li><i class="fas fa-circle"></i> Mojito</li>
                         <li><i class="fas fa-circle"></i> Szörny mangó</li>
@@ -472,10 +372,11 @@
             </div>
 
         </div>
-    </section>
+    </div>
 
-    <footer style="text-align: center; padding: 2rem; color: #555; border-top: 1px solid #222;">
-        <p>Vapsolo Debrecen 2026. Minden jog fenntartva.</p>
+    <footer>
+        <p>&copy; 2026 Top Vapsolo Debrecen. Minden jog fenntartva.</p>
+        <p style="opacity: 0.5; margin-top: 5px;">Csak 18 éven felülieknek.</p>
     </footer>
 
 </body>
