@@ -3,371 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Vapsolo Debrecen | 4in1 Premium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <title>Top Vapsolo Debrecen | Premium Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            /* A TE LINKED BEILLESZTVE: */
-            --sprite-image: url('https://i.postimg.cc/1tFJNXpp/received-752156714173959.jpg');
-            
-            --bg-dark: #0f172a;
-            --card-bg: #1e293b;
-            --text-primary: #f8fafc;
-            --accent-color: #38bdf8;
+            --bg-dark: #050505;
+            --card-bg: rgba(20, 20, 23, 0.9);
+            --primary: #3b82f6;
+            --accent: #8b5cf6;
+            --text: #ffffff;
+            --text-muted: #94a3b8;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        
         body {
             background-color: var(--bg-dark);
-            color: var(--text-primary);
-            overflow-x: hidden;
+            color: var(--text);
+            /* Finom háttér minta */
+            background-image: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 20%),
+                              radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 20%);
+            padding-bottom: 100px; /* Hely a lebegő gombnak */
         }
 
-        /* --- LEBEGŐ TELEGRAM GOMB --- */
-        .telegram-btn {
+        /* --- FIX TELEGRAM GOMB (JOBB ALUL) --- */
+        .telegram-fab {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 70px;
-            height: 70px;
+            bottom: 25px;
+            right: 25px;
+            width: 65px;
+            height: 65px;
             background: linear-gradient(135deg, #229ED9, #0088cc);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
             color: white;
+            font-size: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5), 0 0 0 4px rgba(34, 158, 217, 0.2);
+            z-index: 9999;
             text-decoration: none;
-            box-shadow: 0 10px 30px rgba(34, 158, 217, 0.5);
-            z-index: 1000;
-            border: 3px solid rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-            animation: pulse 2s infinite;
+            transition: transform 0.2s;
+            animation: bounce 2s infinite;
+        }
+        .telegram-fab:active { transform: scale(0.9); }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
         }
 
-        .telegram-btn:hover {
-            transform: scale(1.1) rotate(10deg);
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(34, 158, 217, 0.7); }
-            70% { box-shadow: 0 0 0 20px rgba(34, 158, 217, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(34, 158, 217, 0); }
-        }
-
-        /* --- HERO HEADER --- */
-        header {
-            padding: 4rem 1rem;
+        /* --- HEADER & HERO --- */
+        .header {
+            padding: 2rem 1.5rem;
             text-align: center;
-            background: radial-gradient(circle at top, #334155 0%, var(--bg-dark) 70%);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         h1 {
-            font-size: 3.5rem;
-            font-weight: 900;
+            font-size: 2.5rem;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             margin-bottom: 0.5rem;
-            background: linear-gradient(to right, #fff, #94a3b8);
+            background: linear-gradient(to right, #fff, #a5b4fc);
             -webkit-background-clip: text;
-            background-clip: text;
             color: transparent;
         }
 
-        .subtitle {
-            color: #94a3b8;
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-
-        .price-tag {
+        .price-badge {
             display: inline-block;
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid var(--accent-color);
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            margin: 1rem 0;
+            backdrop-filter: blur(10px);
         }
+        .price-big { font-size: 1.8rem; font-weight: 700; color: #4ade80; }
+        .price-small { font-size: 0.9rem; color: var(--text-muted); display: block; margin-top: 5px;}
 
-        .price-main {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--accent-color);
-        }
-
-        /* --- TERMÉK RÁCS --- */
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 3rem 1.5rem;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        /* --- KÁRTYA STÍLUS --- */
-        .card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-            border-color: var(--accent-color);
-        }
-
-        /* A VARÁZSLAT: KÉP VÁGÁSA */
-        .card-image-crop {
-            height: 280px; /* A vape magassága a kártyán */
+        /* --- A NAGY KÉP (DESIGN TUNING) --- */
+        .showcase-container {
             width: 100%;
-            background-image: var(--sprite-image);
-            background-size: 500%; /* Mivel 5 termék van egymás mellett a képen */
-            background-repeat: no-repeat;
+            max-width: 800px; /* Laptopon ne legyen túl nagy */
+            margin: 0 auto 3rem auto;
+            padding: 0 1rem;
             position: relative;
-            background-color: #111; /* Sötét háttér betöltésig */
         }
 
-        /* Pozíciók beállítása (X tengely: 0%, 25%, 50%, 75%, 100%) */
-        /* FELSŐ SOR */
-        .pos-1 { background-position: 0% 17%; }
-        .pos-2 { background-position: 25% 17%; }
-        .pos-3 { background-position: 50% 17%; }
-        .pos-4 { background-position: 75% 17%; }
-        .pos-5 { background-position: 100% 17%; }
-
-        /* ALSÓ SOR */
-        .pos-6 { background-position: 0% 86%; }
-        .pos-7 { background-position: 25% 86%; }
-        .pos-8 { background-position: 50% 86%; }
-        .pos-9 { background-position: 75% 86%; }
-        .pos-10 { background-position: 100% 86%; }
-
-        /* Kártya szám */
-        .card-num {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: rgba(255,255,255,0.1);
-            line-height: 1;
+        .product-image {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            /* Profi árnyék és keret */
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.15); 
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
         }
 
-        .card-content {
-            padding: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
+        .showcase-container:hover .product-image {
+            transform: scale(1.02);
+            border-color: rgba(59, 130, 246, 0.4);
         }
 
-        .card-title {
-            font-size: 1.2rem;
+        /* --- ÍZEK LISTÁJA (CLEAN DESIGN) --- */
+        .catalog {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .catalog-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-left: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .flavor-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Mobilon 1 oszlop */
+            gap: 1rem;
+        }
+
+        /* Asztali nézetben 2 oszlop */
+        @media(min-width: 768px) {
+            .flavor-grid { grid-template-columns: 1fr 1fr; }
+            h1 { font-size: 3.5rem; }
+        }
+
+        .flavor-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        /* Színes körök a számoknak */
+        .flavor-num {
+            min-width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 800;
+            font-size: 1.2rem;
+            color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .flavor-details h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
             text-transform: uppercase;
-            margin-bottom: 1rem;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        .flavor-list {
-            list-style: none;
-        }
-
-        .flavor-list li {
+        .flavor-details p {
             font-size: 0.9rem;
-            color: #cbd5e1;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            color: var(--text-muted);
+            line-height: 1.4;
         }
 
-        .flavor-list li i {
-            font-size: 6px;
-            color: var(--accent-color);
-        }
+        /* Színkódok a kártyákhoz */
+        .c-1 .flavor-num { background: #ff4d4d; box-shadow: 0 0 10px #ff4d4d; }
+        .c-2 .flavor-num { background: #ff9f1a; box-shadow: 0 0 10px #ff9f1a; }
+        .c-3 .flavor-num { background: #3ae374; box-shadow: 0 0 10px #3ae374; }
+        .c-4 .flavor-num { background: #18dcff; box-shadow: 0 0 10px #18dcff; }
+        .c-5 .flavor-num { background: #fff200; color: black; box-shadow: 0 0 10px #fff200; }
+        .c-6 .flavor-num { background: #dcdde1; color: black; box-shadow: 0 0 10px #dcdde1; }
+        .c-7 .flavor-num { background: #67e6dc; color: black; box-shadow: 0 0 10px #67e6dc; }
+        .c-8 .flavor-num { background: #c56cf0; box-shadow: 0 0 10px #c56cf0; }
+        .c-9 .flavor-num { background: #32ff7e; color: black; box-shadow: 0 0 10px #32ff7e; }
+        .c-10 .flavor-num { background: #ffffff; color: black; box-shadow: 0 0 10px #ffffff; }
 
         footer {
             text-align: center;
             padding: 2rem;
-            color: #64748b;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            margin-top: 3rem;
+            font-size: 0.8rem;
+            color: #555;
+            margin-top: 2rem;
         }
 
-        @media (max-width: 600px) {
-            h1 { font-size: 2.5rem; }
-            .card-image-crop { height: 220px; }
-        }
     </style>
 </head>
 <body>
 
-    <a href="https://t.me/te_telegram_neved" target="_blank" class="telegram-btn">
+    <a href="https://t.me/te_telegram_neved" target="_blank" class="telegram-fab">
         <i class="fab fa-telegram-plane"></i>
     </a>
 
-    <header>
-        <div class="header-content">
-            <h1>Vapsolo Quads 4in1</h1>
-            <p class="subtitle">A legerősebb 80.000 slukkos készülék Debrecenben</p>
-            
-            <div class="price-tag">
-                <div style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 5px;">2 db vásárlása esetén:</div>
-                <div class="price-main">7000 Ft / db</div>
-                <div style="font-size: 0.9rem; margin-top: 5px; opacity: 0.7;">1 db ára: 7500 Ft</div>
-            </div>
+    <header class="header">
+        <div style="font-size: 0.9rem; letter-spacing: 2px; color: #3b82f6; font-weight: 700; margin-bottom: 10px;">TOP VAPSOLO DEBRECEN</div>
+        <h1>QUADS 4in1</h1>
+        
+        <div class="price-badge">
+            <span class="price-big">7000 Ft / db</span>
+            <span class="price-small">2 db vásárlása esetén (1 db: 7500 Ft)</span>
         </div>
     </header>
 
-    <div class="container">
-        <div class="grid">
+    <div class="showcase-container">
+        <img src="https://i.postimg.cc/1tFJNXpp/received-752156714173959.jpg" alt="Vapsolo Collection" class="product-image">
+    </div>
+
+    <div class="catalog">
+        <h2 class="catalog-title">Választható Ízek & Színek</h2>
+        
+        <div class="flavor-grid">
             
-            <div class="card">
-                <div class="card-image-crop pos-1"><span class="card-num">1</span></div>
-                <div class="card-content">
-                    <h3 class="card-title" style="color: #ff4d4d;">Piros / Red</h3>
-                    <ul class="flavor-list">
-                        <li><i class="fas fa-circle"></i> Citrom lime</li>
-                        <li><i class="fas fa-circle"></i> Görögdinnye jég</li>
-                        <li><i class="fas fa-circle"></i> Fekete jég sárkány</li>
-                        <li><i class="fas fa-circle"></i> Szerelem 66</li>
-                    </ul>
+            <div class="flavor-item c-1">
+                <div class="flavor-num">1</div>
+                <div class="flavor-details">
+                    <h3 style="color: #ff4d4d;">Piros / Red</h3>
+                    <p>Citrom lime • Görögdinnye jég • Fekete jég sárkány • Szerelem 66</p>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-image-crop pos-2"><span class="card-num">2</span></div>
-                <div class="card-content">
-                    <h3 class="card-title" style="color: #ff9f1a;">Narancs / Orange</h3>
-                    <ul class="flavor-list">
-                        <li><i class="fas fa-circle"></i> Vanília kóla</li>
-                        <li><i class="fas fa-circle"></i> Citromos barack</li>
-                        <li><i class="fas fa-circle"></i> Eper málna</li>
-                        <li><i class="fas fa-circle"></i> Szőlő jég</li>
-                    </ul>
+            <div class="flavor-item c-2">
+                <div class="flavor-num">2</div>
+                <div class="flavor-details">
+                    <h3 style="color: #ff9f1a;">Narancs / Orange</h3>
+                    <p>Vanília kóla • Citromos barack • Eper málna • Szőlő jég</p>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-image-crop pos-3"><span class="card-num">3</span></div>
-                <div class="card-content">
-                    <h3 class="card-title" style="color: #3ae374;">Zöld / Green</h3>
-                    <ul class="flavor-list">
-                        <li><i class="fas fa-circle"></i> Szőlő robbanás</li>
-                        <li><i class="fas fa-circle"></i> Licsi jég</li>
-                        <li><i class="fas fa-circle"></i> Kiwipassió guava</li>
-                        <li><i class="fas fa-circle"></i> Őszibarack bogyó</li>
-                    </ul>
+            <div class="flavor-item c-3">
+                <div class="flavor-num">3</div>
+                <div class="flavor-details">
+                    <h3 style="color: #3ae374;">Zöld / Green</h3>
+                    <p>Szőlő robbanás • Licsi jég • Kiwi passió guava • Őszibarack bogyó</p>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-image-crop pos-4"><span class="card-num">4</span></div>
-                <div class="card-content">
-                    <h3 class="card-title" style="color: #18dcff;">Kék / Blue</h3>
-                    <ul class="flavor-list">
-                        <li><i class="fas fa-circle"></i> Dinnye jég eper</li>
-                        <li><i class="fas fa-circle"></i> Eper mangó</li>
-                        <li><i class="fas fa-circle"></i> Áfonya jég</li>
-                        <li><i class="fas fa-circle"></i> Pezsgő cseresznye</li>
-                    </ul>
+            <div class="flavor-item c-4">
+                <div class="flavor-num">4</div>
+                <div class="flavor-details">
+                    <h3 style="color: #18dcff;">Kék / Blue</h3>
+                    <p>Dinnye jég eper • Eper mangó • Áfonya jég • Pezsgő cseresznye</p>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-image-crop pos-5"><span class="card-num">5</span></div>
-                <div class="card-content">
-                    <h3 class="card-title" style="color: #fff200;">Sárga / Yellow</h3>
-                    <ul class="flavor-list">
-                        <li><i class="fas fa-circle"></i> Cseresznye kóla</li>
-                        <li><i class="fas fa-circle"></i> Eper görögdinnye</li>
-                        <li><i class="fas fa-circle"></i> Frissítő</li>
-                        <li><i class="fas fa-circle"></i> Lédús őszibarack</li>
-                    </ul>
+            <div class="flavor-item c-5">
+                <div class="flavor-num">5</div>
+                <div class="flavor-details">
+                    <h3 style="color: #fff200;">Sárga / Yellow</h3>
+                    <p>Cseresznye kóla • Eper görögdinnye • Frissítő • Lédús őszibarack</p>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-image-crop pos-6"><span class="card-num">6</span></div>
-                <div class="card-content">
-                    <h3 class="card-title" style="color: #cd84f1;">Bézs / Gold</h3>
-                    <ul class="flavor-list">
-                        <li><i class="fas fa-circle"></i> Citrom lime</li>
-                        <li><i class="fas fa-circle"></i> Eper jég</li>
-                        <li><i class="fas fa-circle"></i> Málna dinnye</li>
-                        <li><i class="fas fa-circle"></i> Pezsgő cseresznye</li>
-                    </ul>
+            <div class="flavor-item c-6">
+                <div class="flavor-num">6</div>
+                <div class="flavor-details">
+                    <h3 style="color: #dcdde1;">Bézs / Gold</h3>
+                    <p>Citrom lime • Eper jég • Málna dinnye • Pezsgő cseresznye</p>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-image-crop pos-7"><span class="card-num">7</span></div>
-                <div class="card-content">
-                    <h3 class="card-title" style="color: #67e6dc;">Világoskék / Cyan</h3>
-                    <ul class="flavor-list">
-                        <li><i class="fas fa-circle"></i> Rózsaszín limonádé</li>
-                        <li><i class="fas fa-circle"></i> Kiwi guava</li>
-                        <li><i class="fas fa-circle"></i> Eper banán</li>
-                        <li><i class="fas fa-circle"></i> Őszibarack bogyó</li>
-                    </ul>
+            <div class="flavor-item c-7">
+                <div class="flavor-num">7</div>
+                <div class="flavor-details">
+                    <h3 style="color: #67e6dc;">Cián / Cyan</h3>
+                    <p>Rózsaszín limonádé • Kiwi guava • Eper banán • Őszibarack bogyó</p>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-image-crop pos-8"><span class="card-num">8</span></div>
-                <div class="card-content">
-                    <h3 class="card-title" style="color: #c56cf0;">Lila / Purple</h3>
-                    <ul class="flavor-list">
-                        <li><i class="fas fa-circle"></i> Eper mangó</li>
-                        <li><i class="fas fa-circle"></i> Kék razz limonádé</li>
-                        <li><i class="fas fa-circle"></i> Vanillia fagylalt</li>
-                        <li><i class="fas fa-circle"></i> Savanyú bogyó</li>
-                    </ul>
+            <div class="flavor-item c-8">
+                <div class="flavor-num">8</div>
+                <div class="flavor-details">
+                    <h3 style="color: #c56cf0;">Lila / Purple</h3>
+                    <p>Eper mangó • Kék razz limonádé • Vanília fagylalt • Savanyú bogyó</p>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-image-crop pos-9"><span class="card-num">9</span></div>
-                <div class="card-content">
-                    <h3 class="card-title" style="color: #32ff7e;">Türkiz / Teal</h3>
-                    <ul class="flavor-list">
-                        <li><i class="fas fa-circle"></i> Vegyes bogyók</li>
-                        <li><i class="fas fa-circle"></i> Cseresznye citrom eper</li>
-                        <li><i class="fas fa-circle"></i> Dinnye rágógumi</li>
-                        <li><i class="fas fa-circle"></i> Eper kiwi</li>
-                    </ul>
+            <div class="flavor-item c-9">
+                <div class="flavor-num">9</div>
+                <div class="flavor-details">
+                    <h3 style="color: #32ff7e;">Türkiz / Teal</h3>
+                    <p>Vegyes bogyók • Cseresznye citrom • Dinnye rágógumi • Eper kiwi</p>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-image-crop pos-10"><span class="card-num">10</span></div>
-                <div class="card-content">
-                    <h3 class="card-title" style="color: #ffffff;">Fehér / White</h3>
-                    <ul class="flavor-list">
-                        <li><i class="fas fa-circle"></i> Mojito</li>
-                        <li><i class="fas fa-circle"></i> Szörny mangó</li>
-                        <li><i class="fas fa-circle"></i> Rózsaszín limonádé</li>
-                        <li><i class="fas fa-circle"></i> Hölgy gyilkos</li>
-                    </ul>
+            <div class="flavor-item c-10">
+                <div class="flavor-num">10</div>
+                <div class="flavor-details">
+                    <h3 style="color: #ffffff;">Fehér / White</h3>
+                    <p>Mojito • Szörny mangó • Rózsaszín limonádé • Hölgy gyilkos</p>
                 </div>
             </div>
 
@@ -375,8 +303,8 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Top Vapsolo Debrecen. Minden jog fenntartva.</p>
-        <p style="opacity: 0.5; margin-top: 5px;">Csak 18 éven felülieknek.</p>
+        <p>A termék nikotint tartalmazhat. 18+</p>
+        <p>&copy; 2026 Vapsolo Debrecen</p>
     </footer>
 
 </body>
