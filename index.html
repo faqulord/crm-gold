@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vapsolo Debrecen | Exclusive</title>
+    <title>Vapsolo Debrecen | Hivatalos Oldal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -11,9 +11,8 @@
         :root {
             --bg-dark: #050505;
             --surface: #121212;
-            --primary: #3b82f6; /* Királykék */
-            --accent: #8b5cf6; /* Lila */
-            --success: #10b981;
+            --primary: #3b82f6;
+            --accent: #8b5cf6;
             --text-main: #ffffff;
             --text-muted: #9ca3af;
         }
@@ -24,14 +23,37 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             padding-bottom: 100px;
-            /* Finom háttér textúra */
             background-image: 
                 radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
                 radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
             background-attachment: fixed;
         }
 
-        /* --- TELEGRAM FAB (Lebegő gomb) --- */
+        /* --- LOGÓ DESIGN (CSS) --- */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900; font-size: 1.5rem; color: white;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            transform: skew(-10deg);
+        }
+        .logo-text {
+            font-weight: 900;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* --- TELEGRAM FAB (MŰKÖDŐ LINKKEL) --- */
         .telegram-fab {
             position: fixed;
             bottom: 25px;
@@ -61,19 +83,6 @@
             text-align: center;
         }
 
-        .brand-badge {
-            display: inline-block;
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--primary);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-
         h1 {
             font-size: 3rem;
             font-weight: 900;
@@ -86,7 +95,7 @@
 
         .hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 500px; margin: 0 auto 2rem auto; }
 
-        /* --- ÁRAZÁS (Kiemelve) --- */
+        /* --- ÁRAZÁS --- */
         .pricing-card {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.08);
@@ -96,9 +105,9 @@
             margin: 0 auto 3rem auto;
             backdrop-filter: blur(10px);
         }
-        .price-highlight { color: var(--success); font-weight: 800; font-size: 1.5rem; }
+        .price-highlight { color: #10b981; font-weight: 800; font-size: 1.5rem; }
 
-        /* --- KÉP TURBÓ --- */
+        /* --- KÉP --- */
         .image-container {
             padding: 0 1rem;
             margin-bottom: 3rem;
@@ -108,7 +117,6 @@
             width: 100%;
             max-width: 700px;
             border-radius: 24px;
-            /* Itt történik a képjavítás kóddal: */
             filter: contrast(1.1) saturate(1.2) brightness(1.05);
             box-shadow: 0 0 50px rgba(59, 130, 246, 0.2);
             border: 1px solid rgba(255,255,255,0.1);
@@ -119,7 +127,7 @@
         }
         .image-container:hover .turbo-img { transform: rotateX(0deg) scale(1.02); }
 
-        /* --- ACCORDION (Lenyíló menü) --- */
+        /* --- ACCORDION MENÜ --- */
         .menu-section { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
         .section-title {
             text-align: center; font-size: 1.8rem; margin-bottom: 2rem;
@@ -141,7 +149,6 @@
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
-            /* Enyhe gradiens háttér */
             background: linear-gradient(90deg, rgba(255,255,255,0.03), transparent);
         }
 
@@ -156,36 +163,26 @@
         }
 
         .item-title { font-weight: 700; font-size: 1.1rem; text-transform: uppercase; }
-        
-        .icon-toggle {
-            color: var(--text-muted); transition: transform 0.3s ease;
-        }
+        .icon-toggle { color: var(--text-muted); transition: transform 0.3s ease; }
 
         .accordion-content {
-            max-height: 0;
-            overflow: hidden;
+            max-height: 0; overflow: hidden;
             transition: max-height 0.4s ease-out;
             background: rgba(0,0,0,0.2);
         }
 
-        .accordion-content ul {
-            list-style: none;
-            padding: 1.5rem;
-        }
-
+        .accordion-content ul { list-style: none; padding: 1.5rem; }
         .accordion-content li {
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            color: #d1d5db;
-            display: flex; align-items: center; gap: 10px;
+            padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #d1d5db; display: flex; align-items: center; gap: 10px;
         }
         .accordion-content li:last-child { border-bottom: none; }
         .accordion-content li i { color: var(--primary); font-size: 0.7rem; }
 
-        /* Aktív állapot (Javascript rakja rá) */
+        /* Aktív állapot */
         .accordion-item.active { border-color: var(--primary); }
         .accordion-item.active .icon-toggle { transform: rotate(180deg); color: var(--primary); }
-        .accordion-item.active .accordion-content { max-height: 300px; } /* Elég magas legyen */
+        .accordion-item.active .accordion-content { max-height: 300px; }
 
         /* Színkódok */
         .c-1 { background: #ff4d4d; }
@@ -204,13 +201,18 @@
 </head>
 <body>
 
-    <a href="https://t.me/te_telegram_neved" target="_blank" class="telegram-fab">
+    <a href="https://t.me/vapsolodebrecen2026" target="_blank" class="telegram-fab">
         <div class="pulse-ring"></div>
         <i class="fab fa-telegram-plane"></i>
     </a>
 
     <div class="hero">
-        <div class="brand-badge">TOP VAPSOLO DEBRECEN</div>
+        
+        <div class="logo-container">
+            <div class="logo-icon">V</div>
+            <div class="logo-text">VAPSOLO<br><span style="font-weight:400; font-size:0.8rem; color:var(--primary);">DEBRECEN</span></div>
+        </div>
+
         <h1>QUADS 4in1<br><span style="color: var(--primary)">COLLECTION</span></h1>
         <p>A jövő technológiája. 4 tartály, 80.000 slukk, kompromisszumok nélkül.</p>
         
@@ -226,7 +228,7 @@
     </div>
 
     <div class="menu-section">
-        <h2 class="section-title">Válassz Stílust & Ízt</h2>
+        <h2 class="section-title">Ízkatalógus</h2>
         <p style="text-align: center; margin-bottom: 2rem; color: #666; font-size: 0.9rem;">Kattints a színre a részletekért!</p>
 
         <div class="accordion-item" onclick="toggleAccordion(this)">
@@ -412,21 +414,17 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Top Vapsolo Debrecen</p>
+        <p>&copy; 2026 Vapsolo Debrecen</p>
     </footer>
 
     <script>
         function toggleAccordion(element) {
-            // Bezárjuk az összes többit, ha azt akarjuk, hogy egyszerre csak egy legyen nyitva
-            // Ha azt akarod, hogy több is nyitva maradhasson, töröld ki ezt a ciklust:
             const allItems = document.querySelectorAll('.accordion-item');
             allItems.forEach(item => {
                 if (item !== element) {
                     item.classList.remove('active');
                 }
             });
-
-            // Váltjuk az aktuális elem állapotát
             element.classList.toggle('active');
         }
     </script>
